@@ -1,33 +1,44 @@
 import { ExtendedTheme } from "@react-navigation/native";
-import { StyleSheet, ViewStyle } from "react-native";
+import { ImageStyle, StyleSheet, ViewStyle } from "react-native";
 
 interface Style {
-  container: ViewStyle;
+  wrapper: ViewStyle;
+  fieldWrapper: ViewStyle;
   textfield: ViewStyle;
+  indicator: ImageStyle;
   subheading: Text;
 }
 
 export default (theme: ExtendedTheme) => {
   const { colors } = theme;
-  const horizontalPadding = 20;
+  const horizontalPadding = 15;
 
   return StyleSheet.create<Style>({
-    container: {
-      paddingVertical: 5,
+    wrapper: {
+      minWidth: "100%",
+      maxWidth: "100%",
+      paddingVertical: 3,
     },
-    textfield: {
-      // element styling
+
+    fieldWrapper: {
+      flexDirection: "row",
+      justifyContent: "space-between",
       backgroundColor: colors.fieldBackground,
       borderColor: colors.secondary50,
       borderWidth: 1,
       borderRadius: 50,
-      width: "100%",
       paddingHorizontal: horizontalPadding,
       height: 45,
-      minWidth: 297,
+    },
 
-      // text
+    textfield: {
       color: colors.secondary100,
+      fontSize: 18,
+    },
+
+    indicator: {
+      alignSelf: "center",
+      backgroundColor: "green",
     },
 
     subheading: {

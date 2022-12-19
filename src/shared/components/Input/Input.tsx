@@ -1,4 +1,5 @@
 import React, { useState, useMemo } from "react";
+import Icon from "react-native-dynamic-vector-icons";
 import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
@@ -28,7 +29,8 @@ const Input: React.FC<InputProps> = ({
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const feedbackColor = statusColor ?? styles.textfield.borderColor;
+  const display = status ? "flex" : "none";
+  const feedbackColor = statusColor ?? styles.fieldWrapper.borderColor;
 
   // Text input.
   const TextField = () => {
@@ -41,14 +43,17 @@ const Input: React.FC<InputProps> = ({
         value={text}
         placeholder={placeholder}
         placeholderTextColor={colors.secondary50}
-        style={{ ...styles.textfield, borderColor: feedbackColor }}
+        style={{
+          ...styles.textfield,
+          // If status is true, set the width to 95% to make room for icon.
+          width: status ? "94%" : "100%",
+        }}
       />
     );
   };
 
   // Subheading to provide user a message under the textfield.
   const SubHeading = () => {
-    const display = status ? "flex" : "none";
     return (
       <Text
         style={{ ...styles.subheading, color: feedbackColor, display: display }}
@@ -58,11 +63,23 @@ const Input: React.FC<InputProps> = ({
     );
   };
 
-  // const Indicator = () => {};
+  const Indicator = () => {
+    return (
+      <Icon
+        style={{ ...styles.indicator, color: feedbackColor, display: display }}
+        name={"home"}
+        type="Ionicons"
+        size={28}
+      />
+    );
+  };
 
   return (
-    <View style={styles.container}>
-      <TextField />
+    <View style={styles.wrapper}>
+      <View style={{ ...styles.fieldWrapper, borderColor: feedbackColor }}>
+        <TextField />
+        <Indicator />
+      </View>
       <SubHeading />
     </View>
   );

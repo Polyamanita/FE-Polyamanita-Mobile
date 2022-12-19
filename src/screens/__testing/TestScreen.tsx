@@ -15,7 +15,9 @@ const TestScreen: React.FC<TestScreenProps> = () => {
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
+    <ScrollView
+      contentContainerStyle={{ ...styles.container, paddingHorizontal: 15 }}
+    >
       <Input
         placeholder="A warning message example."
         subHeadingMessage="Incorrect Info"
