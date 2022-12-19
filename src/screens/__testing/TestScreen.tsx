@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { ScrollView } from "react-native";
 import { useTheme } from "@react-navigation/native";
 /**
@@ -14,28 +14,28 @@ const TestScreen: React.FC<TestScreenProps> = () => {
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
+  const [input2, setInput2] = useState("");
+  const [input, setInput] = useState("");
+  const ref = useRef(null);
+
   return (
     <ScrollView
       contentContainerStyle={{ ...styles.container, paddingHorizontal: 15 }}
     >
       <Input
-        placeholder="A confirmation input example."
-        subHeadingMessage="Confirmation"
-        status="confirm"
+        input={input}
+        setInput={setInput}
+        ref={ref}
+        placeholder="Username"
+        status=""
       />
       <Input
-        placeholder="An alert example."
-        subHeadingMessage="Alert message."
-        status="alert"
+        input={input2}
+        setInput={setInput2}
+        ref={ref}
+        placeholder="Password"
+        status=""
       />
-      <Input
-        placeholder="A warning message."
-        subHeadingMessage="Warning message."
-        status="warn"
-      />
-      <Input search={true} placeholder="Search... " />
-      <Input placeholder="Username" subHeadingMessage="Username" />
-      <Input placeholder="Password" subHeadingMessage="Password" />
     </ScrollView>
   );
 };

@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useMemo } from "react";
 import Icon from "react-native-dynamic-vector-icons";
 import { useTheme } from "@react-navigation/native";
 /**
@@ -8,11 +8,19 @@ import createStyles from "./Input.style";
 import { TextInput } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 
-// @params -
+// @params - input: value to display in textfield, is updated onEndEditing.
+// @params - setInput: useState function to update the input onEndEniting.
+// @params - ref: A useRef context is needed to reference inputted values.
+//                on enter or unfocus, the value will need to be saved to
+//                some useState [x, setX] value.
+// @params - search: if developer wants to implement a search input.
 // @params - status: string to change variation of component.
 // @params - placeholder: Placeholder text inside the TextField.
 // @params - subHeadingMessage: Message to provide user while typing into input.
 interface InputProps {
+  input: string;
+  setInput: React.Dispatch<React.SetStateAction<string>>;
+  ref: React.MutableRefObject<any>;
   search?: boolean;
   status?: string;
   placeholder?: string;
@@ -20,6 +28,9 @@ interface InputProps {
 }
 
 const Input: React.FC<InputProps> = ({
+  input,
+  setInput,
+  ref,
   search = false,
   placeholder = "Placeholder",
   subHeadingMessage,
@@ -32,6 +43,7 @@ const Input: React.FC<InputProps> = ({
   let statusIcon: string;
   let statusColor: any;
 
+  // Set different varients.
   switch (status) {
     case "confirm":
       statusIcon = "check-circle";
@@ -53,18 +65,22 @@ const Input: React.FC<InputProps> = ({
   // if search is enabled override icon to be a search icon.
   if (search) {
     statusIcon = "magnify";
-    // searching doesn't have feedback statuses.
   }
 
   // Subcomponents.
   const TextField = () => {
-    // Ability to type in input.
-    const [text, onChangeText] = useState("");
-
+    const handleInput = (ev: any) => {
+      const input = ev.nativeEvent.text;
+      setInput(input);
+      console.log(input);
+    };
     return (
       <TextInput
-        onChangeText={onChangeText}
-        value={text}
+        // Handle input from user.
+        ref={ref}
+        onEndEditing={handleInput}
+        defaultValue={input}
+        // styling.
         placeholder={placeholder}
         placeholderTextColor={colors.secondary50}
         style={{
