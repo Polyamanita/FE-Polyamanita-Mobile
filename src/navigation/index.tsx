@@ -16,6 +16,7 @@ import SearchScreen from "@screens/search/SearchScreen";
 import DetailScreen from "@screens/detail/DetailScreen";
 import ProfileScreen from "@screens/profile/ProfileScreen";
 import NotificationScreen from "@screens/notification/NotificationScreen";
+import TestScreen from "@screens/__testing/TestScreen";
 
 // ? If you want to use stack or tab or both
 const Tab = createBottomTabNavigator();
@@ -50,6 +51,9 @@ const Navigation = () => {
       case SCREENS.PROFILE:
         iconName = focused ? "person" : "person-outline";
         break;
+      case SCREENS.TEST:
+        iconName = focused ? "beaker" : "beaker-outline";
+        break;
       default:
         iconName = focused ? "home" : "home-outline";
         break;
@@ -83,6 +87,7 @@ const Navigation = () => {
           component={NotificationScreen}
         />
         <Tab.Screen name={SCREENS.PROFILE} component={ProfileScreen} />
+        <Tab.Screen name={SCREENS.TEST} component={TestScreen} />
       </Tab.Navigator>
     );
   };
