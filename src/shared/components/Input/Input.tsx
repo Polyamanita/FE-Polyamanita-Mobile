@@ -8,16 +8,19 @@ import createStyles from "./Input.style";
 import { TextInput } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 
+// @params -
 // @params - status: string to change variation of component.
 // @params - placeholder: Placeholder text inside the TextField.
 // @params - subHeadingMessage: Message to provide user while typing into input.
 interface InputProps {
+  search?: boolean;
   status?: string;
   placeholder?: string;
   subHeadingMessage?: string;
 }
 
 const Input: React.FC<InputProps> = ({
+  search = false,
   placeholder = "Placeholder",
   subHeadingMessage,
   status,
@@ -47,6 +50,12 @@ const Input: React.FC<InputProps> = ({
       break;
   }
 
+  // if search is enabled override icon to be a search icon.
+  if (search) {
+    statusIcon = "magnify";
+    // searching doesn't have feedback statuses.
+  }
+
   // Subcomponents.
   const TextField = () => {
     // Ability to type in input.
@@ -61,7 +70,7 @@ const Input: React.FC<InputProps> = ({
         style={{
           ...styles.textfield,
           // If status there is a status, set width to 94%, makes room for icon.
-          width: status ? "94%" : "100%",
+          width: status || search ? "94%" : "100%",
         }}
       />
     );
@@ -87,8 +96,8 @@ const Input: React.FC<InputProps> = ({
       <Icon
         style={{
           ...styles.indicator,
-          color: statusColor,
-          display: status ? "flex" : "none",
+          color: !search ? statusColor : colors.secondary78,
+          display: status || search ? "flex" : "none",
         }}
         name={statusIcon}
         type="MaterialCommunityIcons"
@@ -104,6 +113,7 @@ const Input: React.FC<InputProps> = ({
           ...styles.fieldWrapper,
           borderColor: status ? statusColor : styles.fieldWrapper.borderColor,
           borderWidth: status ? 2 : 1,
+          flexDirection: search ? "row-reverse" : "row",
         }}
       >
         <TextField />

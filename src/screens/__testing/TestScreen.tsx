@@ -19,14 +19,21 @@ const TestScreen: React.FC<TestScreenProps> = () => {
       contentContainerStyle={{ ...styles.container, paddingHorizontal: 15 }}
     >
       <Input
-        placeholder="A warning message example."
-        subHeadingMessage="Incorrect Info"
+        placeholder="A confirmation input example."
+        subHeadingMessage="Confirmation"
+        status="confirm"
+      />
+      <Input
+        placeholder="An alert example."
+        subHeadingMessage="Alert message."
         status="alert"
       />
       <Input
-        placeholder="Confirm message example."
-        subHeadingMessage="Checks out."
+        placeholder="A warning message."
+        subHeadingMessage="Warning message."
+        status="warn"
       />
+      <Input search={true} placeholder="Search... " />
       <Input placeholder="Username" subHeadingMessage="Username" />
       <Input placeholder="Password" subHeadingMessage="Password" />
     </ScrollView>
