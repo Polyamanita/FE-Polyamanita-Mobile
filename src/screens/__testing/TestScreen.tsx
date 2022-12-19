@@ -11,7 +11,7 @@ interface TestScreenProps {}
 
 const TestScreen: React.FC<TestScreenProps> = () => {
   const theme = useTheme();
-  const { colors } = theme;
+  // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   return (
@@ -21,25 +21,14 @@ const TestScreen: React.FC<TestScreenProps> = () => {
       <Input
         placeholder="A warning message example."
         subHeadingMessage="Incorrect Info"
-        statusColor={colors.warning}
-        status={true}
+        status="alert"
       />
       <Input
         placeholder="Confirm message example."
         subHeadingMessage="Checks out."
-        statusColor={colors.positive}
-        status={true}
       />
-      <Input
-        placeholder="Username"
-        subHeadingMessage="Username"
-        status={false}
-      />
-      <Input
-        placeholder="Password"
-        subHeadingMessage="Password"
-        status={false}
-      />
+      <Input placeholder="Username" subHeadingMessage="Username" />
+      <Input placeholder="Password" subHeadingMessage="Password" />
     </ScrollView>
   );
 };

@@ -8,31 +8,46 @@ import createStyles from "./Input.style";
 import { TextInput } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 
-// @params - status: When true, subheading will display.
-// @params - statusColor: Changes color to provide feedback for user.
+// @params - status: string to change variation of component.
 // @params - placeholder: Placeholder text inside the TextField.
 // @params - subHeadingMessage: Message to provide user while typing into input.
 interface InputProps {
-  status: boolean;
-  statusColor?: string;
+  status?: string;
   placeholder?: string;
   subHeadingMessage?: string;
 }
 
 const Input: React.FC<InputProps> = ({
-  placeholder,
+  placeholder = "Placeholder",
   subHeadingMessage,
   status,
-  statusColor,
 }) => {
   const theme = useTheme();
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const display = status ? "flex" : "none";
-  const feedbackColor = statusColor ?? styles.fieldWrapper.borderColor;
+  let statusIcon: string;
+  let statusColor: any;
 
-  // Text input.
+  switch (status) {
+    case "confirm":
+      statusIcon = "check-circle";
+      statusColor = colors.positive;
+      break;
+    case "alert":
+      statusIcon = "alert-circle";
+      statusColor = colors.alert;
+      break;
+    case "warn":
+      statusIcon = "close-circle";
+      statusColor = colors.warning;
+      break;
+    default:
+      statusColor = styles.fieldWrapper.borderColor as string;
+      break;
+  }
+
+  // Subcomponents.
   const TextField = () => {
     // Ability to type in input.
     const [text, onChangeText] = useState("");
@@ -45,7 +60,7 @@ const Input: React.FC<InputProps> = ({
         placeholderTextColor={colors.secondary50}
         style={{
           ...styles.textfield,
-          // If status is true, set the width to 95% to make room for icon.
+          // If status there is a status, set width to 94%, makes room for icon.
           width: status ? "94%" : "100%",
         }}
       />
@@ -56,7 +71,11 @@ const Input: React.FC<InputProps> = ({
   const SubHeading = () => {
     return (
       <Text
-        style={{ ...styles.subheading, color: feedbackColor, display: display }}
+        style={{
+          ...styles.subheading,
+          color: statusColor,
+          display: status ? "flex" : "none",
+        }}
       >
         {subHeadingMessage}
       </Text>
@@ -66,9 +85,13 @@ const Input: React.FC<InputProps> = ({
   const Indicator = () => {
     return (
       <Icon
-        style={{ ...styles.indicator, color: feedbackColor, display: display }}
-        name={"home"}
-        type="Ionicons"
+        style={{
+          ...styles.indicator,
+          color: statusColor,
+          display: status ? "flex" : "none",
+        }}
+        name={statusIcon}
+        type="MaterialCommunityIcons"
         size={28}
       />
     );
@@ -76,7 +99,13 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <View style={styles.wrapper}>
-      <View style={{ ...styles.fieldWrapper, borderColor: feedbackColor }}>
+      <View
+        style={{
+          ...styles.fieldWrapper,
+          borderColor: status ? statusColor : styles.fieldWrapper.borderColor,
+          borderWidth: status ? 2 : 1,
+        }}
+      >
         <TextField />
         <Indicator />
       </View>

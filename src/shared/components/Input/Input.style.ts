@@ -6,7 +6,7 @@ interface Style {
   fieldWrapper: ViewStyle;
   textfield: ViewStyle;
   indicator: ImageStyle;
-  subheading: Text;
+  subheading: ViewStyle;
 }
 
 export default (theme: ExtendedTheme) => {
@@ -38,7 +38,6 @@ export default (theme: ExtendedTheme) => {
 
     indicator: {
       alignSelf: "center",
-      backgroundColor: "green",
     },
 
     subheading: {

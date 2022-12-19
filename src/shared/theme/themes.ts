@@ -12,6 +12,7 @@ export const palette = {
   disabled: "rgba(23, 26, 51, 1.00)",
   cameraElement: "rgba(67, 69, 89, 0.54)",
   positive: "rgba(29, 224, 175, 1.00)",
+  alert: "rgba(250, 165, 75, 1.00)",
   warning: "rgba(251, 70, 115, 1.00)",
 
   // Dark font.
