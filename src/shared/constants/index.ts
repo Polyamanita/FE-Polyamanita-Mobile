@@ -3,9 +3,9 @@ export const SCREENS = {
   HOME: "Home",
   SEARCH: "Search",
   NOTIFICATION: "Notification",
-  PROFILE: "Profile",
   DETAIL: "Detail",
 
+  LOGIN: "Login",
   // Just using this here to test the components.
   TEST: "Testing",
 };

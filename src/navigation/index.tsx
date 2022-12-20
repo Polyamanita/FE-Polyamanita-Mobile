@@ -14,8 +14,8 @@ import { LightTheme, DarkTheme, palette } from "@theme/themes";
 import HomeScreen from "@screens/home/HomeScreen";
 import SearchScreen from "@screens/search/SearchScreen";
 import DetailScreen from "@screens/detail/DetailScreen";
-import ProfileScreen from "@screens/profile/ProfileScreen";
 import NotificationScreen from "@screens/notification/NotificationScreen";
+// import LoginScreen from "@screens/_login/LoginScreen";
 import TestScreen from "@screens/__testing/TestScreen";
 
 // ? If you want to use stack or tab or both
@@ -48,7 +48,7 @@ const Navigation = () => {
       case SCREENS.NOTIFICATION:
         iconName = focused ? "notifications" : "notifications-outline";
         break;
-      case SCREENS.PROFILE:
+      case SCREENS.LOGIN:
         iconName = focused ? "person" : "person-outline";
         break;
       case SCREENS.TEST:
@@ -86,7 +86,6 @@ const Navigation = () => {
           name={SCREENS.NOTIFICATION}
           component={NotificationScreen}
         />
-        <Tab.Screen name={SCREENS.PROFILE} component={ProfileScreen} />
         <Tab.Screen name={SCREENS.TEST} component={TestScreen} />
       </Tab.Navigator>
     );
