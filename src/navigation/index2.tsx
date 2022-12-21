@@ -11,14 +11,11 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { SCREENS } from "@shared-constants";
 import { LightTheme, DarkTheme, palette } from "@theme/themes";
 // ? Screens
-import InitialScreen from "@screens/initial/InitialScreen";
-import LoginScreen from "@screens/login/LoginScreen";
-import SignupScreen from "@screens/signup/SignupScreen";
-
 import MapScreen from "@screens/map/MapScreen";
 import SnapScreen from "@screens/snap/SnapScreen";
 import JournalScreen from "@screens/journal/JournalScreen";
 import FeedScreen from "@screens/feed/FeedScreen";
+// import LoginScreen from "@screens/_login/LoginScreen";
 // import TestScreen from "@screens/__testing/TestScreen";
 
 // ? If you want to use stack or tab or both
@@ -70,17 +67,6 @@ const Navigation = () => {
     #######################
   */
 
-  // This navigation stack contains signing in and registering related stuff.
-  const PreStack = () => {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={SCREENS.INITIAL} component={InitialScreen} />
-        <Stack.Screen name={SCREENS.LOGIN} component={LoginScreen} />
-        <Stack.Screen name={SCREENS.SIGNUP} component={SignupScreen} />
-      </Stack.Navigator>
-    );
-  };
-
   const MapStack = () => {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
@@ -121,7 +107,6 @@ const Navigation = () => {
   const renderTabNavigation = () => {
     return (
       <Tab.Navigator
-        initialRouteName={SCREENS.SNAP}
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) =>
@@ -133,6 +118,14 @@ const Navigation = () => {
           },
         })}
       >
+        {/* <Tab.Screen name={SCREENS.HOME} component={HomeScreen} />
+        <Tab.Screen name={SCREENS.SEARCH} component={SearchScreen} />
+        <Tab.Screen
+          name={SCREENS.NOTIFICATION}
+          component={NotificationScreen}
+        />
+        <Tab.Screen name={SCREENS.TEST} component={TestScreen} /> */}
+
         <Tab.Screen name={SCREENS.MAP} component={MapStack} />
         <Tab.Screen name={SCREENS.SNAP} component={SnapStack} />
         <Tab.Screen name={SCREENS.JOURNAL} component={JournalStack} />
@@ -150,8 +143,7 @@ const Navigation = () => {
       theme={isDarkMode ? DarkTheme : LightTheme}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={"PREAPP"} component={PreStack} />
-        <Stack.Screen name={"APP"} component={renderTabNavigation} />
+        <Stack.Screen name={SCREENS.SNAP} component={renderTabNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );
