@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useMemo } from "react";
 import { Button, Image, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
 /**
@@ -6,7 +6,7 @@ import { useTheme } from "@react-navigation/native";
  */
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import createStyles from "./InitialScreen.style";
-import Input from "@shared-components/Input/Input";
+import PolyButton from "@shared-components/Button/Button";
 
 interface LoginScreenProps {}
 
@@ -14,10 +14,6 @@ const InitialScreen: React.FC<LoginScreenProps> = () => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
-
-  const [input2, setInput2] = useState("");
-  const [input, setInput] = useState("");
-  const ref = useRef(null);
 
   return (
     <View style={{ ...styles.container, paddingHorizontal: 15 }}>
@@ -40,26 +36,11 @@ const InitialScreen: React.FC<LoginScreenProps> = () => {
           flexDirection: "column",
           alignItems: "center",
         }}
-      >
-        <Text style={{ fontSize: 24 }}>Sign In</Text>
-        <Input
-          input={input}
-          setInput={setInput}
-          ref={ref}
-          placeholder="Username"
-          status=""
-        />
-        <Input
-          input={input2}
-          setInput={setInput2}
-          ref={ref}
-          placeholder="Password"
-          status=""
-        />
-      </View>
+      ></View>
       <View>
         <Button onPress={() => {}} title="Sign In" />
         <Button onPress={() => {}} title="Cancel" />
+        <PolyButton title="Click Me" varient="default" size="large" />
       </View>
     </View>
   );
