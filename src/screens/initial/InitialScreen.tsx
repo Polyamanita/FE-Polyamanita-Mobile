@@ -43,16 +43,13 @@ const InitialScreen: React.FC<LoginScreenProps> = () => {
           onPress={() => {
             console.log("hello!!");
           }}
-          varient="default"
-          size="large"
         />
         <Button
           title="Click me"
           onPress={() => {
             console.log("goodbhye");
           }}
-          varient="default"
-          size="small"
+          size="full"
         />
       </>
     </View>

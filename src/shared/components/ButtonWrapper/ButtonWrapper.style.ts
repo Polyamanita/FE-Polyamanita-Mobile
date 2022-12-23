@@ -1,5 +1,5 @@
 import { ExtendedTheme } from "@react-navigation/native";
-import { StyleSheet, ViewStyle } from "react-native";
+import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 
 interface VariationStyle {
   default: ViewStyle;
@@ -18,57 +18,59 @@ interface VariationStyle {
 interface SizeStyle {
   large: ViewStyle;
   small: ViewStyle;
+  full: ViewStyle;
 }
 
 export default (theme: ExtendedTheme) => {
   const { colors } = theme;
+  const generalViewStyling = {
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 50,
+    borderWidth: 2,
+  } as ViewStyle;
 
   // Styling for pressable component.
   const variations = StyleSheet.create<VariationStyle>({
     default: {
-      justifyContent: "center",
-      borderRadius: 50,
-      borderWidth: 2,
+      ...generalViewStyling,
       backgroundColor: colors.primary38,
       borderColor: colors.secondary50,
     },
     primary: {
-      justifyContent: "center",
-      borderRadius: 50,
-      borderWidth: 2,
+      ...generalViewStyling,
       backgroundColor: colors.primaryA,
       borderColor: colors.secondary24,
     },
     primaryOutline: {
-      justifyContent: "center",
-      borderRadius: 50,
-      borderWidth: 2,
+      ...generalViewStyling,
       backgroundColor: colors.secondary24,
     },
     glass: {
-      justifyContent: "center",
-      borderRadius: 50,
-      borderWidth: 2,
+      ...generalViewStyling,
     },
   });
 
   // Styling for text component.
+  const generalTextStyling = {
+    fontSize: 22,
+  } as TextStyle;
   // TODO: Find a way of incorporating this any type to proper interface.
   const text = StyleSheet.create<any>({
     default: {
-      fontSize: 18,
+      ...generalTextStyling,
       color: colors.secondary100,
     },
     primary: {
-      fontSize: 18,
+      ...generalTextStyling,
       color: colors.secondary100,
     },
     primaryOutline: {
-      fontSize: 18,
+      ...generalTextStyling,
       color: colors.primaryA,
     },
     glass: {
-      fontSize: 18,
+      ...generalTextStyling,
       color: colors.secondary100,
     },
   });
@@ -81,6 +83,11 @@ export default (theme: ExtendedTheme) => {
     small: {
       height: 42,
       paddingHorizontal: 28,
+    },
+    full: {
+      width: "100%",
+      height: 50,
+      paddingHorizontal: 40,
     },
   });
 

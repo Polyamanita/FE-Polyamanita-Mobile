@@ -55,6 +55,8 @@ const ButtonWrapper: React.FC<PolyButtonProps> = ({
     case "large":
       styling = { ...styling, ...styles.sizes.large };
       break;
+    case "full":
+      styling = { ...styling, ...styles.sizes.full };
   }
 
   return (
