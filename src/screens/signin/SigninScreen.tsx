@@ -1,21 +1,24 @@
 import React, { useMemo, useRef, useState } from "react";
-import { Button, Image, View } from "react-native";
-import { useTheme } from "@react-navigation/native";
+import { Image, View } from "react-native";
+import { NavigationProp, useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import createStyles from "./SigninScreen.style";
 import Input from "@shared-components/Input/Input";
+import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
+import { ZONES } from "@shared-constants";
 
-interface SigninScreenProps {}
+interface SigninScreenProps {
+  navigation: NavigationProp<any, any>;
+}
 
-const SigninScreen: React.FC<SigninScreenProps> = () => {
+const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const [input2, setInput2] = useState("");
   const [input, setInput] = useState("");
   const ref = useRef(null);
 
@@ -50,17 +53,31 @@ const SigninScreen: React.FC<SigninScreenProps> = () => {
           status=""
         />
         <Input
-          input={input2}
-          setInput={setInput2}
+          input={input}
+          setInput={setInput}
           ref={ref}
           placeholder="Password"
           status=""
         />
       </View>
-      <View>
-        <Button onPress={() => {}} title="Sign In" />
-        <Button onPress={() => {}} title="Cancel" />
-      </View>
+      <>
+        <Button
+          title="Sign In"
+          varient="primary"
+          onPress={() => {
+            navigation.navigate(ZONES.APP, {});
+          }}
+          size="large"
+        />
+        <Button
+          title="Cancel"
+          varient="primary-outline"
+          onPress={() => {
+            navigation.goBack();
+          }}
+          size="small"
+        />
+      </>
     </View>
   );
 };

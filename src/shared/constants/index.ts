@@ -14,3 +14,8 @@ export const SCREENS = {
   // Just using this here to test the components.
   TEST: "Testing",
 };
+
+export const ZONES = {
+  PREAPP: "PreApp",
+  APP: "App",
+};

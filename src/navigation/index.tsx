@@ -8,7 +8,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 /**
  * ? Local & Shared Imports
  */
-import { SCREENS } from "@shared-constants";
+import { SCREENS, ZONES } from "@shared-constants";
 import { LightTheme, DarkTheme, palette } from "@theme/themes";
 // ? Screens
 import InitialScreen from "@screens/initial/InitialScreen";
@@ -151,8 +151,8 @@ const Navigation = () => {
       theme={isDarkMode ? DarkTheme : LightTheme}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={"PREAPP"} component={PreStack} />
-        <Stack.Screen name={"APP"} component={renderTabNavigation} />
+        <Stack.Screen name={ZONES.PREAPP} component={PreStack} />
+        <Stack.Screen name={ZONES.APP} component={renderTabNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );
