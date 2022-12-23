@@ -8,9 +8,9 @@ import Text from "@shared-components/text-wrapper/TextWrapper";
 import createStyles from "./SigninScreen.style";
 import Input from "@shared-components/Input/Input";
 
-interface LoginScreenProps {}
+interface SigninScreenProps {}
 
-const SigninScreen: React.FC<LoginScreenProps> = () => {
+const SigninScreen: React.FC<SigninScreenProps> = () => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);

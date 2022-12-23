@@ -9,11 +9,11 @@ import createStyles from "./InitialScreen.style";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { SCREENS } from "@shared-constants";
 
-interface LoginScreenProps {
+interface InitialScreenProps {
   navigation: NavigationProp<any, any>;
 }
 
-const InitialScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
+const InitialScreen: React.FC<InitialScreenProps> = ({ navigation }) => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);

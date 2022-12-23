@@ -10,11 +10,11 @@ import Input from "@shared-components/Input/Input";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { SCREENS } from "@shared-constants";
 
-interface LoginScreenProps {
+interface SignupScreenProps {
   navigation: NavigationProp<any, any>;
 }
 
-const SignupScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
+const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
