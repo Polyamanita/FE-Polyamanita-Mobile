@@ -12,9 +12,8 @@ import { SCREENS } from "@shared-constants";
 import { LightTheme, DarkTheme, palette } from "@theme/themes";
 // ? Screens
 import InitialScreen from "@screens/initial/InitialScreen";
-import LoginScreen from "@screens/login/LoginScreen";
 import SignupScreen from "@screens/signup/SignupScreen";
-
+import SigninScreen from "@screens/signin/SigninScreen";
 import MapScreen from "@screens/map/MapScreen";
 import SnapScreen from "@screens/snap/SnapScreen";
 import JournalScreen from "@screens/journal/JournalScreen";
@@ -76,7 +75,7 @@ const Navigation = () => {
     return (
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name={SCREENS.INITIAL} component={InitialScreen} />
-        <Stack.Screen name={SCREENS.LOGIN} component={LoginScreen} />
+        <Stack.Screen name={SCREENS.SIGNIN} component={SigninScreen} />
         <Stack.Screen name={SCREENS.SIGNUP} component={SignupScreen} />
         <Stack.Screen name={SCREENS.CONFIRM} component={ConfirmScreen} />
       </Stack.Navigator>

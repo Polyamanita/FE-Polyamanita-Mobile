@@ -4,7 +4,7 @@ export const SCREENS = {
   HOME: "Home",
 
   INITIAL: "Initial",
-  LOGIN: "Login",
+  SIGNIN: "Signin",
   SIGNUP: "Signup",
   CONFIRM: "Confirm",
   MAP: "Map",

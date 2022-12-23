@@ -5,12 +5,12 @@ import { useTheme } from "@react-navigation/native";
  * ? Local Imports
  */
 import Text from "@shared-components/text-wrapper/TextWrapper";
-import createStyles from "./LoginScreen.style";
+import createStyles from "./SigninScreen.style";
 import Input from "@shared-components/Input/Input";
 
 interface LoginScreenProps {}
 
-const LoginScreen: React.FC<LoginScreenProps> = () => {
+const SigninScreen: React.FC<LoginScreenProps> = () => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -65,4 +65,4 @@ const LoginScreen: React.FC<LoginScreenProps> = () => {
   );
 };
 
-export default LoginScreen;
+export default SigninScreen;

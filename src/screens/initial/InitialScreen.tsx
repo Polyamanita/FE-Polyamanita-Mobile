@@ -53,7 +53,7 @@ const InitialScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
         <Button
           title="Sign In"
           onPress={() => {
-            navigation.navigate(SCREENS.LOGIN, {});
+            navigation.navigate(SCREENS.SIGNIN, {});
           }}
           size="full"
         />
