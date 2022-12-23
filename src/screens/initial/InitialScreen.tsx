@@ -1,12 +1,12 @@
 import React, { useMemo } from "react";
-import { Button, Image, View } from "react-native";
+import { Image, View } from "react-native";
 import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import createStyles from "./InitialScreen.style";
-import PolyButton from "@shared-components/Button/Button";
+import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 
 interface LoginScreenProps {}
 
@@ -37,11 +37,24 @@ const InitialScreen: React.FC<LoginScreenProps> = () => {
           alignItems: "center",
         }}
       ></View>
-      <View>
-        <Button onPress={() => {}} title="Sign In" />
-        <Button onPress={() => {}} title="Cancel" />
-        <PolyButton title="Click Me" varient="default" size="large" />
-      </View>
+      <>
+        <Button
+          title="Click me"
+          onPress={() => {
+            console.log("hello!!");
+          }}
+          varient="default"
+          size="large"
+        />
+        <Button
+          title="Click me"
+          onPress={() => {
+            console.log("goodbhye");
+          }}
+          varient="default"
+          size="small"
+        />
+      </>
     </View>
   );
 };

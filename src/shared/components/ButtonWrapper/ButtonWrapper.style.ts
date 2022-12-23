@@ -75,14 +75,12 @@ export default (theme: ExtendedTheme) => {
 
   const sizes = StyleSheet.create<SizeStyle>({
     large: {
-      height: 48,
-      paddingHorizontal: 38,
-      paddingVertical: 8,
+      height: 50,
+      paddingHorizontal: 40,
     },
     small: {
-      height: 38,
-      paddingHorizontal: 30,
-      paddingVertical: 8,
+      height: 42,
+      paddingHorizontal: 28,
     },
   });
 

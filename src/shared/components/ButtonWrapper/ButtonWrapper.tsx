@@ -3,7 +3,7 @@ import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
-import createStyles from "./Button.style";
+import createStyles from "./ButtonWrapper.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import { Pressable, PressableProps, ViewStyle } from "react-native";
 
@@ -12,12 +12,14 @@ import { Pressable, PressableProps, ViewStyle } from "react-native";
 // @params - size: size varient, large or small.
 interface PolyButtonProps extends PressableProps {
   title: string;
-  varient: string;
+  onPress: () => any;
+  varient?: string;
   size?: string;
 }
 
-const PolyButton: React.FC<PolyButtonProps> = ({
-  title = "Click Me!",
+const ButtonWrapper: React.FC<PolyButtonProps> = ({
+  title,
+  onPress,
   varient = "default",
   size = "large",
   ...rest
@@ -56,12 +58,12 @@ const PolyButton: React.FC<PolyButtonProps> = ({
   }
 
   return (
-    <Pressable style={styling} {...rest}>
-      <Text bold style={{ ...styles.text[varient] }}>
+    <Pressable style={styling} {...rest} onPress={onPress}>
+      <Text bold style={styles.text[varient]}>
         {title}
       </Text>
     </Pressable>
   );
 };
 
-export default PolyButton;
+export default ButtonWrapper;
