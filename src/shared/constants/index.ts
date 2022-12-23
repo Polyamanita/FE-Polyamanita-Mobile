@@ -6,6 +6,7 @@ export const SCREENS = {
   INITIAL: "Initial",
   LOGIN: "Login",
   SIGNUP: "Signup",
+  CONFIRM: "Confirm",
   MAP: "Map",
   SNAP: "Snap",
   JOURNAL: "Journal",

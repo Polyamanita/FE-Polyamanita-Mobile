@@ -1,16 +1,20 @@
 import React, { useMemo, useRef, useState } from "react";
-import { Button, Image, View } from "react-native";
-import { useTheme } from "@react-navigation/native";
+import { Image, View } from "react-native";
+import { NavigationProp, useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import createStyles from "./SignupScreen.style";
 import Input from "@shared-components/Input/Input";
+import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
+import { SCREENS } from "@shared-constants";
 
-interface LoginScreenProps {}
+interface LoginScreenProps {
+  navigation: NavigationProp<any, any>;
+}
 
-const SignupScreen: React.FC<LoginScreenProps> = () => {
+const SignupScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -53,14 +57,42 @@ const SignupScreen: React.FC<LoginScreenProps> = () => {
           input={input2}
           setInput={setInput2}
           ref={ref}
+          placeholder="Email"
+          status=""
+        />
+        <Input
+          input={input}
+          setInput={setInput}
+          ref={ref}
           placeholder="Password"
           status=""
         />
+        <Input
+          input={input}
+          setInput={setInput}
+          ref={ref}
+          placeholder="Confirm Password"
+          status=""
+        />
       </View>
-      <View>
-        <Button onPress={() => {}} title="Sign In" />
-        <Button onPress={() => {}} title="Cancel" />
-      </View>
+      <>
+        <Button
+          title="Sign Up"
+          varient="primary"
+          onPress={() => {
+            navigation.navigate(SCREENS.CONFIRM, {});
+          }}
+          size="large"
+        />
+        <Button
+          title="Cancel"
+          varient="primary-outline"
+          onPress={() => {
+            navigation.goBack();
+          }}
+          size="small"
+        />
+      </>
     </View>
   );
 };

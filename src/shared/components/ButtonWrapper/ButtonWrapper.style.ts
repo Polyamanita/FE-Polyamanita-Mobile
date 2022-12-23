@@ -53,7 +53,7 @@ export default (theme: ExtendedTheme) => {
 
   // Styling for text component.
   const generalTextStyling = {
-    fontSize: 22,
+    fontSize: 24,
   } as TextStyle;
   // TODO: Find a way of incorporating this any type to proper interface.
   const text = StyleSheet.create<any>({
@@ -77,7 +77,7 @@ export default (theme: ExtendedTheme) => {
 
   const sizes = StyleSheet.create<SizeStyle>({
     large: {
-      height: 50,
+      height: 55,
       paddingHorizontal: 40,
     },
     small: {
@@ -86,8 +86,9 @@ export default (theme: ExtendedTheme) => {
     },
     full: {
       width: "100%",
-      height: 50,
+      height: 55,
       paddingHorizontal: 40,
+      marginBottom: 20,
     },
   });
 

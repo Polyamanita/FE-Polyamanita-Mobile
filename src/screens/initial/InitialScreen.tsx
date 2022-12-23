@@ -1,16 +1,19 @@
 import React, { useMemo } from "react";
 import { Image, View } from "react-native";
-import { useTheme } from "@react-navigation/native";
+import { NavigationProp, useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import createStyles from "./InitialScreen.style";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
+import { SCREENS } from "@shared-constants";
 
-interface LoginScreenProps {}
+interface LoginScreenProps {
+  navigation: NavigationProp<any, any>;
+}
 
-const InitialScreen: React.FC<LoginScreenProps> = () => {
+const InitialScreen: React.FC<LoginScreenProps> = ({ navigation }) => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -28,7 +31,9 @@ const InitialScreen: React.FC<LoginScreenProps> = () => {
           source={require("@assets/logo.jpg")}
           style={{ width: 196, height: 196 }}
         ></Image>
-        <Text style={{ fontSize: 32, fontWeight: "bold" }}>Polyamanita</Text>
+        <Text bold style={{ fontSize: 40 }}>
+          Polyamanita
+        </Text>
       </View>
       <View
         style={{
@@ -39,15 +44,16 @@ const InitialScreen: React.FC<LoginScreenProps> = () => {
       ></View>
       <>
         <Button
-          title="Click me"
+          title="Sign Up"
           onPress={() => {
-            console.log("hello!!");
+            navigation.navigate(SCREENS.SIGNUP, {});
           }}
+          size="full"
         />
         <Button
-          title="Click me"
+          title="Sign In"
           onPress={() => {
-            console.log("goodbhye");
+            navigation.navigate(SCREENS.LOGIN, {});
           }}
           size="full"
         />

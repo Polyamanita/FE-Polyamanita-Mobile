@@ -19,6 +19,7 @@ import MapScreen from "@screens/map/MapScreen";
 import SnapScreen from "@screens/snap/SnapScreen";
 import JournalScreen from "@screens/journal/JournalScreen";
 import FeedScreen from "@screens/feed/FeedScreen";
+import ConfirmScreen from "@screens/confirm/ConfirmScreen";
 // import TestScreen from "@screens/__testing/TestScreen";
 
 // ? If you want to use stack or tab or both
@@ -77,6 +78,7 @@ const Navigation = () => {
         <Stack.Screen name={SCREENS.INITIAL} component={InitialScreen} />
         <Stack.Screen name={SCREENS.LOGIN} component={LoginScreen} />
         <Stack.Screen name={SCREENS.SIGNUP} component={SignupScreen} />
+        <Stack.Screen name={SCREENS.CONFIRM} component={ConfirmScreen} />
       </Stack.Navigator>
     );
   };
