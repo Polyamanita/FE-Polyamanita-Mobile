@@ -1,6 +1,38 @@
 import { DefaultTheme, ExtendedTheme } from "@react-navigation/native";
 
+const primaryInk = "26, 32, 55";
+const secondaryInk = "250, 251, 255";
+
 export const palette = {
+  primaryA: "rgba(229, 57, 129, 1.00)",
+  primaryB: "rgba(229, 109, 102, 1.00)",
+  backgroundA: "rgba(91, 86, 115, 1.00)",
+  backgroundB: "rgba(17, 41, 46, 1.00)",
+  fieldBackground: "rgba(244, 216, 242, 0.20)",
+  disabled: "rgba(23, 26, 51, 1.00)",
+  cameraElement: "rgba(67, 69, 89, 0.54)",
+  positive: "rgba(29, 224, 175, 1.00)",
+  alert: "rgba(250, 165, 75, 1.00)",
+  warning: "rgba(251, 70, 115, 1.00)",
+
+  // Dark font.
+  primary100: "rgba(" + primaryInk + ", 1.00)",
+  primary87: "rgba(" + primaryInk + ", 0.87)",
+  primary54: "rgba(" + primaryInk + ", 0.54)",
+  primary38: "rgba(" + primaryInk + ", 0.38)",
+  primary24: "rgba(" + primaryInk + ", 0.24)",
+  primary12: "rgba(" + primaryInk + ", 0.12)",
+  primary6: "rgba(" + primaryInk + ", 0.06)",
+
+  // Light font.
+  secondary100: "rgba(" + secondaryInk + ", 1.00)",
+  secondary78: "rgba(" + secondaryInk + ", 0.78)",
+  secondary50: "rgba(" + secondaryInk + ", 0.50)",
+  secondary24: "rgba(" + secondaryInk + ", 0.24)",
+  secondary12: "rgba(" + secondaryInk + ", 0.12)",
+  secondary6: "rgba(" + secondaryInk + ", 0.06)",
+
+  // From boilerplate, this is just for reference for now.
   primary: "#0564d4",
   secondary: "#ff6a00",
   background: "#f6f8fa",

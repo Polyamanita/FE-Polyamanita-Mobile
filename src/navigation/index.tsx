@@ -8,14 +8,18 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 /**
  * ? Local & Shared Imports
  */
-import { SCREENS } from "@shared-constants";
+import { SCREENS, ZONES } from "@shared-constants";
 import { LightTheme, DarkTheme, palette } from "@theme/themes";
 // ? Screens
-import HomeScreen from "@screens/home/HomeScreen";
-import SearchScreen from "@screens/search/SearchScreen";
-import DetailScreen from "@screens/detail/DetailScreen";
-import ProfileScreen from "@screens/profile/ProfileScreen";
-import NotificationScreen from "@screens/notification/NotificationScreen";
+import InitialScreen from "@screens/initial/InitialScreen";
+import SignupScreen from "@screens/signup/SignupScreen";
+import SigninScreen from "@screens/signin/SigninScreen";
+import MapScreen from "@screens/map/MapScreen";
+import SnapScreen from "@screens/snap/SnapScreen";
+import JournalScreen from "@screens/journal/JournalScreen";
+import FeedScreen from "@screens/feed/FeedScreen";
+import ConfirmScreen from "@screens/confirm/ConfirmScreen";
+// import TestScreen from "@screens/__testing/TestScreen";
 
 // ? If you want to use stack or tab or both
 const Tab = createBottomTabNavigator();
@@ -36,25 +40,78 @@ const Navigation = () => {
     color: string,
     size: number,
   ) => {
-    let iconName = "home";
+    let iconName = "";
     switch (route.name) {
-      case SCREENS.HOME:
-        iconName = focused ? "home" : "home-outline";
+      case SCREENS.MAP:
+        iconName = focused ? "map-marker" : "map-marker-outline";
         break;
-      case SCREENS.SEARCH:
-        iconName = focused ? "search" : "search-outline";
+      case SCREENS.SNAP:
+        iconName = focused ? "camera" : "camera-outline";
         break;
-      case SCREENS.NOTIFICATION:
-        iconName = focused ? "notifications" : "notifications-outline";
+      case SCREENS.JOURNAL:
+        iconName = focused ? "clipboard-text" : "clipboard-text-outline";
         break;
-      case SCREENS.PROFILE:
+      case SCREENS.FEED:
         iconName = focused ? "person" : "person-outline";
+        break;
+      case SCREENS.TEST:
+        iconName = focused ? "beaker" : "beaker-outline";
         break;
       default:
         iconName = focused ? "home" : "home-outline";
         break;
     }
     return <Icon name={iconName} type="Ionicons" size={size} color={color} />;
+  };
+
+  /*  
+    #######################
+    #  STACK NAVIGATIONS  #
+    #######################
+  */
+
+  // This navigation stack contains signing in and registering related stuff.
+  const PreStack = () => {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name={SCREENS.INITIAL} component={InitialScreen} />
+        <Stack.Screen name={SCREENS.SIGNIN} component={SigninScreen} />
+        <Stack.Screen name={SCREENS.SIGNUP} component={SignupScreen} />
+        <Stack.Screen name={SCREENS.CONFIRM} component={ConfirmScreen} />
+      </Stack.Navigator>
+    );
+  };
+
+  const MapStack = () => {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name={SCREENS.MAP} component={MapScreen} />
+      </Stack.Navigator>
+    );
+  };
+
+  const SnapStack = () => {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name={SCREENS.SNAP} component={SnapScreen} />
+      </Stack.Navigator>
+    );
+  };
+
+  const JournalStack = () => {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name={SCREENS.JOURNAL} component={JournalScreen} />
+      </Stack.Navigator>
+    );
+  };
+
+  const FeedStack = () => {
+    return (
+      <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen name={SCREENS.FEED} component={FeedScreen} />
+      </Stack.Navigator>
+    );
   };
 
   /*  
@@ -65,6 +122,7 @@ const Navigation = () => {
   const renderTabNavigation = () => {
     return (
       <Tab.Navigator
+        initialRouteName={SCREENS.SNAP}
         screenOptions={({ route }) => ({
           headerShown: false,
           tabBarIcon: ({ focused, color, size }) =>
@@ -76,13 +134,10 @@ const Navigation = () => {
           },
         })}
       >
-        <Tab.Screen name={SCREENS.HOME} component={HomeScreen} />
-        <Tab.Screen name={SCREENS.SEARCH} component={SearchScreen} />
-        <Tab.Screen
-          name={SCREENS.NOTIFICATION}
-          component={NotificationScreen}
-        />
-        <Tab.Screen name={SCREENS.PROFILE} component={ProfileScreen} />
+        <Tab.Screen name={SCREENS.MAP} component={MapStack} />
+        <Tab.Screen name={SCREENS.SNAP} component={SnapStack} />
+        <Tab.Screen name={SCREENS.JOURNAL} component={JournalStack} />
+        <Tab.Screen name={SCREENS.FEED} component={FeedStack} />
       </Tab.Navigator>
     );
   };
@@ -96,10 +151,8 @@ const Navigation = () => {
       theme={isDarkMode ? DarkTheme : LightTheme}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={SCREENS.HOME} component={renderTabNavigation} />
-        <Stack.Screen name={SCREENS.DETAIL}>
-          {(props) => <DetailScreen {...props} />}
-        </Stack.Screen>
+        <Stack.Screen name={ZONES.PREAPP} component={PreStack} />
+        <Stack.Screen name={ZONES.APP} component={renderTabNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );
