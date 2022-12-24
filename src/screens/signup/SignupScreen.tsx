@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from "react";
 import { Image, View } from "react-native";
-import { NavigationProp, useTheme } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
@@ -9,9 +9,10 @@ import createStyles from "./SignupScreen.style";
 import Input from "@shared-components/Input/Input";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { SCREENS } from "@shared-constants";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 interface SignupScreenProps {
-  navigation: NavigationProp<any, any>;
+  navigation: StackNavigationProp<any, any>;
 }
 
 const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
@@ -88,7 +89,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
           title="Cancel"
           varient="primary-outline"
           onPress={() => {
-            navigation.goBack();
+            navigation.popToTop();
           }}
           size="small"
         />

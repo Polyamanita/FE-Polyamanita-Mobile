@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { Image, View } from "react-native";
-import { NavigationProp, useTheme } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
@@ -8,9 +8,10 @@ import Text from "@shared-components/text-wrapper/TextWrapper";
 import createStyles from "./InitialScreen.style";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { SCREENS } from "@shared-constants";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 interface InitialScreenProps {
-  navigation: NavigationProp<any, any>;
+  navigation: StackNavigationProp<any, any>;
 }
 
 const InitialScreen: React.FC<InitialScreenProps> = ({ navigation }) => {
