@@ -1,15 +1,15 @@
 import React, { useMemo, useRef, useState } from "react";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
-import Text from "@shared-components/text-wrapper/TextWrapper";
 import createStyles from "./SignupScreen.style";
 import Input from "@shared-components/Input/Input";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { SCREENS } from "@shared-constants";
 import { StackNavigationProp } from "@react-navigation/stack";
+import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
 
 interface SignupScreenProps {
   navigation: StackNavigationProp<any, any>;
@@ -26,6 +26,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
 
   return (
     <View style={{ ...styles.container, paddingHorizontal: 15 }}>
+      <PreAppHeader title={"Sign Up"} />
       <View
         style={{
           display: "flex",
@@ -33,20 +34,6 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
           alignItems: "center",
         }}
       >
-        <Image
-          source={require("@assets/logo.jpg")}
-          style={{ width: 196, height: 196 }}
-        ></Image>
-        <Text style={{ fontSize: 32, fontWeight: "bold" }}>Polyamanita</Text>
-      </View>
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      >
-        <Text style={{ fontSize: 24 }}>Sign In</Text>
         <Input
           input={input}
           setInput={setInput}
