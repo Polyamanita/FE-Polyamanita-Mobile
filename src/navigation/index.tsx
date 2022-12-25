@@ -64,6 +64,10 @@ const Navigation = () => {
     return <Icon name={iconName} type="Ionicons" size={size} color={color} />;
   };
 
+  // Function creates a Stack Navigator, that will later be nested inside a
+  // tab navigator.
+  // @parmas: screenName: How React Navigation can refer to the screen.
+  // @params: ScreenComponent: React Native Screen Componenet to assign.
   const createTabStackNavigator = (
     screenName: string,
     ScreenComponent: React.FC<any>,
