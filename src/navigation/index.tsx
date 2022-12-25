@@ -14,11 +14,11 @@ import { LightTheme, DarkTheme, palette } from "@theme/themes";
 import InitialScreen from "@screens/initial/InitialScreen";
 import SignupScreen from "@screens/signup/SignupScreen";
 import SigninScreen from "@screens/signin/SigninScreen";
+import ConfirmScreen from "@screens/confirm/ConfirmScreen";
 import MapScreen from "@screens/map/MapScreen";
 import SnapScreen from "@screens/snap/SnapScreen";
 import JournalScreen from "@screens/journal/JournalScreen";
 import FeedScreen from "@screens/feed/FeedScreen";
-import ConfirmScreen from "@screens/confirm/ConfirmScreen";
 // import TestScreen from "@screens/__testing/TestScreen";
 
 // ? If you want to use stack or tab or both
@@ -64,6 +64,15 @@ const Navigation = () => {
     return <Icon name={iconName} type="Ionicons" size={size} color={color} />;
   };
 
+  const createTabStackNavigator = (
+    screenName: string,
+    ScreenComponent: React.FC<any>,
+  ) => (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={screenName} component={ScreenComponent} />
+    </Stack.Navigator>
+  );
+
   /*  
     #######################
     #  STACK NAVIGATIONS  #
@@ -82,37 +91,11 @@ const Navigation = () => {
     );
   };
 
-  const MapStack = () => {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={SCREENS.MAP} component={MapScreen} />
-      </Stack.Navigator>
-    );
-  };
-
-  const SnapStack = () => {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={SCREENS.SNAP} component={SnapScreen} />
-      </Stack.Navigator>
-    );
-  };
-
-  const JournalStack = () => {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={SCREENS.JOURNAL} component={JournalScreen} />
-      </Stack.Navigator>
-    );
-  };
-
-  const FeedStack = () => {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={SCREENS.FEED} component={FeedScreen} />
-      </Stack.Navigator>
-    );
-  };
+  const MapStack = () => createTabStackNavigator(SCREENS.MAP, MapScreen);
+  const SnapStack = () => createTabStackNavigator(SCREENS.SNAP, SnapScreen);
+  const JournalStack = () =>
+    createTabStackNavigator(SCREENS.JOURNAL, JournalScreen);
+  const FeedStack = () => createTabStackNavigator(SCREENS.FEED, FeedScreen);
 
   /*  
     ####################
