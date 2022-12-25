@@ -1,26 +1,21 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { View } from "react-native";
-import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
-import createStyles from "./InitialScreen.style";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { SCREENS } from "@shared-constants";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
+import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
 
 interface InitialScreenProps {
   navigation: StackNavigationProp<any, any>;
 }
 
 const InitialScreen: React.FC<InitialScreenProps> = ({ navigation }) => {
-  const theme = useTheme();
-  // const { colors } = theme;
-  const styles = useMemo(() => createStyles(theme), [theme]);
-
   return (
-    <View style={{ ...styles.container, paddingHorizontal: 15 }}>
+    <ScreenContainer>
       <PreAppHeader />
       <View
         style={{
@@ -45,7 +40,7 @@ const InitialScreen: React.FC<InitialScreenProps> = ({ navigation }) => {
           size="full"
         />
       </>
-    </View>
+    </ScreenContainer>
   );
 };
 
