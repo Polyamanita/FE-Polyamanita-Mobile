@@ -1,6 +1,6 @@
 import React, { useMemo, useRef, useState } from "react";
 import { Image, View } from "react-native";
-import { NavigationProp, useTheme } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
@@ -9,9 +9,10 @@ import createStyles from "./SigninScreen.style";
 import Input from "@shared-components/Input/Input";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { ZONES } from "@shared-constants";
+import { StackNavigationProp } from "@react-navigation/stack";
 
 interface SigninScreenProps {
-  navigation: NavigationProp<any, any>;
+  navigation: StackNavigationProp<any, any>;
 }
 
 const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
@@ -65,6 +66,7 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
           title="Sign In"
           varient="primary"
           onPress={() => {
+            navigation.popToTop();
             navigation.navigate(ZONES.APP, {});
           }}
           size="large"
@@ -73,7 +75,7 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
           title="Cancel"
           varient="primary-outline"
           onPress={() => {
-            navigation.goBack();
+            navigation.popToTop();
           }}
           size="small"
         />
