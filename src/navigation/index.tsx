@@ -52,16 +52,23 @@ const Navigation = () => {
         iconName = focused ? "clipboard-text" : "clipboard-text-outline";
         break;
       case SCREENS.FEED:
-        iconName = focused ? "person" : "person-outline";
+        iconName = focused ? "account" : "account-outline";
         break;
       case SCREENS.TEST:
-        iconName = focused ? "beaker" : "beaker-outline";
+        iconName = focused ? "test-tube" : "test-tube-empty";
         break;
       default:
         iconName = focused ? "home" : "home-outline";
         break;
     }
-    return <Icon name={iconName} type="Ionicons" size={size} color={color} />;
+    return (
+      <Icon
+        name={iconName}
+        type="MaterialCommunityIcons"
+        size={size}
+        color={color}
+      />
+    );
   };
 
   // Function creates a Stack Navigator, that will later be nested inside a
