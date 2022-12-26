@@ -8,6 +8,13 @@ import createStyles from "./Input.style";
 import { TextInput } from "react-native-gesture-handler";
 import { Text, View } from "react-native";
 
+interface InputStyling {
+  search?: boolean;
+  status?: string;
+  placeholder?: string;
+  subHeadingMessage?: string;
+}
+
 // @params - input: value to display in textfield, is updated onEndEditing.
 // @params - setInput: useState function to update the input onEndEniting.
 // @params - ref: A useRef context is needed to reference inputted values.
@@ -21,20 +28,17 @@ interface InputProps {
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   ref: React.MutableRefObject<any>;
-  search?: boolean;
-  status?: string;
-  placeholder?: string;
-  subHeadingMessage?: string;
+  styling?: InputStyling;
 }
 
 const Input: React.FC<InputProps> = ({
   input,
   setInput,
   ref,
-  search = false,
-  placeholder = "Placeholder",
-  subHeadingMessage,
-  status,
+  styling = {
+    search: false,
+    placeholder: "Placeholder",
+  },
 }) => {
   const theme = useTheme();
   const { colors } = theme;
@@ -44,7 +48,7 @@ const Input: React.FC<InputProps> = ({
   let statusColor: any;
 
   // Set different varients.
-  switch (status) {
+  switch (styling.status) {
     case "confirm":
       statusIcon = "check-circle";
       statusColor = colors.positive;
@@ -63,7 +67,7 @@ const Input: React.FC<InputProps> = ({
   }
 
   // if search is enabled override icon to be a search icon.
-  if (search) {
+  if (styling.search) {
     statusIcon = "magnify";
   }
 
@@ -79,9 +83,11 @@ const Input: React.FC<InputProps> = ({
       <View
         style={{
           ...styles.fieldWrapper,
-          borderColor: status ? statusColor : styles.fieldWrapper.borderColor,
-          borderWidth: status ? 2 : 1,
-          flexDirection: search ? "row-reverse" : "row",
+          borderColor: styling.status
+            ? statusColor
+            : styles.fieldWrapper.borderColor,
+          borderWidth: styling.status ? 2 : 1,
+          flexDirection: styling.search ? "row-reverse" : "row",
         }}
       >
         {/* Input field */}
@@ -91,12 +97,12 @@ const Input: React.FC<InputProps> = ({
           onEndEditing={handleInput}
           defaultValue={input}
           // styling.
-          placeholder={placeholder}
+          placeholder={styling.placeholder}
           placeholderTextColor={colors.secondary50}
           style={{
             ...styles.textfield,
             // If status there is a status, set width to 94%, makes room for icon.
-            width: status || search ? "94%" : "100%",
+            width: styling.status || styling.search ? "94%" : "100%",
           }}
         />
 
@@ -104,8 +110,8 @@ const Input: React.FC<InputProps> = ({
         <Icon
           style={{
             ...styles.indicator,
-            color: !search ? statusColor : colors.secondary78,
-            display: status || search ? "flex" : "none",
+            color: !styling.search ? statusColor : colors.secondary78,
+            display: styling.status || styling.search ? "flex" : "none",
           }}
           name={statusIcon}
           type="MaterialCommunityIcons"
@@ -118,10 +124,10 @@ const Input: React.FC<InputProps> = ({
         style={{
           ...styles.subheading,
           color: statusColor,
-          display: status ? "flex" : "none",
+          display: styling.status ? "flex" : "none",
         }}
       >
-        {subHeadingMessage}
+        {styling.subHeadingMessage}
       </Text>
     </View>
   );
