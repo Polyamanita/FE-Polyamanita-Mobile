@@ -40,7 +40,7 @@ const Input: React.FC<InputProps> = ({
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  let statusIcon: string;
+  let statusIcon = "";
   let statusColor: any;
 
   // Set different varients.
@@ -67,59 +67,11 @@ const Input: React.FC<InputProps> = ({
     statusIcon = "magnify";
   }
 
-  // Subcomponents.
-  const TextField = () => {
-    const handleInput = (ev: any) => {
-      const input = ev.nativeEvent.text;
-      setInput(input);
-      console.log(input);
-    };
-    return (
-      <TextInput
-        // Handle input from user.
-        ref={ref}
-        onEndEditing={handleInput}
-        defaultValue={input}
-        // styling.
-        placeholder={placeholder}
-        placeholderTextColor={colors.secondary50}
-        style={{
-          ...styles.textfield,
-          // If status there is a status, set width to 94%, makes room for icon.
-          width: status || search ? "94%" : "100%",
-        }}
-      />
-    );
-  };
-
-  // Subheading to provide user a message under the textfield.
-  const SubHeading = () => {
-    return (
-      <Text
-        style={{
-          ...styles.subheading,
-          color: statusColor,
-          display: status ? "flex" : "none",
-        }}
-      >
-        {subHeadingMessage}
-      </Text>
-    );
-  };
-
-  const Indicator = () => {
-    return (
-      <Icon
-        style={{
-          ...styles.indicator,
-          color: !search ? statusColor : colors.secondary78,
-          display: status || search ? "flex" : "none",
-        }}
-        name={statusIcon}
-        type="MaterialCommunityIcons"
-        size={28}
-      />
-    );
+  // Text field handling.
+  const handleInput = (ev: any) => {
+    const input = ev.nativeEvent.text;
+    setInput(input);
+    console.log(input);
   };
 
   return (
@@ -132,10 +84,45 @@ const Input: React.FC<InputProps> = ({
           flexDirection: search ? "row-reverse" : "row",
         }}
       >
-        <TextField />
-        <Indicator />
+        {/* Input field */}
+        <TextInput
+          // Handle input from user.
+          ref={ref}
+          onEndEditing={handleInput}
+          defaultValue={input}
+          // styling.
+          placeholder={placeholder}
+          placeholderTextColor={colors.secondary50}
+          style={{
+            ...styles.textfield,
+            // If status there is a status, set width to 94%, makes room for icon.
+            width: status || search ? "94%" : "100%",
+          }}
+        />
+
+        {/* Status Icon */}
+        <Icon
+          style={{
+            ...styles.indicator,
+            color: !search ? statusColor : colors.secondary78,
+            display: status || search ? "flex" : "none",
+          }}
+          name={statusIcon}
+          type="MaterialCommunityIcons"
+          size={28}
+        />
       </View>
-      <SubHeading />
+
+      {/* Subheading */}
+      <Text
+        style={{
+          ...styles.subheading,
+          color: statusColor,
+          display: status ? "flex" : "none",
+        }}
+      >
+        {subHeadingMessage}
+      </Text>
     </View>
   );
 };

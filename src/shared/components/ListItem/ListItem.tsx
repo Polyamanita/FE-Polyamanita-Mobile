@@ -15,26 +15,12 @@ const Input: React.FC<ListItemProps> = ({ label }) => {
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  // Subcomponents.
-  const ListText = () => {
-    return (
+  return (
+    <View style={styles.wrapper}>
+      <Image source={require("@assets/logo.jpg")} style={styles.icon}></Image>
       <Text numberOfLines={1} style={styles.text}>
         {label}
       </Text>
-    );
-  };
-
-  // Subheading to provide user a message under the textfield.
-  const ListIcon = () => {
-    return (
-      <Image source={require("@assets/logo.jpg")} style={styles.icon}></Image>
-    );
-  };
-
-  return (
-    <View style={styles.wrapper}>
-      <ListIcon />
-      <ListText />
     </View>
   );
 };
