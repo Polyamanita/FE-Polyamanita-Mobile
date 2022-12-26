@@ -42,7 +42,7 @@ const Navigation = () => {
     size: number,
   ) => {
     let iconName = "";
-    switch (route) {
+    switch (route.name) {
       case SCREENS.MAP:
         iconName = focused ? "map-marker" : "map-marker-outline";
         break;
