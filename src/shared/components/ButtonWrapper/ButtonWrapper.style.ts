@@ -8,13 +8,6 @@ interface VariationStyle {
   glass: ViewStyle;
 }
 
-// interface ITextStyle {
-//   default: TextStyle,
-//   primary: TextStyle,
-//   primaryOutline: TextStyle,
-//   glass: TextStyle,
-// }
-
 interface SizeStyle {
   large: ViewStyle;
   small: ViewStyle;
@@ -56,7 +49,7 @@ export default (theme: ExtendedTheme) => {
     fontSize: 24,
   } as TextStyle;
   // TODO: Find a way of incorporating this any type to proper interface.
-  const text = StyleSheet.create<any>({
+  const text = StyleSheet.create<VariationStyle>({
     default: {
       ...generalTextStyling,
       color: colors.secondary100,

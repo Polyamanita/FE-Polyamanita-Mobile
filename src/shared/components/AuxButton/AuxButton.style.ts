@@ -4,7 +4,7 @@ import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 interface VariationStyle {
   default: ViewStyle;
   glass: ViewStyle;
-  avata: ViewStyle;
+  avatar: ViewStyle;
 }
 
 export default (theme: ExtendedTheme) => {
@@ -28,7 +28,7 @@ export default (theme: ExtendedTheme) => {
     glass: {
       ...generalViewStyling,
     },
-    avata: {
+    avatar: {
       ...generalViewStyling,
     },
   });
@@ -37,8 +37,7 @@ export default (theme: ExtendedTheme) => {
   const generalTextStyling = {
     fontSize: 24,
   } as TextStyle;
-  // TODO: Find a way of incorporating this any type to proper interface.
-  const icon = StyleSheet.create<any>({
+  const icon = StyleSheet.create<VariationStyle>({
     default: {
       ...generalTextStyling,
       color: colors.secondary100,
@@ -46,6 +45,9 @@ export default (theme: ExtendedTheme) => {
     glass: {
       ...generalTextStyling,
       color: colors.secondary100,
+    },
+    avatar: {
+      ...generalTextStyling,
     },
   });
 

@@ -12,7 +12,7 @@ import { Pressable, PressableProps, ViewStyle } from "react-native";
 // @params - size: size varient, large or small.
 interface PolyButtonProps extends PressableProps {
   title: string;
-  onPress: () => any;
+  onPress: () => unknown;
   varient?: string;
   size?: string;
 }
@@ -59,6 +59,7 @@ const ButtonWrapper: React.FC<PolyButtonProps> = ({
       styling = { ...styling, ...styles.sizes.full };
   }
 
+  // TODO: Figure out problem with "dynamic" text styling.
   return (
     <Pressable style={styling} {...rest} onPress={onPress}>
       <Text bold style={styles.text[varient]}>

@@ -9,9 +9,10 @@ import { ZONES } from "@shared-constants";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
 import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
+import { ParamListBase } from "@react-navigation/native";
 
 interface SigninScreenProps {
-  navigation: StackNavigationProp<any, any>;
+  navigation: StackNavigationProp<ParamListBase, string>;
 }
 
 const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
@@ -29,18 +30,20 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
         }}
       >
         <Input
-          input={input}
+          typedText={input}
           setInput={setInput}
           ref={ref}
-          placeholder="Username"
-          status=""
+          styling={{
+            placeholder: "Display name",
+          }}
         />
         <Input
-          input={input}
+          typedText={input}
           setInput={setInput}
           ref={ref}
-          placeholder="Password"
-          status=""
+          styling={{
+            placeholder: "Password",
+          }}
         />
       </View>
       <>
