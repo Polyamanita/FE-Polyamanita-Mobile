@@ -6,6 +6,7 @@ import { useTheme } from "@react-navigation/native";
  */
 import createStyles from "./TestScreen.style";
 import Input from "@shared-components/Input/Input";
+import ListItem from "@shared-components/ListItem/ListItem";
 
 interface TestScreenProps {}
 
@@ -34,8 +35,14 @@ const TestScreen: React.FC<TestScreenProps> = () => {
         setInput={setInput2}
         ref={ref}
         placeholder="Password"
-        status=""
+        status="alert"
+        subHeadingMessage="Alert"
       />
+      <>
+        <ListItem label={"Item 1"} />
+        <ListItem label={"Item 2"} />
+        <ListItem label={"Item 3"} />
+      </>
     </ScrollView>
   );
 };
