@@ -11,7 +11,7 @@ import { Pressable, PressableProps, ViewStyle } from "react-native";
 // @params - iconName: provides an icon for the button.
 // @params - varient: Style choice of the button.
 interface PolyButtonProps extends PressableProps {
-  onPress: () => any;
+  onPress: () => unknown;
   iconName: string;
   varient?: string;
 }
@@ -30,10 +30,10 @@ const AuxButton: React.FC<PolyButtonProps> = ({
   // Set different varients.
   switch (varient) {
     case "default":
-      styling = { ...styles.variations["default"], ...styles.icon["default"] };
+      styling = { ...styles.variations.default, ...styles.icon.default };
       break;
     case "glass":
-      styling = { ...styles.variations["glass"], ...styles.icon["glass"] };
+      styling = { ...styles.variations.glass, ...styles.icon.glass };
       break;
     case "avatar":
       styling = {};

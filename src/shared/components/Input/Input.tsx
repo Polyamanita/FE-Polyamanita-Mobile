@@ -6,7 +6,13 @@ import { useTheme } from "@react-navigation/native";
  */
 import createStyles from "./Input.style";
 import { TextInput } from "react-native-gesture-handler";
-import { Text, View } from "react-native";
+import {
+  ColorValue,
+  NativeSyntheticEvent,
+  Text,
+  TextInputEndEditingEventData,
+  View,
+} from "react-native";
 
 interface InputStyling {
   search?: boolean;
@@ -25,14 +31,14 @@ interface InputStyling {
 // @params - placeholder: Placeholder text inside the TextField.
 // @params - subHeadingMessage: Message to provide user while typing into input.
 interface InputProps {
-  input: string;
+  typedText: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
-  ref: React.MutableRefObject<any>;
+  ref: React.MutableRefObject<null>;
   styling?: InputStyling;
 }
 
 const Input: React.FC<InputProps> = ({
-  input,
+  typedText,
   setInput,
   ref,
   styling = {
@@ -44,8 +50,8 @@ const Input: React.FC<InputProps> = ({
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  let statusIcon = "";
-  let statusColor: any;
+  let statusIcon = "mushroom"; // idk why mushroom, but good debug icon. :d
+  let statusColor: ColorValue;
 
   // Set different varients.
   switch (styling.status) {
@@ -72,7 +78,9 @@ const Input: React.FC<InputProps> = ({
   }
 
   // Text field handling.
-  const handleInput = (ev: any) => {
+  const handleInput = (
+    ev: NativeSyntheticEvent<TextInputEndEditingEventData>,
+  ) => {
     const input = ev.nativeEvent.text;
     setInput(input);
     console.log(input);
@@ -95,7 +103,7 @@ const Input: React.FC<InputProps> = ({
           // Handle input from user.
           ref={ref}
           onEndEditing={handleInput}
-          defaultValue={input}
+          defaultValue={typedText}
           // styling.
           placeholder={styling.placeholder}
           placeholderTextColor={colors.secondary50}

@@ -42,7 +42,7 @@ const Navigation = () => {
     size: number,
   ) => {
     let iconName = "";
-    switch (route.name) {
+    switch (route) {
       case SCREENS.MAP:
         iconName = focused ? "map-marker" : "map-marker-outline";
         break;
@@ -78,7 +78,7 @@ const Navigation = () => {
   // @params: ScreenComponent: React Native Screen Componenet to assign.
   const createTabStackNavigator = (
     screenName: string,
-    ScreenComponent: React.FC<any>,
+    ScreenComponent: React.FC<unknown>,
   ) => (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={screenName} component={ScreenComponent} />
