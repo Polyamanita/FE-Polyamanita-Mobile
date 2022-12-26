@@ -17,7 +17,7 @@ const PreAppHeader: React.FC<PreAppHeaderProps> = ({ title }) => {
 
   return (
     <View style={styles.container}>
-      <Image source={require("@assets/logo.jpg")} style={styles.logo}></Image>
+      <Image source={require("@assets/logo.jpg")} style={styles.logo} />
       <Text style={styles.appTitle}>Polyamanita</Text>
       <Text style={{ ...styles.title, display: title ? "flex" : "none" }}>
         {title}

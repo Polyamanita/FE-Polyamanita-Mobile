@@ -17,7 +17,7 @@ const Input: React.FC<ListItemProps> = ({ label }) => {
 
   return (
     <View style={styles.wrapper}>
-      <Image source={require("@assets/logo.jpg")} style={styles.icon}></Image>
+      <Image source={require("@assets/logo.jpg")} style={styles.icon} />
       <Text numberOfLines={1} style={styles.text}>
         {label}
       </Text>

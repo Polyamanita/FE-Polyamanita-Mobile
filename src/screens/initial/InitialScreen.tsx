@@ -1,5 +1,4 @@
 import React from "react";
-import { View } from "react-native";
 /**
  * ? Local Imports
  */
@@ -17,13 +16,6 @@ const InitialScreen: React.FC<InitialScreenProps> = ({ navigation }) => {
   return (
     <ScreenContainer>
       <PreAppHeader />
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      ></View>
       <>
         <Button
           title="Sign Up"
