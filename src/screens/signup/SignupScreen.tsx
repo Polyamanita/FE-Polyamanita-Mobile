@@ -18,7 +18,7 @@ interface SignupScreenProps {
 const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
   const [input2, setInput2] = useState("");
   const [input, setInput] = useState("");
-  const ref = useRef(null);
+  const reference = useRef(null);
 
   return (
     <ScreenContainer>
@@ -33,7 +33,7 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
         <Input
           typedText={input}
           setInput={setInput}
-          ref={ref}
+          ref={reference}
           styling={{
             placeholder: "Display name",
           }}
@@ -41,19 +41,19 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
         <Input
           typedText={input2}
           setInput={setInput2}
-          ref={ref}
+          ref={reference}
           styling={{ placeholder: "Email" }}
         />
         <Input
           typedText={input}
           setInput={setInput}
-          ref={ref}
+          ref={reference}
           styling={{ placeholder: "Password" }}
         />
         <Input
           typedText={input}
           setInput={setInput}
-          ref={ref}
+          ref={reference}
           styling={{ placeholder: "Confirm password" }}
         />
       </View>

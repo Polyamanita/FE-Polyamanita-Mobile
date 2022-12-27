@@ -17,7 +17,7 @@ interface SigninScreenProps {
 
 const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
   const [input, setInput] = useState("");
-  const ref = useRef(null);
+  const reference = useRef(null);
 
   return (
     <ScreenContainer>
@@ -32,7 +32,7 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
         <Input
           typedText={input}
           setInput={setInput}
-          ref={ref}
+          ref={reference}
           styling={{
             placeholder: "Display name",
           }}
@@ -40,7 +40,7 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
         <Input
           typedText={input}
           setInput={setInput}
-          ref={ref}
+          ref={reference}
           styling={{
             placeholder: "Password",
           }}
