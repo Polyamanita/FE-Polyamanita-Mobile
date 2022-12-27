@@ -114,7 +114,7 @@ const Navigation = () => {
     #  TAB NAVIGATION  #
     #################### 
   */
-  const renderTabNavigation = () => {
+  const TabNavigation = () => {
     return (
       <Tab.Navigator
         initialRouteName={SCREENS.SNAP}
@@ -148,7 +148,7 @@ const Navigation = () => {
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name={ZONES.PREAPP} component={PreStack} />
-        <Stack.Screen name={ZONES.APP} component={renderTabNavigation} />
+        <Stack.Screen name={ZONES.APP} component={TabNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );
