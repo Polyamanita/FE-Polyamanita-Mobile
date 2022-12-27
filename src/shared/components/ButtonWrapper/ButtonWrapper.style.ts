@@ -28,16 +28,16 @@ export default (theme: ExtendedTheme) => {
     default: {
       ...generalViewStyling,
       backgroundColor: colors.primary38,
-      borderColor: colors.secondary50,
+      borderColor: colors.secondary24,
     },
     primary: {
       ...generalViewStyling,
       backgroundColor: colors.primaryA,
-      borderColor: colors.secondary24,
+      borderColor: colors.secondary78,
     },
     primaryOutline: {
       ...generalViewStyling,
-      backgroundColor: colors.secondary24,
+      backgroundColor: colors.secondary14,
     },
     glass: {
       ...generalViewStyling,
@@ -61,6 +61,7 @@ export default (theme: ExtendedTheme) => {
     primaryOutline: {
       ...generalTextStyling,
       color: colors.primaryA,
+      borderColor: colors.primaryA,
     },
     glass: {
       ...generalTextStyling,

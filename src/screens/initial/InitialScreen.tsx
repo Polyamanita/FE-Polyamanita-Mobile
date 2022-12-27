@@ -20,6 +20,7 @@ const InitialScreen: React.FC<InitialScreenProps> = ({ navigation }) => {
       <>
         <Button
           title="Sign Up"
+          varient="primary"
           onPress={() => {
             navigation.navigate(SCREENS.SIGNUP, {});
           }}

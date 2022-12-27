@@ -33,7 +33,6 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
         />
         <Button
           title="Cancel"
-          varient="primary-outline"
           onPress={() => {
             navigation.popToTop();
           }}
