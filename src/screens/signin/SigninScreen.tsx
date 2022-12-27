@@ -58,7 +58,6 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
         />
         <Button
           title="Cancel"
-          varient="primary-outline"
           onPress={() => {
             navigation.popToTop();
           }}
