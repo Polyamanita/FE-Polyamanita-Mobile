@@ -1,6 +1,10 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Text, View, Dimensions } from "react-native";
-import { useIsFocused, useTheme } from "@react-navigation/native";
+import {
+  ParamListBase,
+  useIsFocused,
+  useTheme,
+} from "@react-navigation/native";
 import { Camera, CameraDevice } from "react-native-vision-camera";
 /* import Reanimated, {
   Extrapolate,
@@ -15,9 +19,13 @@ import { Camera, CameraDevice } from "react-native-vision-camera";
  */
 import createStyles from "./SnapScreen.style";
 import CaptureButton from "./components/CaptureButton";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { SCREENS } from "@shared-constants";
 // import Text from "@shared-components/text-wrapper/TextWrapper";
 
-interface SnapScreenProps {}
+interface SnapScreenProps {
+  navigation: StackNavigationProp<ParamListBase, string>;
+}
 
 const windowHeight = Dimensions.get("window").height;
 // const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera);
@@ -25,7 +33,7 @@ const windowHeight = Dimensions.get("window").height;
 // const SCALE_FULL_ZOOM = 3;
 // const BUTTON_SIZE = 40;
 
-const SnapScreen: React.FC<SnapScreenProps> = () => {
+const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   // Theme
   const theme = useTheme();
   const { colors } = theme;
@@ -35,13 +43,14 @@ const SnapScreen: React.FC<SnapScreenProps> = () => {
   const camera = useRef<Camera>(null);
   const [devices, setDevices] = useState<CameraDevice[]>();
   const isFocused = useIsFocused();
+
   useEffect(() => {
     async function getDevices() {
       const device = await Camera.getAvailableCameraDevices();
       setDevices(device);
     }
-
     getDevices();
+    // return () => {isFocused = false}
   }, [isFocused]);
 
   if (devices == undefined) {
@@ -65,7 +74,11 @@ const SnapScreen: React.FC<SnapScreenProps> = () => {
         photo={true}
       />
 
-      <CaptureButton onPress={() => console.log("OH SNAP!")}></CaptureButton>
+      <CaptureButton
+        onPress={() => {
+          navigation.navigate(SCREENS.CAPTURE);
+        }}
+      ></CaptureButton>
     </View>
   );
 };

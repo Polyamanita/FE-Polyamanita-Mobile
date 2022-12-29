@@ -20,11 +20,77 @@ import SnapScreen from "@screens/snap/SnapScreen";
 import JournalScreen from "@screens/journal/JournalScreen";
 import FeedScreen from "@screens/feed/FeedScreen";
 import TestScreen from "@screens/__testing/TestScreen";
+import CaptureScreen from "@screens/capture/CaptureScreen";
 // import TestScreen from "@screens/__testing/TestScreen";
 
 // ? If you want to use stack or tab or both
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
+
+// Function creates a Stack Navigator, that will later be nested inside a
+// tab navigator.
+// @parmas: screenName: How React Navigation can refer to the screen.
+// @params: ScreenComponent: React Native Screen Componenet to assign.
+function createTabStackNavigator(
+  ChildrenScreens?: JSX.Element[] | JSX.Element,
+) {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      {ChildrenScreens}
+    </Stack.Navigator>
+  );
+}
+
+/*  
+    #######################
+    #  STACK NAVIGATIONS  #
+    #######################
+  */
+
+// This navigation stack contains signing in and registering related stuff.
+const PreStack = () => {
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={SCREENS.INITIAL} component={InitialScreen} />
+      <Stack.Screen name={SCREENS.SIGNIN} component={SigninScreen} />
+      <Stack.Screen name={SCREENS.SIGNUP} component={SignupScreen} />
+      <Stack.Screen name={SCREENS.CONFIRM} component={ConfirmScreen} />
+    </Stack.Navigator>
+  );
+};
+const MapStack = () =>
+  createTabStackNavigator([
+    <Stack.Screen name={SCREENS.MAP} component={MapScreen} key={SCREENS.MAP} />,
+  ]);
+const SnapStack = () =>
+  createTabStackNavigator([
+    <Stack.Screen
+      name={SCREENS.SNAP}
+      component={SnapScreen}
+      key={SCREENS.SNAP}
+    />,
+    <Stack.Screen
+      name={SCREENS.CAPTURE}
+      component={CaptureScreen}
+      key={SCREENS.CAPTURE}
+    />,
+  ]);
+const JournalStack = () =>
+  createTabStackNavigator([
+    <Stack.Screen
+      name={SCREENS.JOURNAL}
+      component={JournalScreen}
+      key={SCREENS.JOURNAL}
+    />,
+  ]);
+const FeedStack = () =>
+  createTabStackNavigator([
+    <Stack.Screen
+      name={SCREENS.FEED}
+      component={FeedScreen}
+      key={SCREENS.JOURNAL}
+    />,
+  ]);
 
 const Navigation = () => {
   const scheme = useColorScheme();
@@ -72,43 +138,6 @@ const Navigation = () => {
     );
   };
 
-  // Function creates a Stack Navigator, that will later be nested inside a
-  // tab navigator.
-  // @parmas: screenName: How React Navigation can refer to the screen.
-  // @params: ScreenComponent: React Native Screen Componenet to assign.
-  const createTabStackNavigator = (
-    screenName: string,
-    ScreenComponent: React.FC<unknown>,
-  ) => (
-    <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={screenName} component={ScreenComponent} />
-    </Stack.Navigator>
-  );
-
-  /*  
-    #######################
-    #  STACK NAVIGATIONS  #
-    #######################
-  */
-
-  // This navigation stack contains signing in and registering related stuff.
-  const PreStack = () => {
-    return (
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={SCREENS.INITIAL} component={InitialScreen} />
-        <Stack.Screen name={SCREENS.SIGNIN} component={SigninScreen} />
-        <Stack.Screen name={SCREENS.SIGNUP} component={SignupScreen} />
-        <Stack.Screen name={SCREENS.CONFIRM} component={ConfirmScreen} />
-      </Stack.Navigator>
-    );
-  };
-
-  const MapStack = () => createTabStackNavigator(SCREENS.MAP, MapScreen);
-  const SnapStack = () => createTabStackNavigator(SCREENS.SNAP, SnapScreen);
-  const JournalStack = () =>
-    createTabStackNavigator(SCREENS.JOURNAL, JournalScreen);
-  const FeedStack = () => createTabStackNavigator(SCREENS.FEED, FeedScreen);
-
   /*  
     ####################
     #  TAB NAVIGATION  #
@@ -120,6 +149,7 @@ const Navigation = () => {
         initialRouteName={SCREENS.SNAP}
         screenOptions={({ route }) => ({
           headerShown: false,
+          unmountOnBlur: true,
           tabBarIcon: ({ focused, color, size }) =>
             renderTabIcon(route, focused, color, size),
           tabBarActiveTintColor: palette.primary,
