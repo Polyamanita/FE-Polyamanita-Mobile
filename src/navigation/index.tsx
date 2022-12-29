@@ -88,7 +88,7 @@ const FeedStack = () =>
     <Stack.Screen
       name={SCREENS.FEED}
       component={FeedScreen}
-      key={SCREENS.JOURNAL}
+      key={SCREENS.FEED}
     />,
   ]);
 
