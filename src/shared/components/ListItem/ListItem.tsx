@@ -10,7 +10,7 @@ interface ListItemProps {
   label: string;
 }
 
-const Input: React.FC<ListItemProps> = ({ label }) => {
+const ListItem: React.FC<ListItemProps> = ({ label }) => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -25,4 +25,4 @@ const Input: React.FC<ListItemProps> = ({ label }) => {
   );
 };
 
-export default Input;
+export default ListItem;
