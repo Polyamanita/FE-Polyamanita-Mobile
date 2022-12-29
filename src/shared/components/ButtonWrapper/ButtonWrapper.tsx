@@ -6,13 +6,14 @@ import { useTheme } from "@react-navigation/native";
 import createStyles from "./ButtonWrapper.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import { Pressable, PressableProps, ViewStyle } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 
 // @params - action: when button is clicked what should be performed.
 // @params - varient: Style choice of the button.
 // @params - size: size varient, large or small.
 interface PolyButtonProps extends PressableProps {
   title: string;
-  onPress: () => any;
+  onPress: () => unknown;
   varient?: string;
   size?: string;
 }
@@ -25,17 +26,22 @@ const ButtonWrapper: React.FC<PolyButtonProps> = ({
   ...rest
 }) => {
   const theme = useTheme();
-  // const { colors } = theme;
+  const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   let styling = {} as ViewStyle;
+  const gradient = [] as string[];
   // Set different varients.
   switch (varient) {
     case "default":
       styling = { ...styles.variations.default, ...styles.text.default };
+      gradient.push(colors.primary38);
+      gradient.push(colors.primary38);
       break;
     case "primary":
       styling = { ...styles.variations.primary, ...styles.text.primary };
+      gradient.push(colors.primaryA);
+      gradient.push(colors.primaryB);
       break;
     case "primary-outline":
       styling = {
@@ -60,11 +66,13 @@ const ButtonWrapper: React.FC<PolyButtonProps> = ({
   }
 
   return (
-    <Pressable style={styling} {...rest} onPress={onPress}>
-      <Text bold style={styles.text[varient]}>
-        {title}
-      </Text>
-    </Pressable>
+    <LinearGradient colors={gradient} style={styling}>
+      <Pressable {...rest} onPress={onPress}>
+        <Text bold style={styles.text[varient]}>
+          {title}
+        </Text>
+      </Pressable>
+    </LinearGradient>
   );
 };
 

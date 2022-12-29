@@ -4,7 +4,7 @@ import { useTheme } from "@react-navigation/native";
  * ? Local Imports
  */
 import createStyles from "./ScreenContainer.style";
-import { View } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 
 interface ScreenContainerProps {
   children?: JSX.Element | JSX.Element[] | undefined;
@@ -13,8 +13,18 @@ interface ScreenContainerProps {
 const ScreenContainer: React.FC<ScreenContainerProps> = ({ children }) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
+  const { colors } = theme;
 
-  return <View style={styles.container}>{children}</View>;
+  return (
+    <LinearGradient
+      colors={[colors.backgroundA, colors.backgroundB]}
+      useAngle={true}
+      angle={135}
+      style={styles.container}
+    >
+      {children}
+    </LinearGradient>
+  );
 };
 
 export default ScreenContainer;

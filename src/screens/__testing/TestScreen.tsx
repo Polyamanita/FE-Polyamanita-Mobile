@@ -6,6 +6,8 @@ import { useTheme } from "@react-navigation/native";
  */
 import createStyles from "./TestScreen.style";
 import Input from "@shared-components/Input/Input";
+import ListItem from "@shared-components/ListItem/ListItem";
+import AuxButton from "@shared-components/AuxButton/AuxButton";
 
 interface TestScreenProps {}
 
@@ -22,20 +24,19 @@ const TestScreen: React.FC<TestScreenProps> = () => {
     <ScrollView
       contentContainerStyle={{ ...styles.container, paddingHorizontal: 15 }}
     >
-      <Input
-        input={input}
-        setInput={setInput}
-        ref={ref}
-        placeholder="Username"
-        status=""
-      />
-      <Input
-        input={input2}
-        setInput={setInput2}
-        ref={ref}
-        placeholder="Password"
-        status=""
-      />
+      <Input typedText={input} setInput={setInput} ref={ref} />
+      <Input typedText={input2} setInput={setInput2} ref={ref} />
+      <>
+        <ListItem label={"Item 1"} />
+        <ListItem label={"Item 2"} />
+        <ListItem label={"Item 3"} />
+      </>
+      <>
+        <AuxButton
+          onPress={() => console.log("Pressed")}
+          iconName={"account"}
+        />
+      </>
     </ScrollView>
   );
 };

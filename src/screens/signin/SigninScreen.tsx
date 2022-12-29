@@ -9,14 +9,15 @@ import { ZONES } from "@shared-constants";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
 import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
+import { ParamListBase } from "@react-navigation/native";
 
 interface SigninScreenProps {
-  navigation: StackNavigationProp<any, any>;
+  navigation: StackNavigationProp<ParamListBase, string>;
 }
 
 const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
   const [input, setInput] = useState("");
-  const ref = useRef(null);
+  const reference = useRef(null);
 
   return (
     <ScreenContainer>
@@ -29,18 +30,20 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
         }}
       >
         <Input
-          input={input}
+          typedText={input}
           setInput={setInput}
-          ref={ref}
-          placeholder="Username"
-          status=""
+          ref={reference}
+          styling={{
+            placeholder: "Display name",
+          }}
         />
         <Input
-          input={input}
+          typedText={input}
           setInput={setInput}
-          ref={ref}
-          placeholder="Password"
-          status=""
+          ref={reference}
+          styling={{
+            placeholder: "Password",
+          }}
         />
       </View>
       <>
@@ -55,7 +58,6 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
         />
         <Button
           title="Cancel"
-          varient="primary-outline"
           onPress={() => {
             navigation.popToTop();
           }}

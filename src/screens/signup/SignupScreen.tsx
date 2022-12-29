@@ -9,15 +9,16 @@ import { SCREENS } from "@shared-constants";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
 import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
+import { ParamListBase } from "@react-navigation/native";
 
 interface SignupScreenProps {
-  navigation: StackNavigationProp<any, any>;
+  navigation: StackNavigationProp<ParamListBase, string>;
 }
 
 const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
   const [input2, setInput2] = useState("");
   const [input, setInput] = useState("");
-  const ref = useRef(null);
+  const reference = useRef(null);
 
   return (
     <ScreenContainer>
@@ -30,32 +31,30 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
         }}
       >
         <Input
-          input={input}
+          typedText={input}
           setInput={setInput}
-          ref={ref}
-          placeholder="Username"
-          status=""
+          ref={reference}
+          styling={{
+            placeholder: "Display name",
+          }}
         />
         <Input
-          input={input2}
+          typedText={input2}
           setInput={setInput2}
-          ref={ref}
-          placeholder="Email"
-          status=""
+          ref={reference}
+          styling={{ placeholder: "Email" }}
         />
         <Input
-          input={input}
+          typedText={input}
           setInput={setInput}
-          ref={ref}
-          placeholder="Password"
-          status=""
+          ref={reference}
+          styling={{ placeholder: "Password" }}
         />
         <Input
-          input={input}
+          typedText={input}
           setInput={setInput}
-          ref={ref}
-          placeholder="Confirm Password"
-          status=""
+          ref={reference}
+          styling={{ placeholder: "Confirm password" }}
         />
       </View>
       <>
@@ -69,7 +68,6 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
         />
         <Button
           title="Cancel"
-          varient="primary-outline"
           onPress={() => {
             navigation.popToTop();
           }}

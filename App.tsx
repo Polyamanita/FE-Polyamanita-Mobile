@@ -11,10 +11,12 @@ import { isAndroid } from "@freakycoder/react-native-helpers";
 LogBox.ignoreAllLogs();
 
 const App = () => {
+  // Themeing
   const scheme = useColorScheme();
   const isDarkMode = scheme === "dark";
 
   React.useEffect(() => {
+    // Status Bar
     StatusBar.setBarStyle(isDarkMode ? "light-content" : "dark-content");
     if (isAndroid) {
       StatusBar.setBackgroundColor("rgba(0,0,0,0)");

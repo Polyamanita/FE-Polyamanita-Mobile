@@ -1,5 +1,4 @@
 import React from "react";
-import { View } from "react-native";
 /**
  * ? Local Imports
  */
@@ -8,25 +7,20 @@ import { SCREENS } from "@shared-constants";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
 import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
+import { ParamListBase } from "@react-navigation/native";
 
 interface InitialScreenProps {
-  navigation: StackNavigationProp<any, any>;
+  navigation: StackNavigationProp<ParamListBase, string>;
 }
 
 const InitialScreen: React.FC<InitialScreenProps> = ({ navigation }) => {
   return (
     <ScreenContainer>
       <PreAppHeader />
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
-      ></View>
       <>
         <Button
           title="Sign Up"
+          varient="primary"
           onPress={() => {
             navigation.navigate(SCREENS.SIGNUP, {});
           }}

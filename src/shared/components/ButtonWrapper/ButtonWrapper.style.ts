@@ -8,13 +8,6 @@ interface VariationStyle {
   glass: ViewStyle;
 }
 
-// interface ITextStyle {
-//   default: TextStyle,
-//   primary: TextStyle,
-//   primaryOutline: TextStyle,
-//   glass: TextStyle,
-// }
-
 interface SizeStyle {
   large: ViewStyle;
   small: ViewStyle;
@@ -35,16 +28,16 @@ export default (theme: ExtendedTheme) => {
     default: {
       ...generalViewStyling,
       backgroundColor: colors.primary38,
-      borderColor: colors.secondary50,
+      borderColor: colors.secondary24,
     },
     primary: {
       ...generalViewStyling,
       backgroundColor: colors.primaryA,
-      borderColor: colors.secondary24,
+      borderColor: colors.secondary78,
     },
     primaryOutline: {
       ...generalViewStyling,
-      backgroundColor: colors.secondary24,
+      backgroundColor: colors.secondary14,
     },
     glass: {
       ...generalViewStyling,
@@ -56,7 +49,7 @@ export default (theme: ExtendedTheme) => {
     fontSize: 24,
   } as TextStyle;
   // TODO: Find a way of incorporating this any type to proper interface.
-  const text = StyleSheet.create<any>({
+  const text = StyleSheet.create<VariationStyle>({
     default: {
       ...generalTextStyling,
       color: colors.secondary100,
@@ -68,6 +61,7 @@ export default (theme: ExtendedTheme) => {
     primaryOutline: {
       ...generalTextStyling,
       color: colors.primaryA,
+      borderColor: colors.primaryA,
     },
     glass: {
       ...generalTextStyling,

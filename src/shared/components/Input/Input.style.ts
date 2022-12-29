@@ -28,7 +28,7 @@ export default (theme: ExtendedTheme) => {
       borderWidth: 1,
       borderRadius: 50,
       paddingHorizontal: horizontalPadding,
-      height: 45,
+      height: 55,
     },
 
     textfield: {

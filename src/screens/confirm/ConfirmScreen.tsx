@@ -7,9 +7,10 @@ import { ZONES } from "@shared-constants";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
 import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
+import { ParamListBase } from "@react-navigation/native";
 
 interface ConfirmScreenProps {
-  navigation: StackNavigationProp<any, any>;
+  navigation: StackNavigationProp<ParamListBase, string>;
 }
 
 const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
@@ -32,7 +33,6 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
         />
         <Button
           title="Cancel"
-          varient="primary-outline"
           onPress={() => {
             navigation.popToTop();
           }}

@@ -6,7 +6,20 @@ import { useTheme } from "@react-navigation/native";
  */
 import createStyles from "./Input.style";
 import { TextInput } from "react-native-gesture-handler";
-import { Text, View } from "react-native";
+import {
+  ColorValue,
+  NativeSyntheticEvent,
+  Text,
+  TextInputEndEditingEventData,
+  View,
+} from "react-native";
+
+interface InputStyling {
+  search?: boolean;
+  status?: string;
+  placeholder?: string;
+  subHeadingMessage?: string;
+}
 
 // @params - input: value to display in textfield, is updated onEndEditing.
 // @params - setInput: useState function to update the input onEndEniting.
@@ -18,33 +31,30 @@ import { Text, View } from "react-native";
 // @params - placeholder: Placeholder text inside the TextField.
 // @params - subHeadingMessage: Message to provide user while typing into input.
 interface InputProps {
-  input: string;
+  typedText: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
-  ref: React.MutableRefObject<any>;
-  search?: boolean;
-  status?: string;
-  placeholder?: string;
-  subHeadingMessage?: string;
+  ref: React.MutableRefObject<null>;
+  styling?: InputStyling;
 }
 
 const Input: React.FC<InputProps> = ({
-  input,
+  typedText,
   setInput,
   ref,
-  search = false,
-  placeholder = "Placeholder",
-  subHeadingMessage,
-  status,
+  styling = {
+    search: false,
+    placeholder: "Placeholder",
+  },
 }) => {
   const theme = useTheme();
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  let statusIcon: string;
-  let statusColor: any;
+  let statusIcon = "mushroom"; // idk why mushroom, but good debug icon. :d
+  let statusColor: ColorValue;
 
   // Set different varients.
-  switch (status) {
+  switch (styling.status) {
     case "confirm":
       statusIcon = "check-circle";
       statusColor = colors.positive;
@@ -63,63 +73,17 @@ const Input: React.FC<InputProps> = ({
   }
 
   // if search is enabled override icon to be a search icon.
-  if (search) {
+  if (styling.search) {
     statusIcon = "magnify";
   }
 
-  // Subcomponents.
-  const TextField = () => {
-    const handleInput = (ev: any) => {
-      const input = ev.nativeEvent.text;
-      setInput(input);
-      console.log(input);
-    };
-    return (
-      <TextInput
-        // Handle input from user.
-        ref={ref}
-        onEndEditing={handleInput}
-        defaultValue={input}
-        // styling.
-        placeholder={placeholder}
-        placeholderTextColor={colors.secondary50}
-        style={{
-          ...styles.textfield,
-          // If status there is a status, set width to 94%, makes room for icon.
-          width: status || search ? "94%" : "100%",
-        }}
-      />
-    );
-  };
-
-  // Subheading to provide user a message under the textfield.
-  const SubHeading = () => {
-    return (
-      <Text
-        style={{
-          ...styles.subheading,
-          color: statusColor,
-          display: status ? "flex" : "none",
-        }}
-      >
-        {subHeadingMessage}
-      </Text>
-    );
-  };
-
-  const Indicator = () => {
-    return (
-      <Icon
-        style={{
-          ...styles.indicator,
-          color: !search ? statusColor : colors.secondary78,
-          display: status || search ? "flex" : "none",
-        }}
-        name={statusIcon}
-        type="MaterialCommunityIcons"
-        size={28}
-      />
-    );
+  // Text field handling.
+  const handleInput = (
+    ev: NativeSyntheticEvent<TextInputEndEditingEventData>,
+  ) => {
+    const input = ev.nativeEvent.text;
+    setInput(input);
+    console.log(input);
   };
 
   return (
@@ -127,15 +91,52 @@ const Input: React.FC<InputProps> = ({
       <View
         style={{
           ...styles.fieldWrapper,
-          borderColor: status ? statusColor : styles.fieldWrapper.borderColor,
-          borderWidth: status ? 2 : 1,
-          flexDirection: search ? "row-reverse" : "row",
+          borderColor: styling.status
+            ? statusColor
+            : styles.fieldWrapper.borderColor,
+          borderWidth: styling.status ? 2 : 1,
+          flexDirection: styling.search ? "row-reverse" : "row",
         }}
       >
-        <TextField />
-        <Indicator />
+        {/* Input field */}
+        <TextInput
+          // Handle input from user.
+          ref={ref}
+          onEndEditing={handleInput}
+          defaultValue={typedText}
+          // styling.
+          placeholder={styling.placeholder}
+          placeholderTextColor={colors.secondary50}
+          style={{
+            ...styles.textfield,
+            // If status there is a status, set width to 94%, makes room for icon.
+            width: styling.status || styling.search ? "94%" : "100%",
+          }}
+        />
+
+        {/* Status Icon */}
+        <Icon
+          style={{
+            ...styles.indicator,
+            color: !styling.search ? statusColor : colors.secondary78,
+            display: styling.status || styling.search ? "flex" : "none",
+          }}
+          name={statusIcon}
+          type="MaterialCommunityIcons"
+          size={28}
+        />
       </View>
-      <SubHeading />
+
+      {/* Subheading */}
+      <Text
+        style={{
+          ...styles.subheading,
+          color: statusColor,
+          display: styling.status ? "flex" : "none",
+        }}
+      >
+        {styling.subHeadingMessage}
+      </Text>
     </View>
   );
 };

@@ -19,6 +19,7 @@ import MapScreen from "@screens/map/MapScreen";
 import SnapScreen from "@screens/snap/SnapScreen";
 import JournalScreen from "@screens/journal/JournalScreen";
 import FeedScreen from "@screens/feed/FeedScreen";
+import TestScreen from "@screens/__testing/TestScreen";
 // import TestScreen from "@screens/__testing/TestScreen";
 
 // ? If you want to use stack or tab or both
@@ -77,7 +78,7 @@ const Navigation = () => {
   // @params: ScreenComponent: React Native Screen Componenet to assign.
   const createTabStackNavigator = (
     screenName: string,
-    ScreenComponent: React.FC<any>,
+    ScreenComponent: React.FC<unknown>,
   ) => (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={screenName} component={ScreenComponent} />
@@ -113,7 +114,7 @@ const Navigation = () => {
     #  TAB NAVIGATION  #
     #################### 
   */
-  const renderTabNavigation = () => {
+  const TabNavigation = () => {
     return (
       <Tab.Navigator
         initialRouteName={SCREENS.SNAP}
@@ -132,6 +133,7 @@ const Navigation = () => {
         <Tab.Screen name={SCREENS.SNAP} component={SnapStack} />
         <Tab.Screen name={SCREENS.JOURNAL} component={JournalStack} />
         <Tab.Screen name={SCREENS.FEED} component={FeedStack} />
+        <Tab.Screen name={SCREENS.TEST} component={TestScreen} />
       </Tab.Navigator>
     );
   };
@@ -146,7 +148,7 @@ const Navigation = () => {
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         <Stack.Screen name={ZONES.PREAPP} component={PreStack} />
-        <Stack.Screen name={ZONES.APP} component={renderTabNavigation} />
+        <Stack.Screen name={ZONES.APP} component={TabNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );
