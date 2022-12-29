@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useTheme } from "@react-navigation/native";
+import { useIsFocused, useTheme } from "@react-navigation/native";
 import { Camera, CameraDevice } from "react-native-vision-camera";
 
 /**
@@ -17,15 +17,15 @@ const SnapScreen: React.FC<SnapScreenProps> = () => {
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   const [devices, setDevices] = useState<CameraDevice[]>();
-
+  const isFocused = useIsFocused();
   useEffect(() => {
     async function getDevices() {
       const device = await Camera.getAvailableCameraDevices();
       setDevices(device);
     }
 
-    if (!devices) getDevices();
-  });
+    getDevices();
+  }, [isFocused]);
 
   if (devices == undefined) {
     console.log("Device not found on device.");
@@ -36,10 +36,8 @@ const SnapScreen: React.FC<SnapScreenProps> = () => {
     );
   }
 
-  // console.log(devices[0]);
-
   return (
-    <Camera style={styles.container} device={devices[0]} isActive={false} />
+    <Camera style={styles.container} device={devices[0]} isActive={isFocused} />
   );
 };
 
