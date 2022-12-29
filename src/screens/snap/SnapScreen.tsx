@@ -2,29 +2,26 @@ import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Text, View, Dimensions } from "react-native";
 import { useIsFocused, useTheme } from "@react-navigation/native";
 import { Camera, CameraDevice } from "react-native-vision-camera";
-/* import { 
-  Reanimated, 
-  Extrapolate, 
-  interpolate, 
-  useAnimatedGestureHandler, 
-  useAnimatedProps, 
-  useSharedValue 
-} from 'react-native-reanimated';
-*/
+/* import Reanimated, {
+  Extrapolate,
+  interpolate,
+  useAnimatedGestureHandler,
+  useAnimatedProps,
+  useSharedValue,
+} from "react-native-reanimated"; */
+
 /**
  * ? Local Imports
  */
 import createStyles from "./SnapScreen.style";
+import CaptureButton from "./components/CaptureButton";
 // import Text from "@shared-components/text-wrapper/TextWrapper";
 
 interface SnapScreenProps {}
 
 const windowHeight = Dimensions.get("window").height;
-console.log(windowHeight);
-
 // const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera);
-// Reanimated.addWhitelistedNativeProps({zoom: true});
-
+// Reanimated.addWhitelistedNativeProps({ zoom: true });
 // const SCALE_FULL_ZOOM = 3;
 // const BUTTON_SIZE = 40;
 
@@ -67,6 +64,8 @@ const SnapScreen: React.FC<SnapScreenProps> = () => {
         isActive={isFocused}
         photo={true}
       />
+
+      <CaptureButton onPress={() => console.log("OH SNAP!")}></CaptureButton>
     </View>
   );
 };
