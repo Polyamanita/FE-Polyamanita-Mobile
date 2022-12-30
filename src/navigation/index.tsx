@@ -18,7 +18,7 @@ import ConfirmScreen from "@screens/confirm/ConfirmScreen";
 import MapScreen from "@screens/map/MapScreen";
 import SnapScreen from "@screens/snap/SnapScreen";
 import JournalScreen from "@screens/journal/JournalScreen";
-import FeedScreen from "@screens/feed/FeedScreen";
+import CommunityScreen from "@screens/community/CommunityScreen";
 import TestScreen from "@screens/__testing/TestScreen";
 import CaptureScreen from "@screens/capture/CaptureScreen";
 // import TestScreen from "@screens/__testing/TestScreen";
@@ -83,12 +83,12 @@ const JournalStack = () =>
       key={SCREENS.JOURNAL}
     />,
   ]);
-const FeedStack = () =>
+const CommunityStack = () =>
   createTabStackNavigator([
     <Stack.Screen
-      name={SCREENS.FEED}
-      component={FeedScreen}
-      key={SCREENS.FEED}
+      name={SCREENS.COMMUNITY}
+      component={CommunityScreen}
+      key={SCREENS.COMMUNITY}
     />,
   ]);
 
@@ -118,7 +118,7 @@ const Navigation = () => {
       case SCREENS.JOURNAL:
         iconName = focused ? "clipboard-text" : "clipboard-text-outline";
         break;
-      case SCREENS.FEED:
+      case SCREENS.COMMUNITY:
         iconName = focused ? "account" : "account-outline";
         break;
       case SCREENS.TEST:
@@ -162,7 +162,7 @@ const Navigation = () => {
         <Tab.Screen name={SCREENS.MAP} component={MapStack} />
         <Tab.Screen name={SCREENS.SNAP} component={SnapStack} />
         <Tab.Screen name={SCREENS.JOURNAL} component={JournalStack} />
-        <Tab.Screen name={SCREENS.FEED} component={FeedStack} />
+        <Tab.Screen name={SCREENS.COMMUNITY} component={CommunityStack} />
         <Tab.Screen name={SCREENS.TEST} component={TestScreen} />
       </Tab.Navigator>
     );

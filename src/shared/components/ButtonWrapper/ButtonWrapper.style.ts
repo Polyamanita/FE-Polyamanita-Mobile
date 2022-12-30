@@ -18,6 +18,7 @@ export default (theme: ExtendedTheme) => {
   const { colors } = theme;
   const generalViewStyling = {
     alignItems: "center",
+    alignSelf: "center",
     justifyContent: "center",
     borderRadius: 50,
     borderWidth: 2,

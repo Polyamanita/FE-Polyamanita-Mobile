@@ -12,7 +12,7 @@ export const SCREENS = {
 
   JOURNAL: "Journal",
 
-  FEED: "Feed",
+  COMMUNITY: "Community",
 
   // Just using this here to test the components.
   TEST: "Testing",
@@ -23,4 +23,5 @@ export const SCREENS = {
 export const ZONES = {
   PREAPP: "PreApp",
   APP: "App",
+  EXTRA: "Extra",
 };

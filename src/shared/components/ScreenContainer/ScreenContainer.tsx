@@ -5,6 +5,7 @@ import { useTheme } from "@react-navigation/native";
  */
 import createStyles from "./ScreenContainer.style";
 import LinearGradient from "react-native-linear-gradient";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 interface ScreenContainerProps {
   children?: JSX.Element | JSX.Element[] | undefined;
@@ -20,9 +21,9 @@ const ScreenContainer: React.FC<ScreenContainerProps> = ({ children }) => {
       colors={[colors.backgroundA, colors.backgroundB]}
       useAngle={true}
       angle={135}
-      style={styles.container}
+      style={styles.gradientContainer}
     >
-      {children}
+      <SafeAreaView style={styles.safeAreaContainer}>{children}</SafeAreaView>
     </LinearGradient>
   );
 };

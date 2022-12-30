@@ -4,12 +4,12 @@ import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
-import createStyles from "./FeedScreen.style";
+import createStyles from "./CommunityScreen.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 
-interface FeedScreenProps {}
+interface CommunityScreenProps {}
 
-const FeedScreen: React.FC<FeedScreenProps> = () => {
+const CommunityScreen: React.FC<CommunityScreenProps> = () => {
   const theme = useTheme();
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -17,10 +17,10 @@ const FeedScreen: React.FC<FeedScreenProps> = () => {
   return (
     <View style={styles.container}>
       <Text h1 color={colors.text}>
-        Feed
+        Community
       </Text>
     </View>
   );
 };
 
-export default FeedScreen;
+export default CommunityScreen;
