@@ -1,5 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { Text, View, Dimensions } from "react-native";
+import { Text, View, Dimensions, StatusBar } from "react-native";
 import {
   ParamListBase,
   useIsFocused,
@@ -21,6 +21,7 @@ import createStyles from "./SnapScreen.style";
 import CaptureButton from "./components/CaptureButton";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SCREENS } from "@shared-constants";
+import Header from "@shared-components/Header/Header";
 // import Text from "@shared-components/text-wrapper/TextWrapper";
 
 interface SnapScreenProps {
@@ -28,10 +29,7 @@ interface SnapScreenProps {
 }
 
 const windowHeight = Dimensions.get("window").height;
-// const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera);
-// Reanimated.addWhitelistedNativeProps({ zoom: true });
-// const SCALE_FULL_ZOOM = 3;
-// const BUTTON_SIZE = 40;
+const statusBarHeight = StatusBar.currentHeight;
 
 const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   // Theme
@@ -65,6 +63,17 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
+      <View
+        style={{
+          width: "100%",
+          position: "absolute",
+          top: statusBarHeight,
+          zIndex: 1000,
+          paddingHorizontal: 15,
+        }}
+      >
+        <Header navigation={navigation} />
+      </View>
       <Camera
         style={{ width: "100%", height: windowHeight }}
         ref={camera}
