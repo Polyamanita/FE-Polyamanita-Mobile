@@ -37,24 +37,34 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
           styling={{
             placeholder: "Display name",
           }}
+          autoComplete={"username"}
+          textContentType={"username"}
         />
         <Input
           typedText={input2}
           setInput={setInput2}
           ref={reference}
           styling={{ placeholder: "Email" }}
+          autoComplete={"email"}
+          keyboardType={"email-address"}
+          textContentType={"emailAddress"}
         />
         <Input
           typedText={input}
           setInput={setInput}
           ref={reference}
           styling={{ placeholder: "Password" }}
+          autoComplete={"password"}
+          textContentType={"password"}
+          secureTextEntry={true}
         />
         <Input
           typedText={input}
           setInput={setInput}
           ref={reference}
           styling={{ placeholder: "Confirm password" }}
+          textContentType={"password"}
+          secureTextEntry={true}
         />
       </View>
       <>
