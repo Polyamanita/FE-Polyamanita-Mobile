@@ -11,6 +11,7 @@ import {
   NativeSyntheticEvent,
   Text,
   TextInputEndEditingEventData,
+  TextInputProps,
   View,
 } from "react-native";
 
@@ -30,7 +31,7 @@ interface InputStyling {
 // @params - status: string to change variation of component.
 // @params - placeholder: Placeholder text inside the TextField.
 // @params - subHeadingMessage: Message to provide user while typing into input.
-interface InputProps {
+interface InputProps extends TextInputProps {
   typedText: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   ref: React.MutableRefObject<null>;
@@ -45,6 +46,7 @@ const Input: React.FC<InputProps> = ({
     search: false,
     placeholder: "Placeholder",
   },
+  ...rest
 }) => {
   const theme = useTheme();
   const { colors } = theme;
@@ -104,6 +106,10 @@ const Input: React.FC<InputProps> = ({
           ref={ref}
           onEndEditing={handleInput}
           defaultValue={typedText}
+          // Default prop handling
+          autoCapitalize={"none"}
+          autoComplete={"off"}
+          autoCorrect={false}
           // styling.
           placeholder={styling.placeholder}
           placeholderTextColor={colors.secondary50}
@@ -112,6 +118,7 @@ const Input: React.FC<InputProps> = ({
             // If status there is a status, set width to 94%, makes room for icon.
             width: styling.status || styling.search ? "94%" : "100%",
           }}
+          {...rest}
         />
 
         {/* Status Icon */}
