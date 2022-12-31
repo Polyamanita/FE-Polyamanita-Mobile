@@ -24,8 +24,8 @@ const TestScreen: React.FC<TestScreenProps> = () => {
     <ScrollView
       contentContainerStyle={{ ...styles.container, paddingHorizontal: 15 }}
     >
-      <Input typedText={input} setInput={setInput} ref={ref} />
-      <Input typedText={input2} setInput={setInput2} ref={ref} />
+      <Input input={input} setInput={setInput} ref={ref} />
+      <Input input={input2} setInput={setInput2} ref={ref} />
       <>
         <ListItem label={"Item 1"} />
         <ListItem label={"Item 2"} />

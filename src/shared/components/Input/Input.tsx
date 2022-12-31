@@ -1,10 +1,6 @@
 import React, { useMemo } from "react";
 import Icon from "react-native-dynamic-vector-icons";
 import { useTheme } from "@react-navigation/native";
-/**
- * ? Local Imports
- */
-import createStyles from "./Input.style";
 import { TextInput } from "react-native-gesture-handler";
 import {
   ColorValue,
@@ -14,16 +10,20 @@ import {
   TextInputProps,
   View,
 } from "react-native";
+/**
+ * ? Local Imports
+ */
+import createStyles from "./Input.style";
+import { InputHandler } from "@shared-constants";
 
 interface InputStyling {
   search?: boolean;
-  status?: string;
   placeholder?: string;
-  subHeadingMessage?: string;
 }
 
 // @params - input: value to display in textfield, is updated onEndEditing.
 // @params - setInput: useState function to update the input onEndEniting.
+// @params - setStatus: useSate function to update status on input.
 // @params - ref: A useRef context is needed to reference inputted values.
 //                on enter or unfocus, the value will need to be saved to
 //                some useState [x, setX] value.
@@ -32,16 +32,17 @@ interface InputStyling {
 // @params - placeholder: Placeholder text inside the TextField.
 // @params - subHeadingMessage: Message to provide user while typing into input.
 interface InputProps extends TextInputProps {
-  typedText: string;
-  setInput: React.Dispatch<React.SetStateAction<string>>;
-  ref: React.MutableRefObject<null>;
+  inputHandler: InputHandler;
   styling?: InputStyling;
 }
 
+// Takes in a result from a check from utils.
+// Based on return, will set the "status" style for input field.
+const setStatusColor = (checkResult: boolean): string =>
+  checkResult ? "confirm" : "warn";
+
 const Input: React.FC<InputProps> = ({
-  typedText,
-  setInput,
-  ref,
+  inputHandler,
   styling = {
     search: false,
     placeholder: "Placeholder",
@@ -56,7 +57,7 @@ const Input: React.FC<InputProps> = ({
   let statusColor: ColorValue;
 
   // Set different varients.
-  switch (styling.status) {
+  switch (inputHandler.status) {
     case "confirm":
       statusIcon = "check-circle";
       statusColor = colors.positive;
@@ -84,8 +85,21 @@ const Input: React.FC<InputProps> = ({
     ev: NativeSyntheticEvent<TextInputEndEditingEventData>,
   ) => {
     const input = ev.nativeEvent.text;
-    setInput(input);
-    console.log(input);
+    inputHandler.setInput(input);
+    if (inputHandler.checkMethods) {
+      for (let i = 0; i < inputHandler.checkMethods.length; i++) {
+        // If one of the check methods fails, provide user with warning.
+        if (inputHandler.checkMethods[i](input) === false) {
+          inputHandler.setStatus(setStatusColor(false));
+          // TODO: Set the message to faulty input.
+          return;
+        }
+      }
+      // Everything checked out!!
+      inputHandler.setStatus(setStatusColor(true));
+      console.log(input);
+      return;
+    }
   };
 
   return (
@@ -93,19 +107,17 @@ const Input: React.FC<InputProps> = ({
       <View
         style={{
           ...styles.fieldWrapper,
-          borderColor: styling.status
+          borderColor: inputHandler.status
             ? statusColor
             : styles.fieldWrapper.borderColor,
-          borderWidth: styling.status ? 2 : 1,
+          borderWidth: inputHandler.status ? 2 : 1,
           flexDirection: styling.search ? "row-reverse" : "row",
         }}
       >
         {/* Input field */}
         <TextInput
-          // Handle input from user.
-          ref={ref}
           onEndEditing={handleInput}
-          defaultValue={typedText}
+          defaultValue={inputHandler.input}
           // Default prop handling
           autoCapitalize={"none"}
           autoComplete={"off"}
@@ -116,7 +128,7 @@ const Input: React.FC<InputProps> = ({
           style={{
             ...styles.textfield,
             // If status there is a status, set width to 94%, makes room for icon.
-            width: styling.status || styling.search ? "94%" : "100%",
+            width: inputHandler.status || styling.search ? "94%" : "100%",
           }}
           {...rest}
         />
@@ -126,7 +138,7 @@ const Input: React.FC<InputProps> = ({
           style={{
             ...styles.indicator,
             color: !styling.search ? statusColor : colors.secondary78,
-            display: styling.status || styling.search ? "flex" : "none",
+            display: inputHandler.status || styling.search ? "flex" : "none",
           }}
           name={statusIcon}
           type="MaterialCommunityIcons"
@@ -139,10 +151,10 @@ const Input: React.FC<InputProps> = ({
         style={{
           ...styles.subheading,
           color: statusColor,
-          display: styling.status ? "flex" : "none",
+          display: inputHandler.status ? "flex" : "none",
         }}
       >
-        {styling.subHeadingMessage}
+        {inputHandler.message}
       </Text>
     </View>
   );

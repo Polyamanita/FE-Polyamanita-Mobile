@@ -5,7 +5,7 @@ import { View } from "react-native";
  */
 import Input from "@shared-components/Input/Input";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
-import { ZONES } from "@shared-constants";
+import { InputHandler, ZONES } from "@shared-constants";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
 import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
@@ -16,8 +16,27 @@ interface SigninScreenProps {
 }
 
 const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
-  const [input, setInput] = useState("");
   const reference = useRef(null);
+
+  const [displayName, setDisplayName] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [validPassword, setValidPassword] = useState("");
+
+  // TODO: Repetitive code. Create a function to create this?
+  const displayNameHandler = {
+    input: displayName,
+    setInput: setDisplayName,
+    ref: reference,
+  } as InputHandler;
+
+  const passwordHandler = {
+    input: password,
+    setInput: setPassword,
+    setStatus: setValidPassword,
+    ref: reference,
+    status: validPassword,
+  } as InputHandler;
 
   return (
     <ScreenContainer>
@@ -30,17 +49,13 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
         }}
       >
         <Input
-          typedText={input}
-          setInput={setInput}
-          ref={reference}
+          inputHandler={displayNameHandler}
           styling={{
             placeholder: "Display name",
           }}
         />
         <Input
-          typedText={input}
-          setInput={setInput}
-          ref={reference}
+          inputHandler={passwordHandler}
           styling={{
             placeholder: "Password",
           }}
