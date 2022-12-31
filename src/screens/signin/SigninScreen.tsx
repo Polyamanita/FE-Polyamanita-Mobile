@@ -15,6 +15,10 @@ interface SigninScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
 }
 
+function handleSignIn() {
+  // magic.
+}
+
 const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
   const reference = useRef(null);
 
@@ -66,8 +70,16 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
           title="Sign In"
           varient="primary"
           onPress={() => {
+            // handle sign in here.
+            // if valid, then
+            handleSignIn();
             navigation.popToTop();
-            navigation.navigate(ZONES.APP, {});
+            navigation.navigate(ZONES.APP);
+
+            // else
+            /* display message below password input why didnt work.
+              invalid credientials, failed to reach server, etc.
+              put this message by using the password message prop */
           }}
           size="large"
         />

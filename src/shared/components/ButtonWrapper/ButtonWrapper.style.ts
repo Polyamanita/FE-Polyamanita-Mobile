@@ -48,6 +48,10 @@ export default (theme: ExtendedTheme) => {
   // Styling for text component.
   const generalTextStyling = {
     fontSize: 24,
+    width: "100%",
+    height: "100%",
+    textAlignVertical: "center",
+    textAlign: "center",
   } as TextStyle;
   // TODO: Find a way of incorporating this any type to proper interface.
   const text = StyleSheet.create<VariationStyle>({
@@ -74,17 +78,17 @@ export default (theme: ExtendedTheme) => {
     large: {
       height: 55,
       width: 215,
-      paddingHorizontal: 40,
+      marginHorizontal: 40,
     },
     small: {
       height: 44,
       width: 136,
-      paddingHorizontal: 28,
+      marginHorizontal: 28,
     },
     full: {
       width: "100%",
       height: 55,
-      paddingHorizontal: 40,
+      marginHorizontal: 40,
       marginBottom: 20,
     },
   });

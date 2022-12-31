@@ -67,7 +67,7 @@ const ButtonWrapper: React.FC<PolyButtonProps> = ({
 
   return (
     <LinearGradient colors={gradient} style={styling}>
-      <Pressable {...rest} onPress={onPress}>
+      <Pressable {...rest} onPress={onPress} style={{ width: "100%" }}>
         <Text bold style={styles.text[varient]}>
           {title}
         </Text>
