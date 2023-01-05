@@ -89,15 +89,15 @@ const Input: React.FC<InputProps> = ({
     if (inputHandler.checkMethods) {
       for (let i = 0; i < inputHandler.checkMethods.length; i++) {
         // If one of the check methods fails, provide user with warning.
-        if (inputHandler.checkMethods[i](input) === false) {
+        if (inputHandler.checkMethods[i].method(input) === false) {
           inputHandler.setStatus(setStatusColor(false));
-          // TODO: Set the message to faulty input.
+          inputHandler.setFeedback(inputHandler.checkMethods[i].feedback);
           return;
         }
       }
       // Everything checked out!!
       inputHandler.setStatus(setStatusColor(true));
-      console.log(input);
+      inputHandler.setFeedback("");
       return;
     }
   };
@@ -154,7 +154,7 @@ const Input: React.FC<InputProps> = ({
           display: inputHandler.status ? "flex" : "none",
         }}
       >
-        {inputHandler.message}
+        {inputHandler.feedback}
       </Text>
     </View>
   );

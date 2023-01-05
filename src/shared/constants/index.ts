@@ -26,15 +26,21 @@ export const ZONES = {
   EXTRA: "Extra",
 };
 
+export interface Check {
+  method: (value: string) => boolean;
+  feedback: string;
+}
+
 // ? Interfaces
 export interface InputHandler {
   input: string;
   setInput: React.Dispatch<React.SetStateAction<string>>;
   /* Takes conditionally atleast one method with a string parameter that returns 
      a boolean. */
-  checkMethods?: { (value: string): boolean }[];
+  checkMethods?: Check[];
   setStatus: React.Dispatch<React.SetStateAction<string>>;
+  feedback?: string;
+  setFeedback: React.Dispatch<React.SetStateAction<string>>;
   ref: React.MutableRefObject<null>;
   status?: string;
-  message?: string;
 }

@@ -10,7 +10,7 @@ import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { SCREENS, InputHandler } from "@shared-constants";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
 import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
-import { regexMethods } from "utils";
+import { validChecks } from "utils";
 
 interface SignupScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -29,12 +29,19 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
   const [validEmail, setValidEmail] = useState("");
   const [validPassword, setValidPassword] = useState("");
 
+  // Message feedbacks
+  const [feedbackDisplayName, setFeedbackDisplayName] = useState("");
+  const [feedbackEmail, setFeedbackEmail] = useState("");
+  const [feedbackPassword, setFeedbackPassword] = useState("");
+
   // TODO: Repetitive code. Create a function to create this?
   const displayNameHandler = {
     input: displayName,
     setInput: setDisplayName,
-    checkMethods: [regexMethods.onlyLettersAndNumbers],
+    checkMethods: [validChecks.onlyLettersAndNumbers],
     setStatus: setValidDisplayName,
+    feedback: feedbackDisplayName,
+    setFeedback: setFeedbackDisplayName,
     ref: reference,
     status: validDisplayName,
   } as InputHandler;
@@ -42,8 +49,10 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
   const emailHandler = {
     input: email,
     setInput: setEmail,
-    checkMethods: [regexMethods.validEmailFormat],
+    checkMethods: [validChecks.validEmailFormat],
     setStatus: setValidEmail,
+    feedback: feedbackEmail,
+    setFeedback: setFeedbackEmail,
     ref: reference,
     status: validEmail,
   } as InputHandler;
@@ -51,8 +60,14 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
   const passwordHandler = {
     input: password,
     setInput: setPassword,
-    checkMethods: [regexMethods.onlyLettersAndNumbers],
+    checkMethods: [
+      validChecks.minLength,
+      validChecks.hasAtleastOneCaptial,
+      validChecks.hasAtleastOneDigit,
+    ],
     setStatus: setValidPassword,
+    feedback: feedbackPassword,
+    setFeedback: setFeedbackPassword,
     ref: reference,
     status: validPassword,
   } as InputHandler;

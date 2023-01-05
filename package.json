@@ -60,7 +60,8 @@
     "typescript": "^4.7.4"
   },
   "scripts": {
-    "android": "source ~/.bash_profile&&react-native run-android",
+    "android": "npx react-native run-android",
+    "android:alt": "source ~/.bash_profile&&react-native run-android",
     "ios": "npx react-native run-ios",
     "start": "react-native start --reset-cache",
     "husky:setup": "npx husky-init && npm run husky:commitlint && npm run husky:prettier && npm run husky:lint",

@@ -1,5 +1,5 @@
 import React from "react";
-import { View } from "react-native";
+import { ScrollView } from "react-native";
 // import { useTheme } from "@react-navigation/native";
 
 /**
@@ -22,7 +22,10 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   // const { colors } = theme;
   // const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const mockData = ["the", "cat", "dog", "house"];
+  const mockData = [] as string[];
+  for (let i = 0; i < 18; i++) {
+    mockData.push(i.toString());
+  }
 
   return (
     <ScreenContainer>
@@ -30,11 +33,16 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
         <AuxButton onPress={() => console.log("left")} iconName={"huh"} />
         <AuxButton onPress={() => console.log("right")} iconName={"huh"} />
       </Header>
-      <View style={{ width: "100%", height: "100%" }}>
+      <ScrollView
+        style={{
+          width: "100%",
+          height: "100%",
+        }}
+      >
         {mockData.map((e) => (
           <ListItem label={e} key={e} />
         ))}
-      </View>
+      </ScrollView>
     </ScreenContainer>
   );
 };

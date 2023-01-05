@@ -1,36 +1,68 @@
-import React, { useMemo } from "react";
+import React, { useCallback, useMemo, useRef } from "react";
 import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
 import createStyles from "./CaptureButton.style";
 import { Pressable, PressableProps } from "react-native";
-// import { Camera } from "react-native-vision-camera";
+import {
+  Camera,
+  PhotoFile,
+  TakePhotoOptions,
+  TakeSnapshotOptions,
+} from "react-native-vision-camera";
+import { SharedValue } from "react-native-reanimated";
 
-// @params - onPress: when button is clicked what should be performed.
 interface CaptureButtonProps extends PressableProps {
-  onPress: () => unknown;
+  camera: React.RefObject<Camera>;
+  onMediaCaptured: (media: PhotoFile, type: "photo") => void;
+  cameraZoom: SharedValue<number>;
+  minZoom: number;
+  maxZoom: number;
+  flash: "on" | "off";
+  setIsPressingButton: (_isPressingButton: boolean) => void;
 }
 
-// async function takePhoto(cameraRef: RefObject<Camera>, flash: boolean) {
-//   const isFlash = flash ? "on" : "off";
-//   const photo = await cameraRef.current?.takePhoto({
-//     flash: isFlash,
-//   });
-// }
-
-const CaptureButton: React.FC<CaptureButtonProps> = ({ onPress }) => {
+const CaptureButton: React.FC<CaptureButtonProps> = ({
+  camera,
+  onMediaCaptured,
+  flash,
+}) => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  return (
-    <Pressable
-      style={styles.button}
-      onPressIn={onPress}
-      onPressOut={() => console.log("out")}
-    ></Pressable>
+  const pressDownDate = useRef<Date | undefined>(undefined);
+  const takePhotoOptions = useMemo<TakePhotoOptions & TakeSnapshotOptions>(
+    () => ({
+      photoCodec: "jpeg",
+      qualityPrioritization: "speed",
+      flash: flash,
+      quality: 90,
+      skipMetadata: true,
+    }),
+    [flash],
   );
+
+  //#region Camera Capture
+  const takePhoto = useCallback(async () => {
+    try {
+      if (camera.current == null) throw new Error("Camera ref is null!");
+      // Get the current date.
+      const now = new Date();
+      pressDownDate.current = now;
+      const photo = await camera.current.takePhoto(takePhotoOptions);
+      onMediaCaptured(photo, "photo");
+    } catch (e) {
+      console.error("Failed to take a photo. :c", e);
+    }
+  }, [camera, onMediaCaptured, takePhotoOptions]);
+  // #endregion
+
+  // #region Tap handler
+  // #endregion
+
+  return <Pressable onPressOut={takePhoto} style={styles.button}></Pressable>;
 };
 
 export default CaptureButton;
