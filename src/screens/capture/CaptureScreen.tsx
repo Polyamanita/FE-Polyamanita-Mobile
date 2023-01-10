@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
+import RNFS from "react-native-fs";
 /**
  * ? Local Imports
  */
@@ -14,6 +15,12 @@ import Header from "@shared-components/Header/Header";
 interface CaptureScreenProps {
   route: any;
   navigation: StackNavigationProp<ParamListBase, string>;
+}
+
+function getFileName(path: string): string {
+  const pathDirectories = path.split("/");
+  // returns the <randomcode>.jpg filename
+  return pathDirectories[pathDirectories.length - 1];
 }
 
 const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
@@ -53,7 +60,14 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
         />
         <AuxButton onPress={() => console.log("EDIT")} iconName={"layers"} />
         <AuxButton
-          onPress={() => console.log("SAVE")}
+          onPress={async () => {
+            const fileName = getFileName(path);
+            console.log(fileName);
+            await RNFS.moveFile(
+              `${path}`,
+              `${RNFS.ExternalDirectoryPath}/${fileName}`,
+            );
+          }}
           iconName={"content-save"}
         />
       </View>
