@@ -13,7 +13,7 @@ import { Pressable, PressableProps, ViewStyle } from "react-native";
 interface PolyButtonProps extends PressableProps {
   onPress: () => unknown;
   iconName: string;
-  varient?: string;
+  varient?: "default" | "glass" | "avatar";
 }
 
 const AuxButton: React.FC<PolyButtonProps> = ({

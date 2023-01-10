@@ -78,6 +78,7 @@ const SnapStack = () =>
       key={SCREENS.CAPTURE}
       options={
         {
+          // TODO: Figure out why turing off animation creates navigation issue?
           // this disables the transition animation when taking a photo.
           // animationEnabled: false,
         }

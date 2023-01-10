@@ -8,6 +8,8 @@ export const generateRandomNumber = (min: number, max: number) => {
   return Math.floor(min + Math.random() * (max + 1 - min));
 };
 
+/* Set of checks to perform on an input field to verify the user has typed 
+   has typed in the correct information. */
 export const validChecks = {
   onlyLettersAndNumbers: {
     method: (value: string) => /^[A-Za-z0-9]*$/.test(value),
@@ -35,3 +37,10 @@ export const validChecks = {
     feedback: "Password must contain atleast 1 digit.",
   },
 };
+
+// Get the userlocation when requested.
+// const getUserPosition = () => {
+//   // First check if location services is already turned on.
+//   // If so, we can use getPosition,
+//   // else, we can use watchPosition, and toggle it on to receive, then off.
+// };

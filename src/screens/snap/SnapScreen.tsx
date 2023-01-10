@@ -5,12 +5,8 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Text, View, StyleSheet } from "react-native";
-import {
-  ParamListBase,
-  useIsFocused,
-  useTheme,
-} from "@react-navigation/native";
+import { View, StyleSheet } from "react-native";
+import { ParamListBase, useIsFocused } from "@react-navigation/native";
 import {
   Camera,
   CameraDeviceFormat,
@@ -32,7 +28,6 @@ import Reanimated, {
 /**
  * ? Local Imports
  */
-import createStyles from "./SnapScreen.style";
 import CaptureButton from "./components/CaptureButton";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SCREENS } from "@shared-constants";
@@ -59,9 +54,9 @@ const MAX_ZOOM_FACTOR = 20;
 
 const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   // Theme
-  const theme = useTheme();
-  const { colors } = theme;
-  const styles = useMemo(() => createStyles(theme), [theme]);
+  // const theme = useTheme();
+  // const { colors } = theme;
+  // const styles = useMemo(() => createStyles(theme), [theme]);
 
   // Camera
   const camera = useRef<Camera>(null);
@@ -127,6 +122,7 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   // #endregion
 
   // #region Effects
+  // Zoom effect.
   const neutralZoom = devices?.neutralZoom ?? 1;
   useEffect(() => {
     zoom.value = neutralZoom;
@@ -162,15 +158,8 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   // #endregion
 
   if (devices == undefined) {
-    // Return some failure page.
-    // TODO: Turn this page into a loading screen.
-    return (
-      <View style={styles.container}>
-        <Text style={{ color: colors.primary100 }}>
-          No camera devices found. :(
-        </Text>
-      </View>
-    );
+    // Return a page while the promise is getting resolved.
+    return <View style={{ backgroundColor: "black" }}></View>;
   }
 
   return (

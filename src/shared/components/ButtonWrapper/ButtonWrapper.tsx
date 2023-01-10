@@ -14,8 +14,8 @@ import LinearGradient from "react-native-linear-gradient";
 interface PolyButtonProps extends PressableProps {
   title: string;
   onPress: () => unknown;
-  varient?: string;
-  size?: string;
+  varient?: "default" | "primary" | "primary-outline" | "glass";
+  size?: "large" | "small" | "full";
 }
 
 const ButtonWrapper: React.FC<PolyButtonProps> = ({
