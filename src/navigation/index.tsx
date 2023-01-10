@@ -2,7 +2,10 @@ import React from "react";
 import { useColorScheme } from "react-native";
 import Icon from "react-native-dynamic-vector-icons";
 import { createStackNavigator } from "@react-navigation/stack";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  getFocusedRouteNameFromRoute,
+  NavigationContainer,
+} from "@react-navigation/native";
 import { isReadyRef, navigationRef } from "react-navigation-helpers";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 /**
@@ -166,7 +169,21 @@ const Navigation = () => {
         })}
       >
         <Tab.Screen name={SCREENS.MAP} component={MapStack} />
-        <Tab.Screen name={SCREENS.SNAP} component={SnapStack} />
+        <Tab.Screen
+          name={SCREENS.SNAP}
+          component={SnapStack}
+          /* Wowie, check it out here: 
+          https://medium.com/@mspviraj/hide-bottom-tab-bar-on-a-specific-screen-in-react-navigation-6-0-26d31625d339 */
+          options={({ route }) => ({
+            tabBarStyle: ((route) => {
+              const routeName = getFocusedRouteNameFromRoute(route) ?? "";
+              if (routeName === SCREENS.CAPTURE) {
+                return { display: "none" };
+              }
+              return;
+            })(route),
+          })}
+        />
         <Tab.Screen name={SCREENS.JOURNAL} component={JournalStack} />
         <Tab.Screen name={SCREENS.COMMUNITY} component={CommunityStack} />
         <Tab.Screen name={SCREENS.TEST} component={TestScreen} />
