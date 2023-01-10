@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { Text, View, StatusBar, StyleSheet } from "react-native";
+import { Text, View, StyleSheet } from "react-native";
 import {
   ParamListBase,
   useIsFocused,
@@ -42,13 +42,12 @@ import {
   PinchGestureHandlerGestureEvent,
 } from "react-native-gesture-handler";
 import AuxButton from "@shared-components/AuxButton/AuxButton";
+import SnapHeader from "./components/SnapHeader";
 // import Text from "@shared-components/text-wrapper/TextWrapper";
 
 interface SnapScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
 }
-
-const statusBarHeight = StatusBar.currentHeight;
 
 const ReanimatedCamera = Reanimated.createAnimatedComponent(Camera);
 Reanimated.addWhitelistedNativeProps({
@@ -177,15 +176,7 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   return (
     <PinchGestureHandler onGestureEvent={onPinchGesture} enabled={isFocused}>
       <Reanimated.View style={StyleSheet.absoluteFill}>
-        <View
-          style={{
-            width: "100%",
-            position: "absolute",
-            top: statusBarHeight,
-            zIndex: 1000,
-            paddingHorizontal: 15,
-          }}
-        >
+        <SnapHeader>
           <Header navigation={navigation}>
             <AuxButton
               onPress={() => {
@@ -194,7 +185,7 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
               iconName={flash === "on" ? "flash" : "flash-outline"}
             />
           </Header>
-        </View>
+        </SnapHeader>
         <ReanimatedCamera
           ref={camera}
           style={StyleSheet.absoluteFill}

@@ -73,6 +73,12 @@ const SnapStack = () =>
       name={SCREENS.CAPTURE}
       component={CaptureScreen}
       key={SCREENS.CAPTURE}
+      options={
+        {
+          // this disables the transition animation when taking a photo.
+          // animationEnabled: false,
+        }
+      }
     />,
   ]);
 const JournalStack = () =>
