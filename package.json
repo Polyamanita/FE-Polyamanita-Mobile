@@ -7,6 +7,7 @@
     "@freakycoder/react-native-custom-text": "0.1.2",
     "@freakycoder/react-native-helpers": "^1.0.2",
     "@react-native-async-storage/async-storage": "^1.17.9",
+    "@react-native-community/geolocation": "^3.0.4",
     "@react-native-masked-view/masked-view": "^0.2.7",
     "@react-navigation/bottom-tabs": "^6.3.2",
     "@react-navigation/native": "^6.0.11",
