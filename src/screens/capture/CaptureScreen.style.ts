@@ -11,8 +11,8 @@ export default (theme: ExtendedTheme) => {
     container: {
       flex: 1,
       backgroundColor: colors.background,
-      alignItems: "center",
-      justifyContent: "center",
+      alignItems: "flex-end",
+      justifyContent: "flex-end",
     },
   });
 };

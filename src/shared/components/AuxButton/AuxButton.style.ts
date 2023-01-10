@@ -16,6 +16,7 @@ export default (theme: ExtendedTheme) => {
     borderWidth: 2,
     width: 55,
     height: 55,
+    marginHorizontal: 3,
   } as ViewStyle;
 
   // Styling for pressable component.

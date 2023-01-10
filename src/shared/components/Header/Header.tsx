@@ -12,27 +12,31 @@ import { SCREENS } from "@shared-constants";
 
 interface PreAppHeaderProps {
   title?: string;
+  toggleAccountButton?: "flex" | "none";
   navigation: StackNavigationProp<ParamListBase, string>;
   children?: JSX.Element | JSX.Element[] | undefined;
 }
 
 const Header: React.FC<PreAppHeaderProps> = ({
   title,
+  toggleAccountButton = "flex",
   navigation,
   children,
 }) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
-
   return (
     <View style={styles.container}>
       <View style={styles.leftContent}>
-        <AuxButton
-          onPress={() => {
-            navigation.navigate(SCREENS.COMMUNITY);
-          }}
-          iconName={"mushroom"}
-        />
+        <View style={{ display: toggleAccountButton }}>
+          <AuxButton
+            onPress={() => {
+              navigation.navigate(SCREENS.COMMUNITY);
+            }}
+            iconName={"mushroom"}
+          />
+        </View>
+
         <Text h1 style={styles.title}>
           {title}
         </Text>

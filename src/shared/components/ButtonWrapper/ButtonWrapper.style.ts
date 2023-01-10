@@ -22,6 +22,7 @@ export default (theme: ExtendedTheme) => {
     justifyContent: "center",
     borderRadius: 50,
     borderWidth: 2,
+    marginHorizontal: 5,
   } as ViewStyle;
 
   // Styling for pressable component.
@@ -77,13 +78,11 @@ export default (theme: ExtendedTheme) => {
   const sizes = StyleSheet.create<SizeStyle>({
     large: {
       height: 55,
-      width: 215,
-      marginHorizontal: 40,
+      width: 198,
     },
     small: {
       height: 44,
       width: 136,
-      marginHorizontal: 28,
     },
     full: {
       width: "100%",
