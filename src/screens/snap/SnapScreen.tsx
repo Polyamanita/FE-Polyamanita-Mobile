@@ -103,11 +103,11 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   }, []);
 
   const onMediaCaptured = useCallback(
-    (media: PhotoFile, type: "photo") => {
-      // Functiion to take the snapped image to the capture screen.
+    (media: PhotoFile) => {
+      // Navigate and pass following data to capture screen.
       navigation.navigate(SCREENS.CAPTURE, {
         path: media.path,
-        type: type,
+        time: new Date(),
       });
     },
     [navigation],
