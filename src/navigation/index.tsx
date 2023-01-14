@@ -157,6 +157,7 @@ const Navigation = () => {
     return (
       <Tab.Navigator
         initialRouteName={SCREENS.SNAP}
+        backBehavior={"initialRoute"}
         screenOptions={({ route }) => ({
           headerShown: false,
           unmountOnBlur: true,
