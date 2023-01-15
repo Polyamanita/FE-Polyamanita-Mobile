@@ -3,16 +3,20 @@ import { ViewStyle, StyleSheet } from "react-native";
 
 interface Style {
   container: ViewStyle;
+  digitContainer: ViewStyle;
 }
 
 export default (theme: ExtendedTheme) => {
   const { colors } = theme;
   return StyleSheet.create<Style>({
     container: {
-      flex: 1,
       backgroundColor: colors.backgroundB,
-      alignItems: "center",
+    },
+    digitContainer: {
+      flexDirection: "row",
       justifyContent: "center",
+      alignSelf: "center",
+      alignItems: "center",
     },
   });
 };

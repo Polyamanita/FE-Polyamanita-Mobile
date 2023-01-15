@@ -41,6 +41,6 @@ export interface InputHandler {
   setStatus: React.Dispatch<React.SetStateAction<string>>;
   feedback?: string;
   setFeedback: React.Dispatch<React.SetStateAction<string>>;
-  ref: React.MutableRefObject<null>;
+  ref?: React.MutableRefObject<null>;
   status?: "confirm" | "alert" | "warn";
 }
