@@ -1,6 +1,20 @@
 import LocalizedStrings from "react-native-localization";
 
+// These set of localized strings is a great way to standardize and keep
+// consistancy of language and wordings across the application.
+// The code below is from the provided boilerplate with en-US and tr-TR
+/*
 export const localStrings = new LocalizedStrings({
+  "en-US": {
+    noLocationService: "Location Service Not Available",
+    logout: "Logout",
+    yes: "Yes",
+    no: "No",
+    cancel: "Cancel",
+    areYouSure: "Are you sure?",
+    logoutDesc: "You are about to log out, confirm?",
+    noInternet: "No Internet Connection",
+  },
   "tr-TR": {
     noLocationService: "Lokasyon Servisi Kapalı",
     logout: "Çıkış",
@@ -11,16 +25,38 @@ export const localStrings = new LocalizedStrings({
     logoutDesc: "Çıkış yapmak üzeresiniz onaylıyor musunuz?",
     noInternet: "İnternet Bağlantısı Yok",
   },
-  en: {
-    noLocationService: "Location Service Not Available",
-    logout: "Logout",
-    yes: "Yes",
-    no: "No",
-    cancel: "Cancel",
-    areYouSure: "Are you sure?",
-    logoutDesc: "You are about to log out, confirm?",
-    noInternet: "No Internet Connection",
-  },
 });
 // ? Set the language manually
-localStrings.setLanguage("tr");
+localStrings.setLanguage("en-US");
+*/
+
+export const localString = new LocalizedStrings({
+  "en-US": {
+    appName: "Polyamanita",
+
+    register: "register",
+    signin: "sign In",
+    logout: "logout",
+    confirm: "confirm",
+    cancel: "cancel",
+    username: "display name",
+    email: "email",
+    password: "password",
+    confirmation: "confirmation",
+
+    initialStackHeaderMessages: {
+      initial: "Welcome to Polyaminita, the mushroom foreaging app.",
+      register: "Join the mushroom crew. :D",
+      signin: "Continue your trek.",
+      confirmation: `We have sent a 4-digit pin to your email! Confirm the 
+                     pin below.`,
+    },
+
+    tabBarLabels: {
+      map: "map",
+      snap: "snap",
+      journal: "journal",
+      community: "community",
+    },
+  },
+});

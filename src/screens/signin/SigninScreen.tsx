@@ -5,11 +5,12 @@ import { View } from "react-native";
  */
 import Input from "@shared-components/Input/Input";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
-import { InputHandler, ZONES } from "@shared-constants";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
 import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
 import { ParamListBase } from "@react-navigation/native";
+import { InputHandler } from "shared/constants/models";
+import { SCREENSTACK } from "@shared-constants";
 
 interface SigninScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -74,7 +75,7 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
             // if valid, then
             handleSignIn();
             navigation.popToTop();
-            navigation.navigate(ZONES.APP);
+            navigation.navigate(SCREENSTACK.APP);
 
             // else
             /* display message below password input why didnt work.

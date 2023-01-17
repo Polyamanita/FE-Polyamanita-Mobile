@@ -14,7 +14,7 @@ import {
  * ? Local Imports
  */
 import createStyles from "./Input.style";
-import { InputHandler } from "@shared-constants";
+import { InputHandler } from "shared/constants/models";
 
 interface InputStyling {
   search?: boolean;

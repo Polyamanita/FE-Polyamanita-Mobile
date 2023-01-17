@@ -3,7 +3,6 @@ import React, { useMemo, useRef, useState } from "react";
  * ? Local Imports
  */
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
-import { InputHandler, ZONES } from "@shared-constants";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
 import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
@@ -11,6 +10,8 @@ import { ParamListBase, useTheme } from "@react-navigation/native";
 import { View } from "react-native";
 import DigitInput from "./components/DigitInput";
 import createStyles from "./ConfirmScreen.style";
+import { InputHandler } from "shared/constants/models";
+import { SCREENSTACK } from "@shared-constants";
 
 interface ConfirmScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -62,7 +63,7 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
           varient="primary"
           onPress={() => {
             navigation.popToTop();
-            navigation.navigate(ZONES.APP, {});
+            navigation.navigate(SCREENSTACK.APP, {});
           }}
           size="large"
         />

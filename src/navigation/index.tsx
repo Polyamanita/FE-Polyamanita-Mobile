@@ -5,7 +5,7 @@ import { isReadyRef, navigationRef } from "react-navigation-helpers";
 /**
  * ? Local & Shared Imports
  */
-import { ZONES } from "@shared-constants";
+import { SCREENSTACK } from "@shared-constants";
 import { LightTheme, DarkTheme } from "@theme/themes";
 import { createStackNavigator } from "@react-navigation/stack";
 import { InitialStack } from "./stack-navigations";
@@ -30,8 +30,8 @@ const Navigation = () => {
       theme={isDarkMode ? DarkTheme : LightTheme}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen name={ZONES.INITIAL} component={InitialStack} />
-        <Stack.Screen name={ZONES.APP} component={TabNavigation} />
+        <Stack.Screen name={SCREENSTACK.INITIAL} component={InitialStack} />
+        <Stack.Screen name={SCREENSTACK.APP} component={TabNavigation} />
       </Stack.Navigator>
     </NavigationContainer>
   );
