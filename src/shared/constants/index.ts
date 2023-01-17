@@ -21,7 +21,7 @@ export const SCREENS = {
 };
 
 export const ZONES = {
-  PREAPP: "PreApp",
+  INITIAL: "Initial",
   APP: "App",
   EXTRA: "Extra",
 };
