@@ -30,6 +30,9 @@ function createTabStackNavigator(
   );
 }
 
+// Below are a set of stacks that control flow of navigation within a screen.
+////////////////////////////////////////////////////////////////////////////
+
 // This navigation stack contains signing in and registering related screens.
 export const InitialStack = () => {
   return (
