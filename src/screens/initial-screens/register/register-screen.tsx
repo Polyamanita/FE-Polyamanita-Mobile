@@ -7,16 +7,17 @@ import { StackNavigationProp } from "@react-navigation/stack";
  */
 import Input from "@shared-components/Input/Input";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
-import { SCREENS, InputHandler } from "@shared-constants";
+import { SCREENS } from "@shared-constants";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
 import ScreenContainer from "shared/wrapper/screen-wrapper/screen-wrapper";
 import { validChecks } from "utils";
+import { InputHandler } from "shared/constants/models";
 
-interface SignupScreenProps {
+interface RegisterScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
 }
 
-const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
+const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const reference = useRef(null);
   // Input states
   const [displayName, setDisplayName] = useState("");
@@ -124,4 +125,4 @@ const SignupScreen: React.FC<SignupScreenProps> = ({ navigation }) => {
   );
 };
 
-export default SignupScreen;
+export default RegisterScreen;

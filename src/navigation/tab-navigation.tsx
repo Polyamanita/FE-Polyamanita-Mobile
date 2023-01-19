@@ -34,9 +34,6 @@ const renderTabIcon = (
     case SCREENS.COMMUNITY:
       iconName = focused ? "account" : "account-outline";
       break;
-    case SCREENS.TEST:
-      iconName = focused ? "test-tube" : "test-tube-empty";
-      break;
     default:
       iconName = focused ? "home" : "home-outline";
       break;
