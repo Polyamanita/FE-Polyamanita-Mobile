@@ -5,7 +5,7 @@ import React, { useMemo, useRef, useState } from "react";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
-import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
+import ScreenContainer from "shared/wrapper/screen-wrapper/screen-wrapper";
 import { ParamListBase, useTheme } from "@react-navigation/native";
 import { View } from "react-native";
 import DigitInput from "./components/DigitInput";

@@ -7,6 +7,7 @@
         "root": ["./src"],
         "alias": [
           { "@shared-components": "./src/shared/components" },
+          { "@shared-wrapper": "./src/shared/wrapper" },
           { "@shared-constants": "./src/shared/constants" },
           { "@font-size": "./src/shared/theme/font-size" },
           { "@api": "./src/services/api/index" },

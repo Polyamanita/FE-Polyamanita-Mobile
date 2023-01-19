@@ -7,7 +7,7 @@ import { ScrollView } from "react-native";
  */
 // import createStyles from "./JournalScreen.style";
 import ListItem from "@shared-components/ListItem/ListItem";
-import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
+import ScreenContainer from "shared/wrapper/screen-wrapper/screen-wrapper";
 import Header from "@shared-components/Header/Header";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";

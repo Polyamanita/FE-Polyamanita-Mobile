@@ -9,7 +9,7 @@ import Input from "@shared-components/Input/Input";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { SCREENS, InputHandler } from "@shared-constants";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
-import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
+import ScreenContainer from "shared/wrapper/screen-wrapper/screen-wrapper";
 import { validChecks } from "utils";
 
 interface SignupScreenProps {

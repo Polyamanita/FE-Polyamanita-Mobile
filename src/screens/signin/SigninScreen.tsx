@@ -7,7 +7,7 @@ import Input from "@shared-components/Input/Input";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { StackNavigationProp } from "@react-navigation/stack";
 import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
-import ScreenContainer from "@shared-components/ScreenContainer/ScreenContainer";
+import ScreenContainer from "shared/wrapper/screen-wrapper/screen-wrapper";
 import { ParamListBase } from "@react-navigation/native";
 import { InputHandler } from "shared/constants/models";
 import { SCREENSTACK } from "@shared-constants";

@@ -1,26 +1,28 @@
 import React, { useMemo } from "react";
 import { useTheme } from "@react-navigation/native";
+import LinearGradient from "react-native-linear-gradient";
+import { SafeAreaView } from "react-native-safe-area-context";
 /**
  * ? Local Imports
  */
-import createStyles from "./ScreenContainer.style";
-import LinearGradient from "react-native-linear-gradient";
-import { SafeAreaView } from "react-native-safe-area-context";
+import createStyles from "./screen-wrapper.style";
 
-interface ScreenContainerProps {
+interface ScreenWrapperProps {
   children?: JSX.Element | JSX.Element[] | undefined;
 }
 
-const ScreenContainer: React.FC<ScreenContainerProps> = ({ children }) => {
+const ScreenWrapper: React.FC<ScreenWrapperProps> = ({ children }) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
   const { colors } = theme;
+
+  const gradientAngle = 135;
 
   return (
     <LinearGradient
       colors={[colors.backgroundA, colors.backgroundB]}
       useAngle={true}
-      angle={135}
+      angle={gradientAngle}
       style={styles.gradientContainer}
     >
       <SafeAreaView style={styles.safeAreaContainer}>{children}</SafeAreaView>
@@ -28,4 +30,4 @@ const ScreenContainer: React.FC<ScreenContainerProps> = ({ children }) => {
   );
 };
 
-export default ScreenContainer;
+export default ScreenWrapper;

@@ -35,7 +35,7 @@ export const localString = new LocalizedStrings({
     appName: "Polyamanita",
 
     register: "register",
-    signin: "sign In",
+    signin: "sign in",
     logout: "logout",
     confirm: "confirm",
     cancel: "cancel",
@@ -46,7 +46,7 @@ export const localString = new LocalizedStrings({
 
     initialStackHeaderMessages: {
       initial: "Welcome to Polyaminita, the mushroom foreaging app.",
-      register: "Join the mushroom crew. :D",
+      register: "Join the mushroom crew.",
       signin: "Continue your trek.",
       confirmation: `We have sent a 4-digit pin to your email! Confirm the 
                      pin below.`,

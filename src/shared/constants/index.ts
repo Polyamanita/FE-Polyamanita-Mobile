@@ -1,8 +1,8 @@
 // ? Screens
 export const SCREENS = {
-  INITIAL: "Initial",
+  START: "Start",
   SIGNIN: "Signin",
-  SIGNUP: "Signup",
+  REGISTER: "Register",
   CONFIRM: "Confirm",
 
   MAP: "Map",

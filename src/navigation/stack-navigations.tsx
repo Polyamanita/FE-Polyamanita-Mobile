@@ -5,7 +5,6 @@ import { createStackNavigator } from "@react-navigation/stack";
  */
 import { SCREENS } from "@shared-constants";
 // ? Screens
-import InitialScreen from "@screens/initial/InitialScreen";
 import SignupScreen from "@screens/signup/SignupScreen";
 import SigninScreen from "@screens/signin/SigninScreen";
 import ConfirmScreen from "@screens/confirm/ConfirmScreen";
@@ -14,6 +13,7 @@ import SnapScreen from "@screens/snap/SnapScreen";
 import JournalScreen from "@screens/journal/JournalScreen";
 import CommunityScreen from "@screens/community/CommunityScreen";
 import CaptureScreen from "@screens/capture/CaptureScreen";
+import StartScreen from "@screens/app-start/app-start-screen";
 
 const Stack = createStackNavigator();
 // Function creates a Stack Navigator, that will later be nested inside a
@@ -37,9 +37,9 @@ function createTabStackNavigator(
 export const InitialStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={SCREENS.INITIAL} component={InitialScreen} />
+      <Stack.Screen name={SCREENS.START} component={StartScreen} />
       <Stack.Screen name={SCREENS.SIGNIN} component={SigninScreen} />
-      <Stack.Screen name={SCREENS.SIGNUP} component={SignupScreen} />
+      <Stack.Screen name={SCREENS.REGISTER} component={SignupScreen} />
       <Stack.Screen name={SCREENS.CONFIRM} component={ConfirmScreen} />
     </Stack.Navigator>
   );

@@ -29,6 +29,7 @@
     "baseUrl": "./src",
     "paths": {
       "@shared-components/*": ["./shared/components/*"],
+      "@shared-wrapper/*": ["./shared/wrapper/*"],
       "@shared-constants": ["./shared/constants"],
       "@font-size": ["./shared/theme/font-size"],
       "@api": ["./services/api/index"],

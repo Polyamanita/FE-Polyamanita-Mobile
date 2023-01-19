@@ -7,6 +7,7 @@ import createStyles from "./ButtonWrapper.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import { Pressable, PressableProps, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
+import { capitalizeWords } from "utils";
 
 // @params - action: when button is clicked what should be performed.
 // @params - varient: Style choice of the button.
@@ -65,11 +66,13 @@ const ButtonWrapper: React.FC<PolyButtonProps> = ({
       styling = { ...styling, ...styles.sizes.full };
   }
 
+  // Precaution incase the string provided is not capitalized.
+  const capitalizedTitle = capitalizeWords(title);
   return (
     <LinearGradient colors={gradient} style={styling}>
       <Pressable {...rest} onPress={onPress} style={{ width: "100%" }}>
         <Text bold style={styles.text[varient]}>
-          {title}
+          {capitalizedTitle}
         </Text>
       </Pressable>
     </LinearGradient>
