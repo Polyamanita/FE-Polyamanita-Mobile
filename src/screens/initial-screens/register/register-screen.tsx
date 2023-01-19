@@ -1,17 +1,19 @@
 import React, { useRef, useState } from "react";
-import { View } from "react-native";
 import { ParamListBase } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 /**
  * ? Local Imports
  */
 import Input from "@shared-components/Input/Input";
-import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { SCREENS } from "@shared-constants";
-import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
 import ScreenContainer from "shared/wrapper/screen-wrapper/screen-wrapper";
-import { validChecks } from "utils";
+import IntialAppWrapper from "@shared-wrapper/initial-wrappers/initial-app-wrapper";
+import { capitalizeWords, validChecks } from "utils";
 import { InputHandler } from "shared/constants/models";
+import { localString } from "shared/localization";
+import InputWrapper from "@shared-wrapper/initial-wrappers/input-wrapper";
+import CTAButton from "../components/cta-button";
+import CancelButton from "../components/cancel-button";
 
 interface RegisterScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -75,52 +77,41 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
 
   return (
     <ScreenContainer>
-      <PreAppHeader title={"Sign Up"} />
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
+      <IntialAppWrapper
+        title={capitalizeWords(localString.register)}
+        heading={localString.initialStackHeaderMessages.register}
       >
-        <Input
-          inputHandler={displayNameHandler}
-          styling={{ placeholder: "Display name" }}
-          autoComplete={"username"}
-          textContentType={"username"}
-        />
-        <Input
-          inputHandler={emailHandler}
-          styling={{ placeholder: "Email" }}
-          autoComplete={"email"}
-          keyboardType={"email-address"}
-          textContentType={"emailAddress"}
-        />
-        <Input
-          inputHandler={passwordHandler}
-          styling={{ placeholder: "Password" }}
-          autoComplete={"password"}
-          textContentType={"password"}
-          secureTextEntry={true}
-        />
-      </View>
-      <>
-        <Button
-          title="Sign Up"
-          varient="primary"
+        <InputWrapper>
+          <Input
+            inputHandler={displayNameHandler}
+            styling={{ placeholder: "Display name" }}
+            autoComplete={"username"}
+            textContentType={"username"}
+          />
+          <Input
+            inputHandler={emailHandler}
+            styling={{ placeholder: "Email" }}
+            autoComplete={"email"}
+            keyboardType={"email-address"}
+            textContentType={"emailAddress"}
+          />
+          <Input
+            inputHandler={passwordHandler}
+            styling={{ placeholder: "Password" }}
+            autoComplete={"password"}
+            textContentType={"password"}
+            secureTextEntry={true}
+          />
+        </InputWrapper>
+        <CTAButton
+          title={localString.register}
           onPress={() => {
-            navigation.navigate(SCREENS.CONFIRM, {});
+            // Set of actions to perform when register is clicked.
+            navigation.navigate(SCREENS.CONFIRM);
           }}
-          size="large"
         />
-        <Button
-          title="Cancel"
-          onPress={() => {
-            navigation.popToTop();
-          }}
-          size="small"
-        />
-      </>
+        <CancelButton navigation={navigation} />
+      </IntialAppWrapper>
     </ScreenContainer>
   );
 };

@@ -38,8 +38,9 @@ export const InitialStack = () => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       <Stack.Screen name={SCREENS.START} component={StartScreen} />
-      <Stack.Screen name={SCREENS.SIGNIN} component={SigninScreen} />
       <Stack.Screen name={SCREENS.REGISTER} component={RegisterScreen} />
+      <Stack.Screen name={SCREENS.SIGNIN} component={SigninScreen} />
+
       <Stack.Screen name={SCREENS.CONFIRM} component={ConfirmScreen} />
     </Stack.Navigator>
   );

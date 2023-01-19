@@ -6,11 +6,13 @@ import { SafeAreaView } from "react-native-safe-area-context";
  * ? Local Imports
  */
 import createStyles from "./screen-wrapper.style";
+import { ScrollView } from "react-native-gesture-handler";
 
 interface ScreenWrapperProps {
   children?: JSX.Element | JSX.Element[] | undefined;
 }
 
+// This wrapper encloses screens that have a gradient background.
 const ScreenWrapper: React.FC<ScreenWrapperProps> = ({ children }) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -25,7 +27,9 @@ const ScreenWrapper: React.FC<ScreenWrapperProps> = ({ children }) => {
       angle={gradientAngle}
       style={styles.gradientContainer}
     >
-      <SafeAreaView style={styles.safeAreaContainer}>{children}</SafeAreaView>
+      <SafeAreaView style={styles.safeAreaContainer}>
+        <ScrollView>{children}</ScrollView>
+      </SafeAreaView>
     </LinearGradient>
   );
 };

@@ -14,6 +14,7 @@ interface InitialAppWrapperProps {
   children: JSX.Element | JSX.Element[] | undefined;
 }
 
+// Wrapper for all components on a screen for the initial part of the app.
 const IntialAppWrapper: React.FC<InitialAppWrapperProps> = ({
   title,
   heading,
