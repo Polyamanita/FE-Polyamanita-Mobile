@@ -28,7 +28,7 @@ import Reanimated, {
 /**
  * ? Local Imports
  */
-import CaptureButton from "./components/CaptureButton";
+import CaptureButton from "./components/button-capture";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SCREENS } from "@shared-constants";
 import {
@@ -36,8 +36,8 @@ import {
   PinchGestureHandlerGestureEvent,
 } from "react-native-gesture-handler";
 import AuxButton from "@shared-components/button-aux/button-aux";
-import SnapHeader from "./components/SnapHeader";
-import NavigationHeader from "@shared-components/tabnavigation-header/tabnavigation-header";
+import SnapHeader from "./components/header-snap";
+import NavigationHeader from "@shared-components/tabnavigation-header/header-tabnavigation";
 // import Text from "@shared-components/text-wrapper/TextWrapper";
 
 interface SnapScreenProps {

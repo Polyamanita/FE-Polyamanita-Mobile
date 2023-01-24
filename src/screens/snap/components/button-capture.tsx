@@ -3,7 +3,7 @@ import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
-import createStyles from "./CaptureButton.style";
+import createStyles from "./button-capture.style";
 import { Pressable, PressableProps } from "react-native";
 import {
   Camera,

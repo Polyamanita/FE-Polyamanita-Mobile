@@ -11,7 +11,7 @@ import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";
 import AuxButton from "@shared-components/button-aux/button-aux";
-import NavigationHeader from "@shared-components/tabnavigation-header/tabnavigation-header";
+import NavigationHeader from "@shared-components/tabnavigation-header/header-tabnavigation";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;

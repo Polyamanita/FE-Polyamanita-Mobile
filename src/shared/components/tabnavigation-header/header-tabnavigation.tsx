@@ -9,6 +9,8 @@ interface NavigationHeaderProps {
   rightContent: JSX.Element | JSX.Element[] | undefined;
 }
 
+// Component that acts like a stylized header when navigating through tabs.
+
 const NavigationHeader = ({
   title,
   navigation,
