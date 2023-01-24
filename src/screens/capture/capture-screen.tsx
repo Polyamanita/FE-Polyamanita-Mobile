@@ -6,7 +6,7 @@ import Geolocation from "react-native-geolocation-service";
 /**
  * ? Local Imports
  */
-import createStyles from "./CaptureScreen.style";
+import createStyles from "./capture-screen.style";
 import { StackNavigationProp } from "@react-navigation/stack";
 import AuxButton from "@shared-components/AuxButton/AuxButton";
 import Button from "@shared-components/ButtonWrapper/ButtonWrapper";

@@ -4,12 +4,12 @@ import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
-import createStyles from "./CommunityScreen.style";
+import createStyles from "./map-screen.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 
-interface CommunityScreenProps {}
+interface MapScreenProps {}
 
-const CommunityScreen: React.FC<CommunityScreenProps> = () => {
+const MapScreen: React.FC<MapScreenProps> = () => {
   const theme = useTheme();
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -17,10 +17,10 @@ const CommunityScreen: React.FC<CommunityScreenProps> = () => {
   return (
     <View style={styles.container}>
       <Text h1 color={colors.text}>
-        Community
+        Map
       </Text>
     </View>
   );
 };
 
-export default CommunityScreen;
+export default MapScreen;

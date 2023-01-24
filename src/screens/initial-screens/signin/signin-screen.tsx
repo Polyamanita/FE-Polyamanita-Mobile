@@ -60,9 +60,8 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
           />
           <Input
             inputHandler={passwordHandler}
-            styling={{
-              placeholder: localString.password,
-            }}
+            styling={{ placeholder: localString.password }}
+            secureTextEntry={true}
           />
         </InputWrapper>
         <CTAButton

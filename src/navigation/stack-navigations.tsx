@@ -9,11 +9,11 @@ import StartScreen from "@screens/initial-screens/start/start-screen";
 import RegisterScreen from "@screens/initial-screens/register/register-screen";
 import SigninScreen from "@screens/initial-screens/signin/signin-screen";
 import ConfirmScreen from "@screens/initial-screens/confirm/confirm-screen";
-import MapScreen from "@screens/map/MapScreen";
-import SnapScreen from "@screens/snap/SnapScreen";
-import JournalScreen from "@screens/journal/JournalScreen";
-import CommunityScreen from "@screens/community/CommunityScreen";
-import CaptureScreen from "@screens/capture/CaptureScreen";
+import MapScreen from "@screens/map/map-screen";
+import SnapScreen from "@screens/snap/snap-screen";
+import JournalScreen from "@screens/journal/journal-screen";
+import CommunityScreen from "@screens/community/community-screen";
+import CaptureScreen from "@screens/capture/capture-screen";
 
 const Stack = createStackNavigator();
 // Function creates a Stack Navigator, that will later be nested inside a
