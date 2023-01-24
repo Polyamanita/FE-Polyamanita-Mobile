@@ -7,13 +7,13 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import Input from "@shared-components/Input/Input";
 import { SCREENS } from "@shared-constants";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
-import { validChecks } from "utils";
 import { InputHandler } from "shared/constants/models";
 import { localString } from "shared/localization";
 import CTAButton from "../components/cta-button";
 import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import InputWrapper from "../wrappers/input-wrapper";
+import { validChecks } from "../utils";
 
 interface RegisterScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
