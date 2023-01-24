@@ -2,7 +2,7 @@ import { Check } from "shared/constants/models";
 
 /* Set of checks to perform on an input field to verify the user has typed 
    has typed in the correct information. */
-export const validChecks = {
+export const inputCheck = {
   onlyLettersAndNumbers: {
     method: (value: string) => /^[A-Za-z0-9]*$/.test(value),
     feedback:

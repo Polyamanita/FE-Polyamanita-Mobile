@@ -15,6 +15,7 @@ import {
  */
 import createStyles from "./Input.style";
 import { InputHandler } from "shared/constants/models";
+import { capitalizeWords } from "utils";
 
 interface InputStyling {
   search?: boolean;
@@ -123,7 +124,7 @@ const Input: React.FC<InputProps> = ({
           autoComplete={"off"}
           autoCorrect={false}
           // styling.
-          placeholder={styling.placeholder}
+          placeholder={capitalizeWords(styling.placeholder ?? "")}
           placeholderTextColor={colors.secondary50}
           style={{
             ...styles.textfield,

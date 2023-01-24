@@ -13,7 +13,7 @@ import CTAButton from "../components/cta-button";
 import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import InputWrapper from "../wrappers/input-wrapper";
-import { validChecks } from "../utils";
+import { inputCheck } from "../utils";
 
 interface RegisterScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -41,7 +41,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const displayNameHandler = {
     input: displayName,
     setInput: setDisplayName,
-    checkMethods: [validChecks.onlyLettersAndNumbers],
+    checkMethods: [inputCheck.onlyLettersAndNumbers],
     setStatus: setValidDisplayName,
     feedback: feedbackDisplayName,
     setFeedback: setFeedbackDisplayName,
@@ -52,7 +52,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const emailHandler = {
     input: email,
     setInput: setEmail,
-    checkMethods: [validChecks.validEmailFormat],
+    checkMethods: [inputCheck.validEmailFormat],
     setStatus: setValidEmail,
     feedback: feedbackEmail,
     setFeedback: setFeedbackEmail,
@@ -64,9 +64,9 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
     input: password,
     setInput: setPassword,
     checkMethods: [
-      validChecks.minLength,
-      validChecks.hasAtleastOneCaptial,
-      validChecks.hasAtleastOneDigit,
+      inputCheck.minLength,
+      inputCheck.hasAtleastOneCaptial,
+      inputCheck.hasAtleastOneDigit,
     ],
     setStatus: setValidPassword,
     feedback: feedbackPassword,
@@ -84,20 +84,20 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
         <InputWrapper>
           <Input
             inputHandler={displayNameHandler}
-            styling={{ placeholder: "Display name" }}
+            styling={{ placeholder: localString.username }}
             autoComplete={"username"}
             textContentType={"username"}
           />
           <Input
             inputHandler={emailHandler}
-            styling={{ placeholder: "Email" }}
+            styling={{ placeholder: localString.email }}
             autoComplete={"email"}
             keyboardType={"email-address"}
             textContentType={"emailAddress"}
           />
           <Input
             inputHandler={passwordHandler}
-            styling={{ placeholder: "Password" }}
+            styling={{ placeholder: localString.password }}
             autoComplete={"password"}
             textContentType={"password"}
             secureTextEntry={true}

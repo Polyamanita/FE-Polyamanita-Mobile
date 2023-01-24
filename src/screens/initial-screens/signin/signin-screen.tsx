@@ -55,13 +55,13 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
           <Input
             inputHandler={displayNameHandler}
             styling={{
-              placeholder: "Display name",
+              placeholder: localString.username,
             }}
           />
           <Input
             inputHandler={passwordHandler}
             styling={{
-              placeholder: "Password",
+              placeholder: localString.password,
             }}
           />
         </InputWrapper>
