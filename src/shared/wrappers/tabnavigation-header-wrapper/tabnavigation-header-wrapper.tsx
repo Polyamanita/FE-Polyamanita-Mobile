@@ -4,20 +4,20 @@ import { ParamListBase, useTheme } from "@react-navigation/native";
  * ? Local Imports
  */
 import Text from "@shared-components/text-wrapper/TextWrapper";
-import createStyles from "./header.style";
+import createStyles from "./tabnavigation-header-wrapper.style";
 import { View } from "react-native";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SCREENS } from "@shared-constants";
 
-interface PreAppHeaderProps {
+interface HeaderWrapperProps {
   title?: string;
   toggleAccountButton?: "flex" | "none";
   navigation: StackNavigationProp<ParamListBase, string>;
   children?: JSX.Element | JSX.Element[] | undefined;
 }
 
-const Header: React.FC<PreAppHeaderProps> = ({
+const HeaderWrapper: React.FC<HeaderWrapperProps> = ({
   title,
   toggleAccountButton = "flex",
   navigation,
@@ -46,4 +46,4 @@ const Header: React.FC<PreAppHeaderProps> = ({
   );
 };
 
-export default Header;
+export default HeaderWrapper;

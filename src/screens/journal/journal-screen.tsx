@@ -8,7 +8,7 @@ import { ScrollView } from "react-native";
 // import createStyles from "./JournalScreen.style";
 import ListItem from "@shared-components/list-item/list-item";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
-import Header from "@shared-components/header/header";
+import HeaderWrapper from "shared/wrappers/tabnavigation-header-wrapper/tabnavigation-header-wrapper";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";
 import AuxButton from "@shared-components/button-aux/button-aux";
@@ -29,10 +29,10 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
 
   return (
     <ScreenContainer>
-      <Header navigation={navigation} title={"Journal"}>
+      <HeaderWrapper navigation={navigation} title={"Journal"}>
         <AuxButton onPress={() => console.log("left")} iconName={"huh"} />
         <AuxButton onPress={() => console.log("right")} iconName={"huh"} />
-      </Header>
+      </HeaderWrapper>
       <ScrollView
         style={{
           width: "100%",

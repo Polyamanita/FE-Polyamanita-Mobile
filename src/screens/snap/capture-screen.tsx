@@ -11,7 +11,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import Button from "@shared-components/button-primary/button-primary";
 import SnapHeader from "@screens/snap/components/SnapHeader";
-import Header from "@shared-components/header/header";
+import HeaderWrapper from "shared/wrappers/tabnavigation-header-wrapper/tabnavigation-header-wrapper";
 
 interface CaptureScreenProps {
   route: any;
@@ -99,12 +99,12 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <SnapHeader>
-        <Header navigation={navigation} toggleAccountButton={"none"}>
+        <HeaderWrapper navigation={navigation} toggleAccountButton={"none"}>
           <AuxButton
             onPress={() => navigation.pop()}
             iconName={"close-circle"}
           />
-        </Header>
+        </HeaderWrapper>
       </SnapHeader>
       <Image
         style={StyleSheet.absoluteFill}
