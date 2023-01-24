@@ -1,16 +1,18 @@
 import React, { useRef, useState } from "react";
-import { View } from "react-native";
 /**
  * ? Local Imports
  */
 import Input from "@shared-components/Input/Input";
-import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { StackNavigationProp } from "@react-navigation/stack";
-import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
-import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { ParamListBase } from "@react-navigation/native";
 import { InputHandler } from "shared/constants/models";
 import { SCREENSTACK } from "@shared-constants";
+import { localString } from "shared/localization";
+import InputWrapper from "../wrappers/input-wrapper";
+import CTAButton from "../components/cta-button";
+import CancelButton from "../components/cancel-button";
+import IntialAppWrapper from "../wrappers/initial-app-wrapper";
+import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 
 interface SigninScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -45,31 +47,26 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
 
   return (
     <ScreenContainer>
-      <PreAppHeader title={"Sign In"} />
-      <View
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-        }}
+      <IntialAppWrapper
+        title={localString.signin}
+        heading={localString.initialStackHeaderMessages.signin}
       >
-        <Input
-          inputHandler={displayNameHandler}
-          styling={{
-            placeholder: "Display name",
-          }}
-        />
-        <Input
-          inputHandler={passwordHandler}
-          styling={{
-            placeholder: "Password",
-          }}
-        />
-      </View>
-      <>
-        <Button
-          title="Sign In"
-          varient="primary"
+        <InputWrapper>
+          <Input
+            inputHandler={displayNameHandler}
+            styling={{
+              placeholder: "Display name",
+            }}
+          />
+          <Input
+            inputHandler={passwordHandler}
+            styling={{
+              placeholder: "Password",
+            }}
+          />
+        </InputWrapper>
+        <CTAButton
+          title={localString.signin}
           onPress={() => {
             // handle sign in here.
             // if valid, then
@@ -79,19 +76,12 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
 
             // else
             /* display message below password input why didnt work.
-              invalid credientials, failed to reach server, etc.
-              put this message by using the password message prop */
+        invalid credientials, failed to reach server, etc.
+        put this message by using the password message prop */
           }}
-          size="large"
         />
-        <Button
-          title="Cancel"
-          onPress={() => {
-            navigation.popToTop();
-          }}
-          size="small"
-        />
-      </>
+        <CancelButton navigation={navigation} />
+      </IntialAppWrapper>
     </ScreenContainer>
   );
 };
