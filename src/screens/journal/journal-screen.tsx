@@ -6,12 +6,12 @@ import { ScrollView } from "react-native";
  * ? Local Imports
  */
 // import createStyles from "./JournalScreen.style";
-import ListItem from "@shared-components/ListItem/ListItem";
+import ListItem from "@shared-components/list-item/list-item";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
-import Header from "@shared-components/Header/Header";
+import Header from "@shared-components/header/header";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";
-import AuxButton from "@shared-components/AuxButton/AuxButton";
+import AuxButton from "@shared-components/button-aux/button-aux";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;

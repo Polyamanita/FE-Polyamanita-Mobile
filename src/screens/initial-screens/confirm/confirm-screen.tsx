@@ -11,7 +11,7 @@ import createStyles from "./confirm-screen.style";
 import { InputHandler } from "shared/constants/models";
 import { SCREENSTACK } from "@shared-constants";
 import { localString } from "shared/localization";
-import CTAButton from "../components/cta-button";
+import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import InitialAppWrapper from "../wrappers/initial-app-wrapper";
 

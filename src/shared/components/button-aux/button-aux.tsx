@@ -4,7 +4,7 @@ import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
-import createStyles from "./AuxButton.style";
+import createStyles from "./button-aux.style";
 import { Pressable, PressableProps, ViewStyle } from "react-native";
 
 // @params - onPress: when button is clicked what should be performed.

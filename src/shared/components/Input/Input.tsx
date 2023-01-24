@@ -13,7 +13,7 @@ import {
 /**
  * ? Local Imports
  */
-import createStyles from "./Input.style";
+import createStyles from "./input.style";
 import { InputHandler } from "shared/constants/models";
 import { capitalizeWords } from "utils";
 

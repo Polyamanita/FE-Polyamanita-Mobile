@@ -1,4 +1,4 @@
-import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
+import Button from "@shared-components/button-primary/button-primary";
 import { View } from "react-native";
 
 interface CTAButtonProps {

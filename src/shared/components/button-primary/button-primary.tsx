@@ -3,7 +3,7 @@ import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
-import createStyles from "./ButtonWrapper.style";
+import createStyles from "./button-primary.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import { Pressable, PressableProps, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";

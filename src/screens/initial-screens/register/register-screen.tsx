@@ -4,12 +4,12 @@ import { StackNavigationProp } from "@react-navigation/stack";
 /**
  * ? Local Imports
  */
-import Input from "@shared-components/Input/Input";
+import Input from "@shared-components/input/input";
 import { SCREENS } from "@shared-constants";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { InputHandler } from "shared/constants/models";
 import { localString } from "shared/localization";
-import CTAButton from "../components/cta-button";
+import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import InputWrapper from "../wrappers/input-wrapper";

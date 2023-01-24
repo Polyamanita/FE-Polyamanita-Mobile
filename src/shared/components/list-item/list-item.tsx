@@ -3,7 +3,7 @@ import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
-import createStyles from "./ListItem.style";
+import createStyles from "./list-item.style";
 import { Image, Text, View } from "react-native";
 
 interface ListItemProps {

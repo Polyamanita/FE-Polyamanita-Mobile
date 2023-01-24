@@ -8,10 +8,10 @@ import Geolocation from "react-native-geolocation-service";
  */
 import createStyles from "./capture-screen.style";
 import { StackNavigationProp } from "@react-navigation/stack";
-import AuxButton from "@shared-components/AuxButton/AuxButton";
-import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
+import AuxButton from "@shared-components/button-aux/button-aux";
+import Button from "@shared-components/button-primary/button-primary";
 import SnapHeader from "@screens/snap/components/SnapHeader";
-import Header from "@shared-components/Header/Header";
+import Header from "@shared-components/header/header";
 
 interface CaptureScreenProps {
   route: any;

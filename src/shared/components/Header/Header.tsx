@@ -4,9 +4,9 @@ import { ParamListBase, useTheme } from "@react-navigation/native";
  * ? Local Imports
  */
 import Text from "@shared-components/text-wrapper/TextWrapper";
-import createStyles from "./Header.style";
+import createStyles from "./header.style";
 import { View } from "react-native";
-import AuxButton from "@shared-components/AuxButton/AuxButton";
+import AuxButton from "@shared-components/button-aux/button-aux";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SCREENS } from "@shared-constants";
 

@@ -31,12 +31,12 @@ import Reanimated, {
 import CaptureButton from "./components/CaptureButton";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SCREENS } from "@shared-constants";
-import Header from "@shared-components/Header/Header";
+import Header from "@shared-components/header/header";
 import {
   PinchGestureHandler,
   PinchGestureHandlerGestureEvent,
 } from "react-native-gesture-handler";
-import AuxButton from "@shared-components/AuxButton/AuxButton";
+import AuxButton from "@shared-components/button-aux/button-aux";
 import SnapHeader from "./components/SnapHeader";
 // import Text from "@shared-components/text-wrapper/TextWrapper";
 

@@ -2,7 +2,7 @@ import React from "react";
 /**
  * ? Local Imports
  */
-import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
+import Button from "@shared-components/button-primary/button-primary";
 import { SCREENS } from "@shared-constants";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";

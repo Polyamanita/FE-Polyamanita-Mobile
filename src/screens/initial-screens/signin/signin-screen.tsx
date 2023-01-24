@@ -2,14 +2,14 @@ import React, { useRef, useState } from "react";
 /**
  * ? Local Imports
  */
-import Input from "@shared-components/Input/Input";
+import Input from "@shared-components/input/input";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";
 import { InputHandler } from "shared/constants/models";
 import { SCREENSTACK } from "@shared-constants";
 import { localString } from "shared/localization";
 import InputWrapper from "../wrappers/input-wrapper";
-import CTAButton from "../components/cta-button";
+import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
