@@ -2,16 +2,18 @@ import React, { useMemo, useRef, useState } from "react";
 /**
  * ? Local Imports
  */
-import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { StackNavigationProp } from "@react-navigation/stack";
-import PreAppHeader from "@shared-components/PreAppHeader/PreAppHeader";
-import ScreenContainer from "shared/wrapper/screen-wrapper/screen-wrapper";
+import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { ParamListBase, useTheme } from "@react-navigation/native";
 import { View } from "react-native";
 import DigitInput from "./components/DigitInput";
-import createStyles from "./ConfirmScreen.style";
+import createStyles from "./confirm-screen.style";
 import { InputHandler } from "shared/constants/models";
 import { SCREENSTACK } from "@shared-constants";
+import { localString } from "shared/localization";
+import CTAButton from "../components/cta-button";
+import CancelButton from "../components/cancel-button";
+import InitialAppWrapper from "../wrappers/initial-app-wrapper";
 
 interface ConfirmScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -48,33 +50,26 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
 
   return (
     <ScreenContainer>
-      <PreAppHeader title={"Confirmation"} />
-      <View style={styles.digitContainer}>
-        <DigitInput
-          inputHandler={handler}
-          autoFocus={true}
-          onEndEditing={handleDigitInput}
-          onBlur={handleDigitInput}
-        />
-      </View>
-      <View>
-        <Button
-          title="Confirm"
-          varient="primary"
+      <InitialAppWrapper
+        title={localString.confirmation}
+        heading={localString.initialStackHeaderMessages.confirmation}
+      >
+        <View style={styles.digitContainer}>
+          <DigitInput
+            inputHandler={handler}
+            autoFocus={true}
+            onEndEditing={handleDigitInput}
+            onBlur={handleDigitInput}
+          />
+        </View>
+        <CTAButton
+          title={localString.register}
           onPress={() => {
-            navigation.popToTop();
-            navigation.navigate(SCREENSTACK.APP, {});
+            navigation.navigate(SCREENSTACK.APP);
           }}
-          size="large"
         />
-        <Button
-          title="Cancel"
-          onPress={() => {
-            navigation.popToTop();
-          }}
-          size="small"
-        />
-      </View>
+        <CancelButton navigation={navigation} />
+      </InitialAppWrapper>
     </ScreenContainer>
   );
 };

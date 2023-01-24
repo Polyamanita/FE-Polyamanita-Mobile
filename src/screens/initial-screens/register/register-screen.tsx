@@ -6,14 +6,14 @@ import { StackNavigationProp } from "@react-navigation/stack";
  */
 import Input from "@shared-components/Input/Input";
 import { SCREENS } from "@shared-constants";
-import ScreenContainer from "shared/wrapper/screen-wrapper/screen-wrapper";
-import IntialAppWrapper from "@shared-wrapper/initial-wrappers/initial-app-wrapper";
-import { capitalizeWords, validChecks } from "utils";
+import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
+import { validChecks } from "utils";
 import { InputHandler } from "shared/constants/models";
 import { localString } from "shared/localization";
-import InputWrapper from "@shared-wrapper/initial-wrappers/input-wrapper";
 import CTAButton from "../components/cta-button";
 import CancelButton from "../components/cancel-button";
+import IntialAppWrapper from "../wrappers/initial-app-wrapper";
+import InputWrapper from "../wrappers/input-wrapper";
 
 interface RegisterScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -78,7 +78,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   return (
     <ScreenContainer>
       <IntialAppWrapper
-        title={capitalizeWords(localString.register)}
+        title={localString.register}
         heading={localString.initialStackHeaderMessages.register}
       >
         <InputWrapper>

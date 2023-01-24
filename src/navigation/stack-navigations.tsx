@@ -8,7 +8,7 @@ import { SCREENS } from "@shared-constants";
 import StartScreen from "@screens/initial-screens/start/start-screen";
 import RegisterScreen from "@screens/initial-screens/register/register-screen";
 import SigninScreen from "@screens/initial-screens/signin/SigninScreen";
-import ConfirmScreen from "@screens/initial-screens/confirm/ConfirmScreen";
+import ConfirmScreen from "@screens/initial-screens/confirm/confirm-screen";
 import MapScreen from "@screens/map/MapScreen";
 import SnapScreen from "@screens/snap/SnapScreen";
 import JournalScreen from "@screens/journal/JournalScreen";

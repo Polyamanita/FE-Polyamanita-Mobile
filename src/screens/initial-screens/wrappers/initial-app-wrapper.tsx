@@ -7,6 +7,7 @@ import { useTheme } from "@react-navigation/native";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import createStyles from "./initial-app-wrapper.style";
 import { localString } from "shared/localization";
+import { capitalizeWords } from "utils";
 
 interface InitialAppWrapperProps {
   title?: string;
@@ -31,7 +32,7 @@ const IntialAppWrapper: React.FC<InitialAppWrapperProps> = ({
         <Text style={styles.appName}>{localString.appName}</Text>
         <View style={{ paddingVertical: 5 }}>
           <Text style={{ ...styles.title, display: titleDisplay }}>
-            {title}
+            {capitalizeWords(title ?? "")}
           </Text>
           <Text style={styles.heading}>{heading}</Text>
         </View>

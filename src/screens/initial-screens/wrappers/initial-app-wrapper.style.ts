@@ -50,6 +50,7 @@ export default (theme: ExtendedTheme) => {
     },
 
     heading: {
+      paddingTop: 3,
       alignSelf: "center",
       color: colors.secondary100,
       fontSize: 16,

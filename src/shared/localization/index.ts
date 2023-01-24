@@ -48,8 +48,8 @@ export const localString = new LocalizedStrings({
       initial: "Welcome to Polyaminita, the mushroom foreaging app.",
       register: "Join the mushroom crew.",
       signin: "Continue your trek.",
-      confirmation: `We have sent a 4-digit pin to your email! Confirm the 
-                     pin below.`,
+      confirmation:
+        "We have sent a 4-digit pin to your email!\nConfirm the pin below.",
     },
 
     tabBarLabels: {

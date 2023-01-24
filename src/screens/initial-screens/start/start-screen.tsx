@@ -6,9 +6,9 @@ import Button from "@shared-components/ButtonWrapper/ButtonWrapper";
 import { SCREENS } from "@shared-constants";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";
-import InitialAppWrapper from "@shared-wrapper/initial-wrappers/initial-app-wrapper";
-import ScreenWrapper from "@shared-wrapper/screen-wrapper/screen-wrapper";
+import ScreenWrapper from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { localString } from "shared/localization";
+import InitialAppWrapper from "../wrappers/initial-app-wrapper";
 
 interface StartScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
