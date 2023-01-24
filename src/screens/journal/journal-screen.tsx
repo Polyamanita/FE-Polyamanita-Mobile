@@ -8,10 +8,10 @@ import { ScrollView } from "react-native";
 // import createStyles from "./JournalScreen.style";
 import ListItem from "@shared-components/list-item/list-item";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
-import HeaderWrapper from "shared/wrappers/tabnavigation-header-wrapper/tabnavigation-header-wrapper";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";
 import AuxButton from "@shared-components/button-aux/button-aux";
+import NavigationHeader from "@shared-components/tabnavigation-header/tabnavigation-header";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -29,10 +29,22 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
 
   return (
     <ScreenContainer>
-      <HeaderWrapper navigation={navigation} title={"Journal"}>
-        <AuxButton onPress={() => console.log("left")} iconName={"huh"} />
-        <AuxButton onPress={() => console.log("right")} iconName={"huh"} />
-      </HeaderWrapper>
+      <NavigationHeader
+        navigation={navigation}
+        title={"Journal"}
+        rightContent={[
+          <AuxButton
+            onPress={() => console.log("left")}
+            iconName={"huh"}
+            key={"huh1"}
+          />,
+          <AuxButton
+            onPress={() => console.log("right")}
+            iconName={"huh"}
+            key={"huh2"}
+          />,
+        ]}
+      />
       <ScrollView
         style={{
           width: "100%",

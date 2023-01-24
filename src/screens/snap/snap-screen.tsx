@@ -31,13 +31,13 @@ import Reanimated, {
 import CaptureButton from "./components/CaptureButton";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SCREENS } from "@shared-constants";
-import Header from "@shared-components/header/header";
 import {
   PinchGestureHandler,
   PinchGestureHandlerGestureEvent,
 } from "react-native-gesture-handler";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import SnapHeader from "./components/SnapHeader";
+import NavigationHeader from "@shared-components/tabnavigation-header/tabnavigation-header";
 // import Text from "@shared-components/text-wrapper/TextWrapper";
 
 interface SnapScreenProps {
@@ -166,14 +166,18 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
     <PinchGestureHandler onGestureEvent={onPinchGesture} enabled={isFocused}>
       <Reanimated.View style={StyleSheet.absoluteFill}>
         <SnapHeader>
-          <Header navigation={navigation}>
-            <AuxButton
-              onPress={() => {
-                setFlash(flash === "on" ? "off" : "on");
-              }}
-              iconName={flash === "on" ? "flash" : "flash-outline"}
-            />
-          </Header>
+          <NavigationHeader
+            title=""
+            navigation={navigation}
+            rightContent={
+              <AuxButton
+                onPress={() => {
+                  setFlash(flash === "on" ? "off" : "on");
+                }}
+                iconName={flash === "on" ? "flash" : "flash-outline"}
+              />
+            }
+          />
         </SnapHeader>
         <ReanimatedCamera
           ref={camera}
