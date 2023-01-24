@@ -35,9 +35,9 @@ import {
   PinchGestureHandler,
   PinchGestureHandlerGestureEvent,
 } from "react-native-gesture-handler";
-import AuxButton from "@shared-components/button-aux/button-aux";
-import SnapHeader from "./components/header-snap";
-import NavigationHeader from "@shared-components/tabnavigation-header/header-tabnavigation";
+import SnapHeader from "./components/header-snap-stack";
+import AvatarButton from "@shared-components/button-aux/button-aux-avatar";
+import FlashButton from "./components/button-flash";
 // import Text from "@shared-components/text-wrapper/TextWrapper";
 
 interface SnapScreenProps {
@@ -165,20 +165,10 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   return (
     <PinchGestureHandler onGestureEvent={onPinchGesture} enabled={isFocused}>
       <Reanimated.View style={StyleSheet.absoluteFill}>
-        <SnapHeader>
-          <NavigationHeader
-            title=""
-            navigation={navigation}
-            rightContent={
-              <AuxButton
-                onPress={() => {
-                  setFlash(flash === "on" ? "off" : "on");
-                }}
-                iconName={flash === "on" ? "flash" : "flash-outline"}
-              />
-            }
-          />
-        </SnapHeader>
+        <SnapHeader
+          leftContnet={<AvatarButton navigation={navigation} />}
+          rightContent={<FlashButton flash={flash} setFlash={setFlash} />}
+        />
         <ReanimatedCamera
           ref={camera}
           style={StyleSheet.absoluteFill}

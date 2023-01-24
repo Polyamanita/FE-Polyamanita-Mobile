@@ -4,7 +4,7 @@ import AvatarButton from "@shared-components/button-aux/button-aux-avatar";
 import HeaderWrapper from "shared/wrappers/header-wrapper/header-wrapper";
 
 interface NavigationHeaderProps {
-  title: string;
+  title?: string;
   navigation: StackNavigationProp<ParamListBase, string>;
   rightContent: JSX.Element | JSX.Element[] | undefined;
 }
@@ -18,7 +18,7 @@ const NavigationHeader = ({
 }: NavigationHeaderProps) => {
   return (
     <HeaderWrapper
-      title={title}
+      title={title ?? ""}
       leftContent={<AvatarButton navigation={navigation} />}
       rightContent={rightContent}
     />

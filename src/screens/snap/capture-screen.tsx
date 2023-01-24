@@ -10,8 +10,8 @@ import createStyles from "./capture-screen.style";
 import { StackNavigationProp } from "@react-navigation/stack";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import Button from "@shared-components/button-primary/button-primary";
-import SnapHeader from "@screens/snap/components/header-snap";
-import HeaderWrapper from "shared/wrappers/header-wrapper/header-wrapper";
+import SnapHeader from "./components/header-snap-stack";
+import CancelButton from "./components/button-cancel";
 
 interface CaptureScreenProps {
   route: any;
@@ -98,14 +98,10 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
 
   return (
     <View style={styles.container}>
-      <SnapHeader>
-        <HeaderWrapper navigation={navigation} toggleAccountButton={"none"}>
-          <AuxButton
-            onPress={() => navigation.pop()}
-            iconName={"close-circle"}
-          />
-        </HeaderWrapper>
-      </SnapHeader>
+      <SnapHeader
+        leftContnet={undefined}
+        rightContent={<CancelButton navigation={navigation} />}
+      />
       <Image
         style={StyleSheet.absoluteFill}
         source={{ uri: `file://${path}` }}
