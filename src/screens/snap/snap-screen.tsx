@@ -37,7 +37,9 @@ import {
 } from "react-native-gesture-handler";
 import SnapHeader from "./components/header-snap-stack";
 import AvatarButton from "@shared-components/button-aux/button-aux-avatar";
-import FlashButton from "./components/button-flash";
+import FlashButton from "./components/button-camera-controls-flash";
+import CameraControls from "./wrappers/camera-controls-wrapper";
+import CenterButton from "./components/button-camera-controls-centertoggle";
 // import Text from "@shared-components/text-wrapper/TextWrapper";
 
 interface SnapScreenProps {
@@ -66,6 +68,7 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   // Check if snap screen is active.
   const isFocused = useIsFocused();
   const [flash, setFlash] = useState<"off" | "on">("off");
+  const [centerDisplay, setCenterDisplay] = useState<"flex" | "none">("flex");
 
   // Mushroom app is for taking pictures of bootiful mushrooms! Not selfies >:(
   const devices = useCameraDevices().back;
@@ -167,7 +170,7 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
       <Reanimated.View style={StyleSheet.absoluteFill}>
         <SnapHeader
           leftContnet={<AvatarButton navigation={navigation} />}
-          rightContent={<FlashButton flash={flash} setFlash={setFlash} />}
+          rightContent={undefined}
         />
         <ReanimatedCamera
           ref={camera}
@@ -182,15 +185,19 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
           zoom={zoom.value}
           animatedProps={cameraAnimatedProps}
         />
-        <CaptureButton
-          camera={camera}
-          onMediaCaptured={onMediaCaptured}
-          cameraZoom={zoom}
-          minZoom={minZoom}
-          maxZoom={maxZoom}
-          flash={supportsFlash ? flash : "off"}
-          setIsPressingButton={setIsPressingButton}
-        />
+        <CameraControls>
+          <CenterButton display={centerDisplay} setDisplay={setCenterDisplay} />
+          <CaptureButton
+            camera={camera}
+            onMediaCaptured={onMediaCaptured}
+            cameraZoom={zoom}
+            minZoom={minZoom}
+            maxZoom={maxZoom}
+            flash={supportsFlash ? flash : "off"}
+            setIsPressingButton={setIsPressingButton}
+          />
+          <FlashButton flash={flash} setFlash={setFlash} />
+        </CameraControls>
       </Reanimated.View>
     </PinchGestureHandler>
   );

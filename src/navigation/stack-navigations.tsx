@@ -40,7 +40,6 @@ export const InitialStack = () => {
       <Stack.Screen name={SCREENS.START} component={StartScreen} />
       <Stack.Screen name={SCREENS.REGISTER} component={RegisterScreen} />
       <Stack.Screen name={SCREENS.SIGNIN} component={SigninScreen} />
-
       <Stack.Screen name={SCREENS.CONFIRM} component={ConfirmScreen} />
     </Stack.Navigator>
   );
@@ -87,5 +86,14 @@ export const CommunityStack = () =>
       name={SCREENS.COMMUNITY}
       component={CommunityScreen}
       key={SCREENS.COMMUNITY}
+    />,
+  ]);
+
+export const ProfileStack = () =>
+  createTabStackNavigator([
+    <Stack.Screen
+      name={SCREENS.PROFILE}
+      component={CommunityScreen}
+      key={SCREENS.PROFILE}
     />,
   ]);

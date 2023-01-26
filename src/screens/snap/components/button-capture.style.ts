@@ -10,13 +10,10 @@ export default (theme: ExtendedTheme) => {
   // Styling for pressable component.
   return StyleSheet.create<VariationStyle>({
     button: {
-      position: "absolute",
-      alignSelf: "center",
-      bottom: 15,
       borderRadius: 50,
       borderWidth: 2,
-      width: 75,
-      height: 75,
+      width: 90,
+      height: 90,
       backgroundColor: colors.warning,
     },
   });

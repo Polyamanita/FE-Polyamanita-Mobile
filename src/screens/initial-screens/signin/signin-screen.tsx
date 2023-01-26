@@ -6,7 +6,7 @@ import Input from "@shared-components/input/input";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";
 import { InputHandler } from "shared/constants/models";
-import { SCREENSTACK } from "@shared-constants";
+import { SCREENS } from "@shared-constants";
 import { localString } from "shared/localization";
 import InputWrapper from "../wrappers/input-wrapper";
 import CTAButton from "../components/button-cta";
@@ -71,7 +71,8 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
             // if valid, then
             handleSignIn();
             navigation.popToTop();
-            navigation.navigate(SCREENSTACK.APP);
+            navigation.push(SCREENS.SIGNIN);
+            //navigation.navigate(SCREENSTACK.APP);
 
             // else
             /* display message below password input why didnt work.

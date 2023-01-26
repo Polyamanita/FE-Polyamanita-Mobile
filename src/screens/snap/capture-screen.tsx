@@ -18,11 +18,11 @@ interface CaptureScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
 }
 
-function getFileName(path: string): string {
+const getFileName = (path: string): string => {
   const pathDirectories = path.split("/");
   // returns the <randomcode>.jpg filename
   return pathDirectories[pathDirectories.length - 1];
-}
+};
 
 // Run the tensorflow model.
 const shroomify = new Promise((resolve) => setTimeout(() => resolve(1), 3000));

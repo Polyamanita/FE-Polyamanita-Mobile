@@ -1,4 +1,5 @@
 import AuxButton from "@shared-components/button-aux/button-aux";
+import ControlButton from "../wrappers/camera-controls-button-wrapper";
 
 interface FlashButtonProps {
   flash: "on" | "off";
@@ -6,12 +7,14 @@ interface FlashButtonProps {
 }
 
 const FlashButton = ({ flash, setFlash }: FlashButtonProps) => (
-  <AuxButton
-    onPress={() => {
-      setFlash(flash === "on" ? "off" : "on");
-    }}
-    iconName={flash === "on" ? "flash" : "flash-outline"}
-  />
+  <ControlButton>
+    <AuxButton
+      onPress={() => {
+        setFlash(flash === "on" ? "off" : "on");
+      }}
+      iconName={flash === "on" ? "flash" : "flash-outline"}
+    />
+  </ControlButton>
 );
 
 export default FlashButton;
