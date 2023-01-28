@@ -6,19 +6,16 @@ interface FlashButtonProps {
   setDisplay: React.Dispatch<React.SetStateAction<"flex" | "none">>;
 }
 
-const CenterButton = ({ display, setDisplay }: FlashButtonProps) => (
+// This button just toggles the rule of thirds.
+const GridButton = ({ display, setDisplay }: FlashButtonProps) => (
   <ControlButton>
     <AuxButton
       onPress={() => {
         setDisplay(display === "flex" ? "none" : "flex");
       }}
-      iconName={
-        display === "flex"
-          ? "image-filter-center-focus-strong"
-          : "image-filter-center-focus-strong-outline"
-      }
+      iconName={display === "flex" ? "grid" : "grid-off"}
     />
   </ControlButton>
 );
 
-export default CenterButton;
+export default GridButton;

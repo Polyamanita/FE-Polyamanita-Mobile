@@ -10,7 +10,7 @@ import createStyles from "./capture-screen.style";
 import { StackNavigationProp } from "@react-navigation/stack";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import Button from "@shared-components/button-primary/button-primary";
-import SnapHeader from "./components/header-snap-stack";
+import SnapHeader from "./wrappers/header-snap-stack-wrapper";
 import CancelButton from "./components/button-cancel";
 
 interface CaptureScreenProps {

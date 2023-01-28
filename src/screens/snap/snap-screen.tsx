@@ -35,11 +35,12 @@ import {
   PinchGestureHandler,
   PinchGestureHandlerGestureEvent,
 } from "react-native-gesture-handler";
-import SnapHeader from "./components/header-snap-stack";
+import SnapHeader from "./wrappers/header-snap-stack-wrapper";
 import AvatarButton from "@shared-components/button-aux/button-aux-avatar";
 import FlashButton from "./components/button-camera-controls-flash";
 import CameraControls from "./wrappers/camera-controls-wrapper";
-import CenterButton from "./components/button-camera-controls-centertoggle";
+import GridUI from "./components/grid-ui";
+import GridButton from "./components/button-camera-controls-centertoggle";
 // import Text from "@shared-components/text-wrapper/TextWrapper";
 
 interface SnapScreenProps {
@@ -68,7 +69,7 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   // Check if snap screen is active.
   const isFocused = useIsFocused();
   const [flash, setFlash] = useState<"off" | "on">("off");
-  const [centerDisplay, setCenterDisplay] = useState<"flex" | "none">("flex");
+  const [gridDisplay, setGridDisplay] = useState<"flex" | "none">("flex");
 
   // Mushroom app is for taking pictures of bootiful mushrooms! Not selfies >:(
   const devices = useCameraDevices().back;
@@ -185,8 +186,9 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
           zoom={zoom.value}
           animatedProps={cameraAnimatedProps}
         />
+        <GridUI display={gridDisplay} />
         <CameraControls>
-          <CenterButton display={centerDisplay} setDisplay={setCenterDisplay} />
+          <GridButton display={gridDisplay} setDisplay={setGridDisplay} />
           <CaptureButton
             camera={camera}
             onMediaCaptured={onMediaCaptured}
