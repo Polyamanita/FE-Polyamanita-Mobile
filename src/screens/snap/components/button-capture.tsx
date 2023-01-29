@@ -62,7 +62,7 @@ const CaptureButton: React.FC<CaptureButtonProps> = ({
   // #region Tap handler
   // #endregion
 
-  return <Pressable onPressOut={takePhoto} style={styles.button}></Pressable>;
+  return <Pressable onPressOut={takePhoto} style={styles.button} />;
 };
 
 export default CaptureButton;

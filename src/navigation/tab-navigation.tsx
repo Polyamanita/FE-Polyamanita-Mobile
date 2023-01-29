@@ -10,6 +10,7 @@ import { SCREENS } from "@shared-constants";
 import { palette } from "@theme/themes";
 // ? Screen Stacks
 import * as ScreenStack from "./stack-navigations";
+import { TABLABELS } from "./constants";
 
 const Tab = createBottomTabNavigator();
 
@@ -22,16 +23,16 @@ const renderTabIcon = (
 ) => {
   let iconName = "";
   switch (route.name) {
-    case SCREENS.MAP:
+    case TABLABELS.MAP:
       iconName = focused ? "map-marker" : "map-marker-outline";
       break;
-    case SCREENS.SNAP:
+    case TABLABELS.SNAP:
       iconName = focused ? "camera" : "camera-outline";
       break;
-    case SCREENS.JOURNAL:
+    case TABLABELS.JOURNAL:
       iconName = focused ? "clipboard-text" : "clipboard-text-outline";
       break;
-    case SCREENS.COMMUNITY:
+    case TABLABELS.COMMUNITY:
       iconName = focused ? "account" : "account-outline";
       break;
     default:
@@ -54,7 +55,7 @@ export const TabNavigation = () => {
 
   return (
     <Tab.Navigator
-      initialRouteName={SCREENS.SNAP}
+      initialRouteName={TABLABELS.SNAP}
       backBehavior={"initialRoute"}
       screenOptions={({ route }) => ({
         headerShown: false,
@@ -68,9 +69,9 @@ export const TabNavigation = () => {
         },
       })}
     >
-      <Tab.Screen name={SCREENS.MAP} component={ScreenStack.MapStack} />
+      <Tab.Screen name={TABLABELS.MAP} component={ScreenStack.MapStack} />
       <Tab.Screen
-        name={SCREENS.SNAP}
+        name={TABLABELS.SNAP}
         component={ScreenStack.SnapStack}
         /* Wowie, check it out here: 
           https://medium.com/@mspviraj/hide-bottom-tab-bar-on-a-specific-screen-in-react-navigation-6-0-26d31625d339 */
@@ -84,9 +85,12 @@ export const TabNavigation = () => {
           })(route),
         })}
       />
-      <Tab.Screen name={SCREENS.JOURNAL} component={ScreenStack.JournalStack} />
       <Tab.Screen
-        name={SCREENS.COMMUNITY}
+        name={TABLABELS.JOURNAL}
+        component={ScreenStack.JournalStack}
+      />
+      <Tab.Screen
+        name={TABLABELS.COMMUNITY}
         component={ScreenStack.CommunityStack}
       />
     </Tab.Navigator>

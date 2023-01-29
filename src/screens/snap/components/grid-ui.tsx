@@ -13,9 +13,9 @@ const GridColoumn = () => {
   const styles = useMemo(() => createStyles(theme), [theme]);
   return (
     <View>
-      <View style={styles.grid}></View>
-      <View style={styles.grid}></View>
-      <View style={styles.grid}></View>
+      <View style={styles.grid} />
+      <View style={styles.grid} />
+      <View style={styles.grid} />
     </View>
   );
 };

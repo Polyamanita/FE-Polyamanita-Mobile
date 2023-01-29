@@ -1,27 +1,33 @@
 // ? Screens
 export const SCREENS = {
   // INITIAL STACK
-  START: "Start",
-  SIGNIN: "Signin",
-  REGISTER: "Register",
-  CONFIRM: "Confirm",
+  START: "StartScreen",
+  SIGNIN: "SigninScreen",
+  REGISTER: "RegisterScreen",
+  CONFIRM: "ConfirmScreen",
 
-  // MAP STACK
-  MAP: "Map",
-  // SNAP STACK
-  SNAP: "Snap",
-  CAPTURE: "Capture",
-  // JOURNAL STACK
-  JOURNAL: "Journal",
-  // COMMUNITY STACK
-  COMMUNITY: "Community",
+  MAP: "MapScreen",
 
-  // EXTRA STACK
-  PROFILE: "Profile",
+  SNAP: "SnapScreen",
+  CAPTURE: "CaptureScreen",
+
+  JOURNAL: "JournalScreen",
+
+  COMMUNITY: "CommunityScreen",
+
+  PROFILE: "ProfileScreen",
 };
 
 // ? Screenstacks
 export const SCREENSTACK = {
+  MAP: "MapStack",
+  SNAP: "SnapStack",
+  JOURNAL: "JournalStack",
+  COMMUNITY: "CommunityStack",
+  PROFILE: "ProfileStack",
+};
+
+export const APPSECTIONS = {
   INITIAL: "Initial",
   APP: "App",
   EXTRA: "Extra",

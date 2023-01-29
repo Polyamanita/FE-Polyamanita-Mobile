@@ -1,5 +1,5 @@
+import React, { useMemo } from "react";
 import { useTheme } from "@react-navigation/native";
-import { useMemo } from "react";
 import { View } from "react-native";
 import createStyles from "../header-wrapper.style";
 

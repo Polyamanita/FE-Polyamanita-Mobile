@@ -10,7 +10,7 @@ const CenteringUI: React.FC<CenteringUIProps> = () => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
-  return <View style={styles.element}></View>;
+  return <View style={styles.element} />;
 };
 
 export default CenteringUI;
