@@ -14,21 +14,22 @@ import SnapScreen from "@screens/snap/snap-screen";
 import CaptureScreen from "@screens/snap/capture-screen";
 import JournalScreen from "@screens/journal/journal-screen";
 import CommunityScreen from "@screens/community/community-screen";
+import ProfileScreen from "@screens/profile/profile-modal";
 
 const Stack = createStackNavigator();
 // Function creates a Stack Navigator, that will later be nested inside a
 // tab navigator.
 // @parmas: screenName: How React Navigation can refer to the screen.
 // @params: ScreenComponent: React Native Screen Componenet to assign.
-function createTabStackNavigator(
+const createTabStackNavigator = (
   ChildrenScreens?: JSX.Element[] | JSX.Element,
-) {
+) => {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
       {ChildrenScreens}
     </Stack.Navigator>
   );
-}
+};
 
 // Below are a set of stacks that control flow of navigation within a screen.
 ////////////////////////////////////////////////////////////////////////////
@@ -89,11 +90,26 @@ export const CommunityStack = () =>
     />,
   ]);
 
-export const ProfileStack = () =>
-  createTabStackNavigator([
-    <Stack.Screen
-      name={SCREENS.PROFILE}
-      component={CommunityScreen}
-      key={SCREENS.PROFILE}
-    />,
-  ]);
+// Profile Stack unlike other Screen stacks, is only to provide context
+// to the other stacks, this way we can access the profile "screen" on any
+export const ProfileStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        cardOverlayEnabled: true,
+        cardStyle: { backgroundColor: "red" },
+        presentation: "card",
+      }}
+    >
+      <Stack.Screen
+        name={SCREENS.PROFILE}
+        component={ProfileScreen}
+        key={SCREENS.PROFILE}
+        options={{
+          presentation: "transparentModal",
+        }}
+      />
+      ,
+    </Stack.Navigator>
+  );
+};

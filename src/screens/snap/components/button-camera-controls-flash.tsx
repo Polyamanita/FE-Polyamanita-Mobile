@@ -1,3 +1,4 @@
+import React from "react";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import ControlButton from "../wrappers/camera-controls-button-wrapper";
 

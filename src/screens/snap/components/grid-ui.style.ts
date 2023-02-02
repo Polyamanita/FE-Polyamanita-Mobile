@@ -23,7 +23,7 @@ export default (theme: ExtendedTheme) => {
       width: windowWidth / 3,
       height: windowHeight / 3,
       borderWidth: lineWidth,
-      borderColor: colors.warning,
+      borderColor: colors.secondary100,
     },
   });
 };

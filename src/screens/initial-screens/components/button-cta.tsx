@@ -1,3 +1,4 @@
+import React from "react";
 import Button from "@shared-components/button-primary/button-primary";
 import { View } from "react-native";
 

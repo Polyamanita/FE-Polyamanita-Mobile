@@ -78,7 +78,7 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   /* Formats is just a way to get the camera's specifications. 
      More here: https://mrousavy.com/react-native-vision-camera/docs/guides/formats/ */
   const formats = useMemo<CameraDeviceFormat[]>(() => {
-    if (devices?.formats == null) return [];
+    if (devices?.formats === null || devices?.formats === undefined) return [];
     return devices.formats.sort(sortFormats);
   }, [devices?.formats]);
 
@@ -163,7 +163,7 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
 
   if (devices == undefined) {
     // Return a page while the promise is getting resolved.
-    return <View style={{ backgroundColor: "black" }}></View>;
+    return <View style={{ backgroundColor: "black" }} />;
   }
 
   return (

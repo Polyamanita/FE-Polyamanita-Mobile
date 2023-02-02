@@ -1,3 +1,4 @@
+import React from "react";
 import { ParamListBase } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import Button from "@shared-components/button-primary/button-primary";

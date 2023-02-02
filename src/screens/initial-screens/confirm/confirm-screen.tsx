@@ -9,7 +9,7 @@ import { View } from "react-native";
 import DigitInput from "./components/DigitInput";
 import createStyles from "./confirm-screen.style";
 import { InputHandler } from "shared/constants/models";
-import { SCREENSTACK } from "@shared-constants";
+import { APPSECTIONS } from "@shared-constants";
 import { localString } from "shared/localization";
 import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
@@ -65,7 +65,7 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
         <CTAButton
           title={localString.register}
           onPress={() => {
-            navigation.navigate(SCREENSTACK.APP);
+            navigation.navigate(APPSECTIONS.APP);
           }}
         />
         <CancelButton navigation={navigation} />
