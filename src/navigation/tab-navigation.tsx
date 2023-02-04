@@ -11,6 +11,7 @@ import { palette } from "@theme/themes";
 // ? Screen Stacks
 import * as ScreenStack from "./stack-navigations";
 import { TABLABELS } from "./constants";
+import { localString } from "shared/localization";
 
 const Tab = createBottomTabNavigator();
 
@@ -69,9 +70,12 @@ export const TabNavigation = () => {
         },
       })}
     >
-      <Tab.Screen name={TABLABELS.MAP} component={ScreenStack.MapStack} />
       <Tab.Screen
-        name={TABLABELS.SNAP}
+        name={localString.tabBarLabels.map}
+        component={ScreenStack.MapStack}
+      />
+      <Tab.Screen
+        name={localString.tabBarLabels.snap}
         component={ScreenStack.SnapStack}
         /* Wowie, check it out here: 
           https://medium.com/@mspviraj/hide-bottom-tab-bar-on-a-specific-screen-in-react-navigation-6-0-26d31625d339 */
@@ -86,11 +90,11 @@ export const TabNavigation = () => {
         })}
       />
       <Tab.Screen
-        name={TABLABELS.JOURNAL}
+        name={localString.tabBarLabels.journal}
         component={ScreenStack.JournalStack}
       />
       <Tab.Screen
-        name={TABLABELS.COMMUNITY}
+        name={localString.tabBarLabels.community}
         component={ScreenStack.CommunityStack}
       />
     </Tab.Navigator>

@@ -43,6 +43,7 @@ export const localString = new LocalizedStrings({
     email: "email",
     password: "password",
     confirmation: "confirmation",
+    profile: "profile",
 
     initialStackHeaderMessages: {
       initial: "Welcome to Polyaminita, the mushroom foreaging app.",
@@ -53,10 +54,10 @@ export const localString = new LocalizedStrings({
     },
 
     tabBarLabels: {
-      map: "map",
-      snap: "snap",
-      journal: "journal",
-      community: "community",
+      map: "Map",
+      snap: "Snap",
+      journal: "Journal",
+      community: "Community",
     },
   },
 });

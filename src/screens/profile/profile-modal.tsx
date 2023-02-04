@@ -1,25 +1,36 @@
-import React, { useMemo } from "react";
-import { View } from "react-native";
-import { useTheme } from "@react-navigation/native";
+import React from "react";
+import { ParamListBase } from "@react-navigation/native";
+
 /**
  * ? Local Imports
  */
-import createStyles from "./profile-modal.style";
-import Text from "@shared-components/text-wrapper/TextWrapper";
+import Header from "shared/wrappers/header-wrapper/header-wrapper";
+import AuxButton from "@shared-components/button-aux/button-aux";
+import { StackNavigationProp } from "@react-navigation/stack";
+import ModalContainer from "shared/wrappers/modal-wrapper/modal-wrapper";
 
-interface ProfileModalProps {}
+interface BackButtonProps {
+  navigation: StackNavigationProp<ParamListBase, string>;
+}
+interface ProfileModalProps {
+  navigation: StackNavigationProp<ParamListBase, string>;
+}
 
-const ProfileModal: React.FC<ProfileModalProps> = () => {
-  const theme = useTheme();
-  const { colors } = theme;
-  const styles = useMemo(() => createStyles(theme), [theme]);
+const BackButton = ({ navigation }: BackButtonProps) => (
+  <AuxButton iconName={"arrow-left-circle"} onPress={() => navigation.pop()} />
+);
+
+const ProfileModal: React.FC<ProfileModalProps> = ({
+  navigation,
+}: ProfileModalProps) => {
+  // const theme = useTheme();
+  // const { colors } = theme;
+  // const styles = useMemo(() => createStyles(theme), [theme]);
 
   return (
-    <View style={styles.container}>
-      <Text h1 color={colors.text}>
-        Proifle Modal
-      </Text>
-    </View>
+    <ModalContainer>
+      <Header leftContent={<BackButton navigation={navigation} />} />
+    </ModalContainer>
   );
 };
 
