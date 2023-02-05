@@ -17,24 +17,24 @@ interface AvatarProps {
   iconSize: number;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ iconName, iconSize }) => {
+const Avatar: React.FC<AvatarProps> = ({ iconSize }) => {
   const theme = useTheme();
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const userColors = useSelector(
-    (store: ReduxStore) => store.userData.userData.colors,
-  );
-  console.log(userColors);
+  const userAvatar = useSelector((store: ReduxStore) => store.userData.avatar);
+
+  console.log(userAvatar);
+
   return (
     <LinearGradient
-      colors={userColors}
+      colors={userAvatar.colors}
       useAngle={true}
       angle={0}
       style={styles.wrapper}
     >
       <Icon
-        name={iconName}
+        name={userAvatar.iconName}
         type="MaterialCommunityIcons"
         size={iconSize}
         color={colors.secondary100}

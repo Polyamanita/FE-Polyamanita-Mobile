@@ -1,1 +1,2 @@
-export const userColors = ["#00FF00", "#FF00FF"];
+export const userColors = ["#b2b035", "#1279cf"];
+export const userIconName = "mushroom";

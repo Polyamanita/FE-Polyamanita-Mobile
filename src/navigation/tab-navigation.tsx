@@ -12,6 +12,8 @@ import { palette } from "@theme/themes";
 import * as ScreenStack from "./stack-navigations";
 import { TABLABELS } from "./constants";
 import { localString } from "shared/localization";
+import { useDispatch } from "react-redux";
+import { loadUserData } from "redux/actions/account-actions";
 
 const Tab = createBottomTabNavigator();
 
@@ -53,6 +55,9 @@ const renderTabIcon = (
 export const TabNavigation = () => {
   const scheme = useColorScheme();
   const isDarkMode = scheme === "dark";
+
+  const userDataDispatch = useDispatch();
+  userDataDispatch(loadUserData());
 
   return (
     <Tab.Navigator

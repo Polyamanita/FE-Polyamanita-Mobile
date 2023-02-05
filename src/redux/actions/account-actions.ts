@@ -1,3 +1,7 @@
-export const ACTION = {
-  loadUserData: "LOAD_USERDATA",
+import { channelNames } from "redux/constants";
+
+export const loadUserData = () => {
+  return {
+    type: channelNames.loadUserData,
+  };
 };

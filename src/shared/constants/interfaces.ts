@@ -23,5 +23,8 @@ export interface InputHandler {
 }
 
 export interface UserData {
-  colors: [color1: string, color2: string];
+  avatar: {
+    colors: [color1: string, color2: string];
+    iconName: string;
+  };
 }

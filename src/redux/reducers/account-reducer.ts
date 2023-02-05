@@ -1,21 +1,24 @@
-import { ACTION } from "../actions/account-actions";
+import { channelNames } from "redux/constants";
 import { UserData } from "shared/constants/interfaces";
-import { userColors } from "api/mockUserData";
+import { userColors, userIconName } from "api/mockUserData";
 
 const initialUserData = {
-  colors: ["#FF00FF", "#00FF00"],
+  avatar: {
+    colors: ["#000000", "#FF00FF"],
+    iconName: "help",
+  },
 } as UserData;
 
-const initialState = {
-  userData: initialUserData,
-};
-
-export default (state = initialState, action: { [key: string]: string }) => {
+export default (state = initialUserData, action: { [key: string]: string }) => {
   switch (action.type) {
-    case ACTION.loadUserData:
+    case channelNames.loadUserData:
       return {
         ...state,
-        userData: userColors,
+        avatar: {
+          // These are acting as fetching from API
+          colors: userColors,
+          iconName: userIconName,
+        },
       };
     default:
       return state;
