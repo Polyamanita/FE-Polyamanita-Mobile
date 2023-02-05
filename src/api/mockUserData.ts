@@ -1,4 +1,1 @@
-export const userColors = {
-  color1: "#00FF00",
-  color2: "#FF00FF",
-};
+export const userColors = ["#00FF00", "#FF00FF"];

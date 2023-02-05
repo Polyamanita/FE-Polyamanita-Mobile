@@ -23,8 +23,5 @@ export interface InputHandler {
 }
 
 export interface UserData {
-  colors: {
-    color1: string;
-    color2: string;
-  };
+  colors: [color1: string, color2: string];
 }

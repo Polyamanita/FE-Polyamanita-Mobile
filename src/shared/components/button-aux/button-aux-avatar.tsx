@@ -15,6 +15,7 @@ const AvatarButton = ({ navigation }: AvatarButtonProps) => {
         navigation.navigate(SCREENSTACK.PROFILE);
       }}
       iconName={"mushroom"}
+      varient={"avatar"}
     />
   );
 };

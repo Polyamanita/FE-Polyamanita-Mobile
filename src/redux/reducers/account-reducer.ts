@@ -1,12 +1,9 @@
-import { ACTION } from "../actions/actions";
+import { ACTION } from "../actions/account-actions";
 import { UserData } from "shared/constants/interfaces";
 import { userColors } from "api/mockUserData";
 
 const initialUserData = {
-  colors: {
-    color1: "#FF00FF",
-    color2: "#00FF00",
-  },
+  colors: ["#FF00FF", "#00FF00"],
 } as UserData;
 
 const initialState = {
