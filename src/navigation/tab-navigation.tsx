@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 /**
  * ? Local & Shared Imports
  */
-import { SCREENS } from "@shared-constants";
+import { SCREENS } from "shared/constants/navigation-routes";
 import { palette } from "@theme/themes";
 // ? Screen Stacks
 import * as ScreenStack from "./stack-navigations";

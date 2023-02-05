@@ -14,7 +14,7 @@ import {
  * ? Local Imports
  */
 import createStyles from "./input.style";
-import { InputHandler } from "shared/constants/models";
+import { InputHandler } from "shared/constants/interfaces";
 import { capitalizeWords } from "utils";
 
 interface InputStyling {

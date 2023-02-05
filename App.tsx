@@ -7,6 +7,8 @@ import SplashScreen from "react-native-splash-screen";
  */
 import Navigation from "./src/navigation";
 import { isAndroid } from "@freakycoder/react-native-helpers";
+import { Provider } from "react-redux";
+import { store } from "redux/store";
 
 LogBox.ignoreAllLogs();
 
@@ -29,9 +31,9 @@ const App = () => {
   }, [scheme, isDarkMode]);
 
   return (
-    <>
+    <Provider store={store}>
       <Navigation />
-    </>
+    </Provider>
   );
 };
 

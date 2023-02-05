@@ -15,6 +15,7 @@ import NavigationHeader from "@shared-components/header-tabnavigation/header-tab
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
+  route: any;
 }
 
 const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
@@ -35,12 +36,12 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
         rightContent={[
           <AuxButton
             onPress={() => console.log("left")}
-            iconName={"huh"}
+            iconName={"mushroom"}
             key={"huh1"}
           />,
           <AuxButton
             onPress={() => console.log("right")}
-            iconName={"huh"}
+            iconName={"mushroom"}
             key={"huh2"}
           />,
         ]}

@@ -36,7 +36,7 @@ const AuxButton: React.FC<PolyButtonProps> = ({
       styling = { ...styles.variations.glass, ...styles.icon.glass };
       break;
     case "avatar":
-      styling = {};
+      styling = { ...styles.variations.avatar, ...styles.icon.avatar };
       break;
   }
 

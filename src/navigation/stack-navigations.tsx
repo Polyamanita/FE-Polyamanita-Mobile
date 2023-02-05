@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 /**
  * ? Local & Shared Imports
  */
-import { SCREENS } from "@shared-constants";
+import { SCREENS } from "shared/constants/navigation-routes";
 // ? Screens
 import StartScreen from "@screens/initial-screens/start/start-screen";
 import RegisterScreen from "@screens/initial-screens/register/register-screen";
