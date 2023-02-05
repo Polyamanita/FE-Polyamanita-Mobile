@@ -1,5 +1,5 @@
 import React from "react";
-import { useColorScheme } from "react-native";
+import { useColorScheme, ViewStyle } from "react-native";
 import Icon from "react-native-dynamic-vector-icons";
 import { getFocusedRouteNameFromRoute } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -14,6 +14,7 @@ import { TABLABELS } from "./constants";
 import { localString } from "shared/localization";
 import { useDispatch } from "react-redux";
 import { loadUserData } from "redux/actions/account-actions";
+import { TABBAR_HEIGHT } from "shared/constants/numeric-styling";
 
 const Tab = createBottomTabNavigator();
 
@@ -59,6 +60,11 @@ export const TabNavigation = () => {
   const userDataDispatch = useDispatch();
   userDataDispatch(loadUserData());
 
+  const tabBarStyle = {
+    backgroundColor: isDarkMode ? palette.black : palette.white,
+    height: TABBAR_HEIGHT,
+  } as ViewStyle;
+
   return (
     <Tab.Navigator
       initialRouteName={TABLABELS.SNAP}
@@ -70,9 +76,7 @@ export const TabNavigation = () => {
           renderTabIcon(route, focused, color, size),
         tabBarActiveTintColor: palette.primary,
         tabBarInactiveTintColor: "gray",
-        tabBarStyle: {
-          backgroundColor: isDarkMode ? palette.black : palette.white,
-        },
+        tabBarStyle: tabBarStyle,
       })}
     >
       <Tab.Screen
@@ -88,9 +92,9 @@ export const TabNavigation = () => {
           tabBarStyle: ((route) => {
             const routeName = getFocusedRouteNameFromRoute(route) ?? "";
             if (routeName === SCREENS.CAPTURE) {
-              return { display: "none" };
+              return { ...tabBarStyle, display: "none" };
             }
-            return;
+            return { ...tabBarStyle };
           })(route),
         })}
       />

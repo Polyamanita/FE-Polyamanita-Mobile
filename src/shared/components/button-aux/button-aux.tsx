@@ -54,7 +54,7 @@ const AuxButton: React.FC<PolyButtonProps> = ({
     </Pressable>
   ) : (
     <Pressable style={styling} {...rest} onPress={onPress}>
-      <Avatar iconName={"mushroom"} iconSize={iconSize} />
+      <Avatar wrapperSize={styling.height as number} />
     </Pressable>
   );
 };

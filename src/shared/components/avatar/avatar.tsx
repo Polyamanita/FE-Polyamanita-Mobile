@@ -13,19 +13,18 @@ import { ReduxStore } from "redux/store";
 // @params - iconName: provides an icon for the button.
 // @params - varient: Style choice of the button.
 interface AvatarProps {
-  iconName: string;
-  iconSize: number;
+  wrapperSize: number;
 }
 
-const Avatar: React.FC<AvatarProps> = ({ iconSize }) => {
+// Reason for wrapper size as a prop is so that the avatar icon can be
+// consistantly proportional to w/e container its going in.
+const Avatar: React.FC<AvatarProps> = ({ wrapperSize }) => {
   const theme = useTheme();
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   const userAvatar = useSelector((store: ReduxStore) => store.userData.avatar);
-
-  console.log(userAvatar);
-
+  const ratio = 0.75;
   return (
     <LinearGradient
       colors={userAvatar.colors}
@@ -36,7 +35,7 @@ const Avatar: React.FC<AvatarProps> = ({ iconSize }) => {
       <Icon
         name={userAvatar.iconName}
         type="MaterialCommunityIcons"
-        size={iconSize}
+        size={Math.ceil(wrapperSize * ratio)}
         color={colors.secondary100}
       />
     </LinearGradient>

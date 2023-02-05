@@ -4,21 +4,39 @@ import { ParamListBase } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
-import Header from "shared/wrappers/header-wrapper/header-wrapper";
-import AuxButton from "@shared-components/button-aux/button-aux";
 import { StackNavigationProp } from "@react-navigation/stack";
 import ModalContainer from "shared/wrappers/modal-wrapper/modal-wrapper";
+import Avatar from "@shared-components/avatar/avatar";
+import { View } from "react-native";
 
-interface BackButtonProps {
-  navigation: StackNavigationProp<ParamListBase, string>;
-}
 interface ProfileModalProps {
   navigation: StackNavigationProp<ParamListBase, string>;
 }
 
-const BackButton = ({ navigation }: BackButtonProps) => (
-  <AuxButton iconName={"arrow-left-circle"} onPress={() => navigation.pop()} />
-);
+const AvatarPivot = () => {
+  const pivotSize = 100;
+  return (
+    <View
+      style={{
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundColor: "green",
+        marginVertical: 5,
+      }}
+    >
+      <View
+        style={{
+          height: pivotSize,
+          width: pivotSize,
+          borderRadius: 1000,
+        }}
+      >
+        <Avatar wrapperSize={pivotSize} />
+      </View>
+    </View>
+  );
+};
 
 const ProfileModal: React.FC<ProfileModalProps> = ({
   navigation,
@@ -28,8 +46,8 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   // const styles = useMemo(() => createStyles(theme), [theme]);
 
   return (
-    <ModalContainer>
-      <Header leftContent={<BackButton navigation={navigation} />} />
+    <ModalContainer navigation={navigation}>
+      <AvatarPivot />
     </ModalContainer>
   );
 };
