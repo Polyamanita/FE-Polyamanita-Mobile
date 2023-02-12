@@ -7,9 +7,10 @@ import Text from "@shared-components/text-wrapper/TextWrapper";
 import createStyles from "./header-wrapper.style";
 import { View } from "react-native";
 import HeaderContent from "./components/header-content";
+import { capitalizeFirstLetter } from "utils";
 
 interface HeaderWrapperProps {
-  title: string;
+  title?: string;
   leftContent?: JSX.Element | JSX.Element[] | undefined;
   rightContent?: JSX.Element | JSX.Element[] | undefined;
 }
@@ -23,10 +24,12 @@ const HeaderWrapper: React.FC<HeaderWrapperProps> = ({
   const styles = useMemo(() => createStyles(theme), [theme]);
   return (
     <View style={styles.container}>
-      <HeaderContent style={"leftContent"}>{leftContent}</HeaderContent>
-      <Text h1 style={styles.title}>
-        {title}
-      </Text>
+      <View style={styles.leftWrapper}>
+        <HeaderContent style={"leftContent"}>{leftContent}</HeaderContent>
+        <Text h1 style={styles.title}>
+          {capitalizeFirstLetter(title ?? "")}
+        </Text>
+      </View>
       <HeaderContent style={"rightContent"}>{rightContent}</HeaderContent>
     </View>
   );

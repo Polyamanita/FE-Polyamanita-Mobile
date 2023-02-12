@@ -5,7 +5,7 @@ import { isReadyRef, navigationRef } from "react-navigation-helpers";
 /**
  * ? Local & Shared Imports
  */
-import { APPSECTIONS, SCREENSTACK } from "@shared-constants";
+import { APPSECTIONS, SCREENSTACK } from "shared/constants/navigation-routes";
 import { LightTheme, DarkTheme } from "@theme/themes";
 import {
   createStackNavigator,

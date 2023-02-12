@@ -1,4 +1,4 @@
-import { Check } from "shared/constants/models";
+import { Check } from "shared/constants/interfaces";
 
 /* Set of checks to perform on an input field to verify the user has typed 
    has typed in the correct information. */

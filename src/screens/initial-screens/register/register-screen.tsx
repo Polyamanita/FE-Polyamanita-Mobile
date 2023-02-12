@@ -5,9 +5,9 @@ import { StackNavigationProp } from "@react-navigation/stack";
  * ? Local Imports
  */
 import Input from "@shared-components/input/input";
-import { SCREENS } from "@shared-constants";
+import { SCREENS } from "shared/constants/navigation-routes";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
-import { InputHandler } from "shared/constants/models";
+import { InputHandler } from "shared/constants/interfaces";
 import { localString } from "shared/localization";
 import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
