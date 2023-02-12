@@ -12,6 +12,7 @@ export const SCREENS = {
   CAPTURE: "CaptureScreen",
 
   JOURNAL: "JournalScreen",
+  MUSHROOM: "MushroomScreen",
 
   COMMUNITY: "CommunityScreen",
 

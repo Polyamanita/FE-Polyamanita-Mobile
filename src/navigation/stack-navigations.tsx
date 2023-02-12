@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 /**
  * ? Local & Shared Imports
  */
-import { SCREENS } from "@shared-constants";
+import { SCREENS } from "shared/constants/navigation-routes";
 // ? Screens
 import StartScreen from "@screens/initial-screens/start/start-screen";
 import RegisterScreen from "@screens/initial-screens/register/register-screen";
@@ -15,6 +15,7 @@ import CaptureScreen from "@screens/snap/capture-screen";
 import JournalScreen from "@screens/journal/journal-screen";
 import CommunityScreen from "@screens/community/community-screen";
 import ProfileScreen from "@screens/profile/profile-modal";
+import MushroomScreen from "@screens/mushroom/mushroom-screen";
 
 const Stack = createStackNavigator();
 // Function creates a Stack Navigator, that will later be nested inside a
@@ -78,6 +79,14 @@ export const JournalStack = () =>
       name={SCREENS.JOURNAL}
       component={JournalScreen}
       key={SCREENS.JOURNAL}
+    />,
+    <Stack.Screen
+      name={SCREENS.MUSHROOM}
+      component={MushroomScreen}
+      key={SCREENS.MUSHROOM}
+      options={{
+        presentation: "modal",
+      }}
     />,
   ]);
 

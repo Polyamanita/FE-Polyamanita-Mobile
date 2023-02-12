@@ -10,7 +10,7 @@ export default (theme: ExtendedTheme) => {
   const { colors } = theme;
   const windowHeight = Dimensions.get("window").height;
   const windowWidth = Dimensions.get("window").width;
-  const lineWidth = 2;
+  const lineWidth = 1;
 
   return StyleSheet.create<VariationStyle>({
     container: {

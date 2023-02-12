@@ -30,7 +30,7 @@ import Reanimated, {
  */
 import CaptureButton from "./components/button-capture";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { SCREENS } from "@shared-constants";
+import { SCREENS } from "shared/constants/navigation-routes";
 import {
   PinchGestureHandler,
   PinchGestureHandlerGestureEvent,

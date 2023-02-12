@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { Pressable, ScrollView } from "react-native";
 // import { useTheme } from "@react-navigation/native";
 
 /**
@@ -12,9 +12,11 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import NavigationHeader from "@shared-components/header-tabnavigation/header-tabnavigation";
+import { SCREENS } from "shared/constants/navigation-routes";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
+  route: any;
 }
 
 const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
@@ -35,12 +37,12 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
         rightContent={[
           <AuxButton
             onPress={() => console.log("left")}
-            iconName={"huh"}
+            iconName={"help"}
             key={"huh1"}
           />,
           <AuxButton
             onPress={() => console.log("right")}
-            iconName={"huh"}
+            iconName={"help"}
             key={"huh2"}
           />,
         ]}
@@ -52,7 +54,14 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
         }}
       >
         {mockData.map((e) => (
-          <ListItem label={e} key={e} />
+          <Pressable
+            key={e}
+            onPress={() => {
+              navigation.navigate(SCREENS.MUSHROOM);
+            }}
+          >
+            <ListItem label={e} />
+          </Pressable>
         ))}
       </ScrollView>
     </ScreenContainer>

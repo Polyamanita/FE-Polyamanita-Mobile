@@ -14,7 +14,7 @@ import {
  */
 import createStyles from "./DigitInput.style";
 import Icon from "react-native-dynamic-vector-icons";
-import { InputHandler } from "shared/constants/models";
+import { InputHandler } from "shared/constants/interfaces";
 
 interface DigitInputProps extends TextInputProps {
   inputHandler: InputHandler;

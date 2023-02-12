@@ -31,6 +31,7 @@ export default (theme: ExtendedTheme) => {
     },
     avatar: {
       ...generalViewStyling,
+      borderColor: colors.secondary24,
     },
   });
 
