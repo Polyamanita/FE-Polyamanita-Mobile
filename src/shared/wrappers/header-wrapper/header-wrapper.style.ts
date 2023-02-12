@@ -17,6 +17,7 @@ export default (theme: ExtendedTheme) => {
       flexDirection: "row",
       width: "100%",
       justifyContent: "space-between",
+      marginVertical: 15,
     },
     leftWrapper: {
       flexDirection: "row",
