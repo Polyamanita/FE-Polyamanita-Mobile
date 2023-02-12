@@ -77,6 +77,7 @@ export const TabNavigation = () => {
         tabBarActiveTintColor: palette.primary,
         tabBarInactiveTintColor: "gray",
         tabBarStyle: tabBarStyle,
+        tabBarShowLabel: false,
       })}
     >
       <Tab.Screen
@@ -102,10 +103,10 @@ export const TabNavigation = () => {
         name={localString.tabBarLabels.journal}
         component={ScreenStack.JournalStack}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name={localString.tabBarLabels.community}
         component={ScreenStack.CommunityStack}
-      />
+      /> */}
     </Tab.Navigator>
   );
 };
