@@ -21,7 +21,7 @@ export default (theme: ExtendedTheme) => {
     title: {
       alignSelf: "center",
       color: colors.secondary100,
-      paddingLeft: 6,
+      paddingLeft: 12,
     },
     leftContent: {
       display: "flex",

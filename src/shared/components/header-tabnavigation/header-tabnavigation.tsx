@@ -7,7 +7,7 @@ import HeaderWrapper from "shared/wrappers/header-wrapper/header-wrapper";
 interface NavigationHeaderProps {
   title?: string;
   navigation: StackNavigationProp<ParamListBase, string>;
-  rightContent: JSX.Element | JSX.Element[] | undefined;
+  rightContent?: JSX.Element | JSX.Element[];
 }
 
 // Component that acts like a stylized header when navigating through tabs.
