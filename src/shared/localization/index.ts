@@ -53,6 +53,11 @@ export const localString = new LocalizedStrings({
         "We have sent a 4-digit pin to your email!\nConfirm the pin below.",
     },
 
+    sectionHeaders: {
+      // profile-screen
+      content: "content",
+    },
+
     tabBarLabels: {
       map: "Map",
       snap: "Snap",

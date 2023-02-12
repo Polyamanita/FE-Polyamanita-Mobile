@@ -36,12 +36,12 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
         rightContent={[
           <AuxButton
             onPress={() => console.log("left")}
-            iconName={"mushroom"}
+            iconName={"help"}
             key={"huh1"}
           />,
           <AuxButton
             onPress={() => console.log("right")}
-            iconName={"mushroom"}
+            iconName={"help"}
             key={"huh2"}
           />,
         ]}
