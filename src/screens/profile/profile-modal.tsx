@@ -51,7 +51,6 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
     <ModalContainer navigation={navigation}>
       <AvatarPivot />
       <SectionContainer
-        navigation={navigation}
         label={localString.sectionHeaders.content}
         sectionAction={() => console.log("yes")}
       ></SectionContainer>

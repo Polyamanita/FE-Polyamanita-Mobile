@@ -1,17 +1,15 @@
 import React, { useMemo } from "react";
-import { ParamListBase, useTheme } from "@react-navigation/native";
+import { useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
 import createStyles from "./section-wrapper.style";
 import { Pressable, View } from "react-native";
 import Text from "@shared-components/text-wrapper/TextWrapper";
-import { StackNavigationProp } from "@react-navigation/stack";
 import { capitalizeFirstLetter } from "utils";
 
 // sectionAction allows for something to happen when the entire section is tapepd.
 interface SectionWrapperProps {
-  navigation: StackNavigationProp<ParamListBase, string>;
   children?: JSX.Element | JSX.Element[] | undefined;
   label?: string;
   sectionAction?: () => unknown;
