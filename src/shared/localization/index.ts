@@ -56,6 +56,9 @@ export const localString = new LocalizedStrings({
     sectionHeaders: {
       // profile-screen
       content: "content",
+      preferences: "preferences",
+      about: "about",
+      account: "account",
     },
 
     tabBarLabels: {

@@ -26,6 +26,8 @@ export default (theme: ExtendedTheme) => {
     headerTitle: {
       color: colors.secondary100,
     },
-    sectionContent: {},
+    sectionContent: {
+      paddingVertical: spacingSize / 2,
+    },
   });
 };
