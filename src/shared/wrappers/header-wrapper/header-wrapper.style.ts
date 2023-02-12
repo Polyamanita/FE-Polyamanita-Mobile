@@ -3,6 +3,7 @@ import { StyleSheet, TextStyle, ViewStyle } from "react-native";
 
 interface Style {
   container: ViewStyle;
+  leftWrapper: ViewStyle;
   title: TextStyle;
   leftContent: ViewStyle;
   rightContent: ViewStyle;
@@ -13,10 +14,13 @@ export default (theme: ExtendedTheme) => {
 
   return StyleSheet.create<Style>({
     container: {
-      display: "flex",
       flexDirection: "row",
-      justifyContent: "space-between",
       width: "100%",
+      justifyContent: "space-between",
+      marginVertical: 15,
+    },
+    leftWrapper: {
+      flexDirection: "row",
     },
     title: {
       alignSelf: "center",
@@ -24,15 +28,12 @@ export default (theme: ExtendedTheme) => {
       paddingLeft: 12,
     },
     leftContent: {
-      display: "flex",
+      alignSelf: "center",
       flexDirection: "row",
     },
     rightContent: {
-      display: "flex",
       flexDirection: "row",
-      alignItems: "center",
-      paddingLeft: 15,
-      paddingRight: 6,
+      justifyContent: "flex-end",
     },
   });
 };

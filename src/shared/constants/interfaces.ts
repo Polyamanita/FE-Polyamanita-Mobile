@@ -21,3 +21,10 @@ export interface InputHandler {
   ref?: React.MutableRefObject<null>;
   status?: "confirm" | "alert" | "warn";
 }
+
+export interface UserData {
+  avatar: {
+    colors: [color1: string, color2: string];
+    iconName: string;
+  };
+}

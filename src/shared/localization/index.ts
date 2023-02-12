@@ -43,6 +43,7 @@ export const localString = new LocalizedStrings({
     email: "email",
     password: "password",
     confirmation: "confirmation",
+    profile: "profile",
 
     initialStackHeaderMessages: {
       initial: "Welcome to Polyaminita, the mushroom foreaging app.",
@@ -52,11 +53,19 @@ export const localString = new LocalizedStrings({
         "We have sent a 4-digit pin to your email!\nConfirm the pin below.",
     },
 
+    sectionHeaders: {
+      // profile-screen
+      content: "content",
+      preferences: "preferences",
+      about: "about",
+      account: "account",
+    },
+
     tabBarLabels: {
-      map: "map",
-      snap: "snap",
-      journal: "journal",
-      community: "community",
+      map: "Map",
+      snap: "Snap",
+      journal: "Journal",
+      community: "Community",
     },
   },
 });

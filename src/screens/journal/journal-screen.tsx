@@ -16,6 +16,7 @@ import { SCREENS } from "@shared-constants";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
+  route: any;
 }
 
 const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
@@ -36,12 +37,12 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
         rightContent={[
           <AuxButton
             onPress={() => console.log("left")}
-            iconName={"huh"}
+            iconName={"help"}
             key={"huh1"}
           />,
           <AuxButton
             onPress={() => console.log("right")}
-            iconName={"huh"}
+            iconName={"help"}
             key={"huh2"}
           />,
         ]}
