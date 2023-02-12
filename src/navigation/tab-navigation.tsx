@@ -55,13 +55,13 @@ const renderTabIcon = (
 
 export const TabNavigation = () => {
   const scheme = useColorScheme();
-  const isDarkMode = scheme === "dark";
+  const isDarkMode = scheme === "light";
 
   const userDataDispatch = useDispatch();
   userDataDispatch(loadUserData());
 
   const tabBarStyle = {
-    backgroundColor: isDarkMode ? palette.black : palette.white,
+    backgroundColor: isDarkMode ? palette.primary100 : palette.white,
     height: TABBAR_HEIGHT,
   } as ViewStyle;
 
@@ -74,8 +74,8 @@ export const TabNavigation = () => {
         unmountOnBlur: true,
         tabBarIcon: ({ focused, color, size }) =>
           renderTabIcon(route, focused, color, size),
-        tabBarActiveTintColor: palette.primary,
-        tabBarInactiveTintColor: "gray",
+        tabBarActiveTintColor: palette.secondary100,
+        tabBarInactiveTintColor: palette.secondary50,
         tabBarStyle: tabBarStyle,
         tabBarShowLabel: false,
       })}
