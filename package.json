@@ -77,7 +77,7 @@
     "release:android": "cd android && ./gradlew assembleRelease",
     "release:play": "cd android && ./gradlew bundleRelease",
     "test:apk": "react-native run-android --variant=release",
-    "prettier": "cd src && npx prettier --write . && git add .",
+    "prettier": "cd src && npx prettier --write .",
     "prepare": "husky install",
     "test": "jest",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
