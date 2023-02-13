@@ -1,5 +1,5 @@
 import { channelNames } from "redux/constants";
-import { UserData } from "shared/constants/interfaces";
+import { UserData } from "api/constants/user";
 import { userColors, userIconName, userName } from "api/mockUserData";
 
 const initialUserData = {
