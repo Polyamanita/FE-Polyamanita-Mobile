@@ -18,35 +18,40 @@ interface CaptureScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
 }
 
-const getFileName = (path: string): string => {
+const createFileName = (path: string): string => {
   const pathDirectories = path.split("/");
   // returns the <randomcode>.jpg filename
   return pathDirectories[pathDirectories.length - 1];
 };
 
 // Run the tensorflow model.
-const shroomify = new Promise((resolve) => setTimeout(() => resolve(1), 3000));
-// Grab info from localstorage.
-const userInfo = new Promise((resolve) => setTimeout(() => resolve(2), 7500));
-// Get the current position of the user.
-const currentPosition = new Promise((resolve, reject) => {
-  const positionOptions = {
-    enableHighAccuracy: true,
-    timeout: 15000,
-    maximumAge: 1000,
-  } as Geolocation.GeoOptions;
+const shroomify = () =>
+  new Promise((resolve) => setTimeout(() => resolve(1), 3000));
 
-  Geolocation.getCurrentPosition(
-    (pos) => {
-      // console.log(pos);
-      resolve(pos);
-    },
-    (error) => {
-      reject(error.message);
-    },
-    positionOptions,
-  );
-});
+// Grab info from redux.
+const getUserInfo = () =>
+  new Promise((resolve) => setTimeout(() => resolve(2), 7500));
+
+// Get the current position of the user.
+const getCurrentPosition = () =>
+  new Promise((resolve, reject) => {
+    const positionOptions = {
+      enableHighAccuracy: true,
+      timeout: 15000,
+      maximumAge: 1000,
+    } as Geolocation.GeoOptions;
+
+    Geolocation.getCurrentPosition(
+      (pos) => {
+        // console.log(pos);
+        resolve(pos);
+      },
+      (error) => {
+        reject(error.message);
+      },
+      positionOptions,
+    );
+  });
 
 // Handle capture should be a syncronous function that handles a set
 // of async tasks.
@@ -73,16 +78,19 @@ const currentPosition = new Promise((resolve, reject) => {
          * time as date object 
          * displayname as string
          * location as tuple (lat, long)
+         * 
+         * ^^^^^^^^^^^^^^^\
+         * OUTDATED: CHECK SWAGGERHUB
     */
 
 const handleCapture = async (captureTime: Date) => {
-  const position = currentPosition;
-  const modelData = shroomify;
-  const localUserInfo = userInfo;
+  // Promise Chain
+  const position = getCurrentPosition();
+  const modelData = shroomify();
+  const userInfo = getUserInfo();
 
   // When all above promises are fulfilled, handle the combined data.
-  // TODO: should prob creat a dictionary to help indicate which promise is which instead of array.
-  Promise.all([position, modelData, localUserInfo]).then((responses) =>
+  Promise.all([position, modelData, userInfo]).then((responses) =>
     responses.forEach((response) => console.log(response)),
   );
 
@@ -125,7 +133,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
         <AuxButton onPress={() => console.log("EDIT")} iconName={"layers"} />
         <AuxButton
           onPress={async () => {
-            const fileName = getFileName(path);
+            const fileName = createFileName(path);
             console.log(fileName);
             await RNFS.moveFile(
               `${path}`,
