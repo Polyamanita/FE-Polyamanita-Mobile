@@ -53,6 +53,10 @@ const getCurrentPosition = () =>
     );
   });
 
+// Make request to get S3 key for image upload.
+const fetchS3Key = () =>
+  new Promise((resolve) => setTimeout(() => resolve(3), 3000));
+
 // Handle capture should be a syncronous function that handles a set
 // of async tasks.
 
@@ -88,9 +92,10 @@ const handleCapture = async (captureTime: Date) => {
   const position = getCurrentPosition();
   const modelData = shroomify();
   const userInfo = getUserInfo();
+  const s3Key = fetchS3Key();
 
   // When all above promises are fulfilled, handle the combined data.
-  Promise.all([position, modelData, userInfo]).then((responses) =>
+  Promise.all([position, modelData, userInfo, s3Key]).then((responses) =>
     responses.forEach((response) => console.log(response)),
   );
 
