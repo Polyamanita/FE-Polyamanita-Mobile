@@ -2,7 +2,13 @@ import React, { useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
 import RNFS from "react-native-fs";
-import Geolocation from "react-native-geolocation-service";
+import {
+  fetchS3Key,
+  getCurrentPosition,
+  getUserInfo,
+  shroomify,
+} from "./utils/capture";
+import { createFileName } from "./utils/save";
 /**
  * ? Local Imports
  */
@@ -17,45 +23,6 @@ interface CaptureScreenProps {
   route: any;
   navigation: StackNavigationProp<ParamListBase, string>;
 }
-
-const createFileName = (path: string): string => {
-  const pathDirectories = path.split("/");
-  // returns the <randomcode>.jpg filename
-  return pathDirectories[pathDirectories.length - 1];
-};
-
-// Run the tensorflow model.
-const shroomify = () =>
-  new Promise((resolve) => setTimeout(() => resolve(1), 3000));
-
-// Grab info from redux.
-const getUserInfo = () =>
-  new Promise((resolve) => setTimeout(() => resolve(2), 7500));
-
-// Get the current position of the user.
-const getCurrentPosition = () =>
-  new Promise((resolve, reject) => {
-    const positionOptions = {
-      enableHighAccuracy: true,
-      timeout: 15000,
-      maximumAge: 1000,
-    } as Geolocation.GeoOptions;
-
-    Geolocation.getCurrentPosition(
-      (pos) => {
-        // console.log(pos);
-        resolve(pos);
-      },
-      (error) => {
-        reject(error.message);
-      },
-      positionOptions,
-    );
-  });
-
-// Make request to get S3 key for image upload.
-const fetchS3Key = () =>
-  new Promise((resolve) => setTimeout(() => resolve(3), 3000));
 
 // Handle capture should be a syncronous function that handles a set
 // of async tasks.
@@ -75,16 +42,6 @@ const fetchS3Key = () =>
         ?. TODO: If they accept, a couple things need to happen.
             * Location is fetched and assingned to variable.
            If they reject, location info is simply ignored. (undefined).
-
-        Package the following for API.
-         * Mushroom id as int 
-         * image, as 8uint[] 
-         * time as date object 
-         * displayname as string
-         * location as tuple (lat, long)
-         * 
-         * ^^^^^^^^^^^^^^^\
-         * OUTDATED: CHECK SWAGGERHUB
     */
 
 const handleCapture = async (captureTime: Date) => {
@@ -95,9 +52,13 @@ const handleCapture = async (captureTime: Date) => {
   const s3Key = fetchS3Key();
 
   // When all above promises are fulfilled, handle the combined data.
-  Promise.all([position, modelData, userInfo, s3Key]).then((responses) =>
-    responses.forEach((response) => console.log(response)),
-  );
+  Promise.all([position, modelData, userInfo, s3Key]).then((responses) => {
+    const [resolvedPosition, resolvedModelData, resolvedUserInfo, resolvedS3Key] = responses;
+    console.log("Position: ", resolvedPosition);
+    console.log("Mushroom: ", resolvedModelData);
+    console.log("User: ", resolvedUserInfo);
+    console.log("Key: ", resolvedS3Key);
+  });
 
   console.log(captureTime);
 };
