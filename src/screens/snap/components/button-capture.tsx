@@ -48,9 +48,10 @@ const CaptureButton: React.FC<CaptureButtonProps> = ({
   const takePhoto = useCallback(async () => {
     try {
       if (camera.current == null) throw new Error("Camera ref is null!");
-      // Get the current date.
+      // Get the current date and assign it.
       const now = new Date();
       pressDownDate.current = now;
+
       const photo = await camera.current.takePhoto(takePhotoOptions);
       onMediaCaptured(photo, "photo");
     } catch (e) {
