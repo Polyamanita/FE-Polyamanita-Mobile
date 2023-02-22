@@ -168,6 +168,10 @@ android {
 def REACT_NATIVE_VERSION = new File(['node', '--print',"JSON.parse(require('fs').readFileSync(require.resolve('react-native/package.json'), 'utf-8')).version"].execute(null, rootDir).text.trim())
 
 dependencies {
+    // Kotlin lang
+    implementation 'androidx.core:core-ktx:1.8.0'
+
+    // Boilerplate extensions
     implementation fileTree(dir: "libs", include: ["*.jar"])
     // Force react-native version: https://stackoverflow.com/questions/74325460/a-failure-occurred-while-executing-com-android-build-gradle-internal-tasks-merge
     //noinspection GradleDynamicVersion
@@ -195,6 +199,13 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+
+    // Tensorflow integration
+    implementation 'org.tensorflow:tensorflow-lite-task-vision:0.4.0'
+    // Import the GPU delegate plugin Library for GPU inference
+    implementation 'org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.0'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:2.9.0'
 }
 
 if (isNewArchitectureEnabled()) {

@@ -53,7 +53,12 @@ const handleCapture = async (captureTime: Date) => {
 
   // When all above promises are fulfilled, handle the combined data.
   Promise.all([position, modelData, userInfo, s3Key]).then((responses) => {
-    const [resolvedPosition, resolvedModelData, resolvedUserInfo, resolvedS3Key] = responses;
+    const [
+      resolvedPosition,
+      resolvedModelData,
+      resolvedUserInfo,
+      resolvedS3Key,
+    ] = responses;
     console.log("Position: ", resolvedPosition);
     console.log("Mushroom: ", resolvedModelData);
     console.log("User: ", resolvedUserInfo);
