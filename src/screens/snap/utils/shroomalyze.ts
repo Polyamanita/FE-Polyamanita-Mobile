@@ -1,10 +1,15 @@
-import type { PhotoFile } from "react-native-vision-camera";
+import { NativeModules } from "react-native";
 
-// BEAUTY AND MAGIC OF THE APP: Run the tensorflow model.
-declare global {
-  const __shroomalyze: (photo: PhotoFile) => unknown;
-}
-export function shroomalyze(photo: PhotoFile) {
-  "worklet";
-  return __shroomalyze(photo);
+// Function written from Native Java.
+const ShroomalyzePlugin = NativeModules.Shroomalyze;
+
+export async function shroomalyze() {
+  ShroomalyzePlugin.sayTest(
+    (err: unknown) => {
+      console.log(err);
+    },
+    (msg: unknown) => {
+      console.log(msg);
+    },
+  );
 }

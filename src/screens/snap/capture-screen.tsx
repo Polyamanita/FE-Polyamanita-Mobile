@@ -49,7 +49,7 @@ interface CaptureScreenProps {
 const handleCapture = async (photo: PhotoFile, captureTime: string) => {
   // Promise Chain
   const position = getCurrentPosition();
-  const modelData = shroomalyze(photo);
+  const modelData = shroomalyze();
   const userInfo = getUserInfo();
   const s3Key = fetchS3Key();
 
