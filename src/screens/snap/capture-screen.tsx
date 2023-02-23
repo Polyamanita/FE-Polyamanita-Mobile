@@ -2,13 +2,13 @@ import React, { useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
 import RNFS from "react-native-fs";
+import { shroomalyze } from "./utils/shroomalyze";
 import {
   fetchS3Key,
   getCurrentPosition,
   getUserInfo,
-  shroomalyze,
+  photoFileTimeToDateTime,
 } from "./utils/capture";
-import { photoFileTimeToDateTime } from "./utils/convert";
 import { createFileName } from "./utils/save";
 /**
  * ? Local Imports
@@ -19,7 +19,7 @@ import AuxButton from "@shared-components/button-aux/button-aux";
 import Button from "@shared-components/button-primary/button-primary";
 import SnapHeader from "./wrappers/header-snap-stack-wrapper";
 import CancelButton from "./components/button-cancel";
-import { Frame } from "react-native-vision-camera";
+import { PhotoFile } from "react-native-vision-camera";
 
 interface CaptureScreenProps {
   route: any;
@@ -46,10 +46,10 @@ interface CaptureScreenProps {
            If they reject, location info is simply ignored. (undefined).
     */
 
-const handleCapture = async (frame: Frame, captureTime: Date) => {
+const handleCapture = async (photo: PhotoFile, captureTime: string) => {
   // Promise Chain
   const position = getCurrentPosition();
-  const modelData = shroomalyze(frame);
+  const modelData = shroomalyze(photo);
   const userInfo = getUserInfo();
   const s3Key = fetchS3Key();
 

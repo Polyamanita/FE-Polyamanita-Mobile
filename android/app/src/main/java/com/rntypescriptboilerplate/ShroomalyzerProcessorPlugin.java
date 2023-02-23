@@ -28,8 +28,10 @@ public class ShroomalyzerProcessorPlugin extends FrameProcessorPlugin {
       return null;
     }
 
-    Bitmap bitmap = Bitmap.createBitmap(image.getWidth(), image.getHeight(), Bitmap.Config.ARGB_8888);
-    return bitmap;
+    return "UYESSSSS!!!!";
+
+    // Bitmap bitmap = Bitmap.createBitmap(image.getWidth(), image.getHeight(), Bitmap.Config.ARGB_8888);
+    // return bitmap;
   }
 
   ShroomalyzerProcessorPlugin(Context context) {
