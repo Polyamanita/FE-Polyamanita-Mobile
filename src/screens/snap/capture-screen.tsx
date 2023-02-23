@@ -6,8 +6,9 @@ import {
   fetchS3Key,
   getCurrentPosition,
   getUserInfo,
-  shroomify,
+  shroomalyze,
 } from "./utils/capture";
+import { photoFileTimeToDateTime } from "./utils/convert";
 import { createFileName } from "./utils/save";
 /**
  * ? Local Imports
@@ -18,6 +19,7 @@ import AuxButton from "@shared-components/button-aux/button-aux";
 import Button from "@shared-components/button-primary/button-primary";
 import SnapHeader from "./wrappers/header-snap-stack-wrapper";
 import CancelButton from "./components/button-cancel";
+import { Frame } from "react-native-vision-camera";
 
 interface CaptureScreenProps {
   route: any;
@@ -44,10 +46,10 @@ interface CaptureScreenProps {
            If they reject, location info is simply ignored. (undefined).
     */
 
-const handleCapture = async (captureTime: Date) => {
+const handleCapture = async (frame: Frame, captureTime: Date) => {
   // Promise Chain
   const position = getCurrentPosition();
-  const modelData = shroomify();
+  const modelData = shroomalyze(frame);
   const userInfo = getUserInfo();
   const s3Key = fetchS3Key();
 
@@ -73,7 +75,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
   //  const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
   // Passed from SnapScreen, contains image info.
-  const { path, time } = route.params;
+  const { photo, path } = route.params;
 
   return (
     <View style={styles.container}>
@@ -95,8 +97,11 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
         <Button
           title={"Capture"}
           onPress={() => {
+            const time = photoFileTimeToDateTime(
+              photo.metadata["{Exif}"].DateTimeOriginal,
+            );
             console.log("CAPTURED!");
-            handleCapture(time);
+            handleCapture(photo, time);
           }}
           varient={"primary"}
           size={"large"}
