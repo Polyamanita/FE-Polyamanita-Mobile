@@ -29,11 +29,12 @@ public class ShroomalyzerPlugin extends ReactContextBaseJavaModule {
     return "Shroomalyze";
   }
 
+  // This 
   @ReactMethod
-  public void sayTest(Callback error, Callback success) {
+  public void RunModel(String filePath, Callback success, Callback error) {
     try {
       System.out.println("Greetings from Java");
-      success.invoke("Callback : Greetings from Java");
+      success.invoke("Hello from java!!! " + filePath);
     } catch (IllegalViewOperationException e) {
       error.invoke(e.getMessage());
     }

@@ -46,10 +46,10 @@ interface CaptureScreenProps {
            If they reject, location info is simply ignored. (undefined).
     */
 
-const handleCapture = async (photo: PhotoFile, captureTime: string) => {
+const handleCapture = async (photoPath: string, photo: PhotoFile, captureTime: string) => {
   // Promise Chain
   const position = getCurrentPosition();
-  const modelData = shroomalyze();
+  const modelData = shroomalyze(photoPath);
   const userInfo = getUserInfo();
   const s3Key = fetchS3Key();
 
@@ -101,7 +101,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
               photo.metadata["{Exif}"].DateTimeOriginal,
             );
             console.log("CAPTURED!");
-            handleCapture(photo, time);
+            handleCapture(path, photo, time);
           }}
           varient={"primary"}
           size={"large"}
