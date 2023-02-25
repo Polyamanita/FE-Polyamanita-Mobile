@@ -46,7 +46,11 @@ interface CaptureScreenProps {
            If they reject, location info is simply ignored. (undefined).
     */
 
-const handleCapture = async (photoPath: string, photo: PhotoFile, captureTime: string) => {
+const handleCapture = async (
+  photoPath: string,
+  photo: PhotoFile,
+  captureTime: string,
+) => {
   // Promise Chain
   const position = getCurrentPosition();
   const modelData = shroomalyze(photoPath);

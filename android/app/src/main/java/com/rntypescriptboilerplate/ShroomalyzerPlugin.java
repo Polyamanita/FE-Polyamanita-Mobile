@@ -1,22 +1,20 @@
 package com.rntypescriptboilerplate;
 
+import java.io.*;
+import java.lang.*;
+import java.net.*;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
+import android.graphics.BitmapFactory;
 import android.media.Image;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-
 import org.jetbrains.annotations.NotNull;
 
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.Callback;
-import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.*;
 import com.facebook.react.uimanager.IllegalViewOperationException;
-import com.facebook.react.bridge.WritableNativeArray;
-import com.facebook.react.bridge.WritableNativeMap;
 
 
 public class ShroomalyzerPlugin extends ReactContextBaseJavaModule {
@@ -33,10 +31,19 @@ public class ShroomalyzerPlugin extends ReactContextBaseJavaModule {
   @ReactMethod
   public void RunModel(String filePath, Callback success, Callback error) {
     try {
-      System.out.println("Greetings from Java");
-      success.invoke("Hello from java!!! " + filePath);
+      WritableMap resultData = new WritableNativeMap();
+      Bitmap bitmap = loadImage(filePath);
+
+      resultData.putInt("key1", bitmap.getHeight());
+      resultData.putString("key2", "data200");
+      // success.invoke("Hello from java!!! " + filePath);
+      success.invoke(resultData);
     } catch (IllegalViewOperationException e) {
       error.invoke(e.getMessage());
     }
+  }
+
+  private Bitmap loadImage(String filePath) {
+    return BitmapFactory.decodeFile(filePath);
   }
 }

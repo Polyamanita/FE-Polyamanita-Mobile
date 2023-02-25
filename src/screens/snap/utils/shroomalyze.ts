@@ -5,7 +5,8 @@ const ShroomalyzePlugin = NativeModules.Shroomalyze;
 
 export async function shroomalyze(photoPath: string) {
   return new Promise((resolve, reject) => {
-    ShroomalyzePlugin.RunModel(photoPath,
+    ShroomalyzePlugin.RunModel(
+      photoPath,
       (modelMessage: unknown) => {
         resolve(modelMessage);
       },
@@ -13,6 +14,5 @@ export async function shroomalyze(photoPath: string) {
         reject(modelError);
       },
     );
-  })
-  
+  });
 }
