@@ -13,6 +13,7 @@ import { ParamListBase } from "@react-navigation/native";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import NavigationHeader from "@shared-components/header-tabnavigation/header-tabnavigation";
 import { SCREENS } from "shared/constants/navigation-routes";
+import { Captures } from "api/constants/journal";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -24,9 +25,16 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   // const { colors } = theme;
   // const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const mockData = [] as string[];
+  // TODO: get user captures from API
+  const mock: Captures = [];
   for (let i = 0; i < 18; i++) {
-    mockData.push(i.toString());
+    mock.push({
+      captureID: "" + i,
+      instances: [],
+      notes: "hi",
+      timesFound: i,
+      userID: "0",
+    });
   }
 
   return (
@@ -53,14 +61,14 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
           height: "100%",
         }}
       >
-        {mockData.map((e) => (
+        {mock.map((capture) => (
           <Pressable
-            key={e}
+            key={capture.captureID}
             onPress={() => {
-              navigation.navigate(SCREENS.MUSHROOM, { data: e });
+              navigation.navigate(SCREENS.MUSHROOM, { data: capture });
             }}
           >
-            <ListItem label={e} />
+            <ListItem label={capture.captureID} />
           </Pressable>
         ))}
       </ScrollView>

@@ -1,5 +1,6 @@
 import { ParamListBase, RouteProp, useTheme } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
+import { CaptureInstance } from "api/constants/journal";
 import React, { useMemo } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import NavigationHeader from "shared/components/header-tabnavigation/header-tabnavigation";
@@ -7,7 +8,7 @@ import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import createStyles from "./mushroom-screen.style";
 
 type MushroomScreenParams = {
-  data: string;
+  data: CaptureInstance;
 };
 
 interface MushroomScreenProps {
@@ -46,6 +47,7 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   const { data } = route.params;
+  const { captureID, timesFound }: CaptureInstance = data;
 
   return (
     <ScreenContainer>
@@ -59,13 +61,12 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
         </View>
         <View style={{ alignItems: "center" }}>
           <Text style={[styles.text, styles.nameText]}>Magic mushroom</Text>
-          <Text style={[styles.text, styles.sciNameText]}>
-            Abracadabra amanita
-          </Text>
+          {/* TODO: replace with shroom name once DB/API supports it */}
+          <Text style={[styles.text, styles.sciNameText]}>{captureID}</Text>
         </View>
         <View style={styles.countBoxContainer}>
           <CountBox count={4} text="Personal" />
-          <CountBox count={+data} text="Total" isLarge={true} />
+          <CountBox count={timesFound} text="Total" isLarge={true} />
           <CountBox count={534} text="Region" />
         </View>
         <View style={styles.galleryContainer}>
@@ -76,9 +77,10 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
             </View>
           </View>
           <View style={styles.galleryImages}>
-            <></>
+            {/* TODO: render instances here? */}
           </View>
         </View>
+        {/* TODO: make thing for notes down here? */}
       </ScrollView>
     </ScreenContainer>
   );

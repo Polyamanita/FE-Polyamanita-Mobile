@@ -1,4 +1,4 @@
-export interface instance {
+export interface Instance {
   dateFound: string;
   imageLink: string;
   latitude: number;
@@ -9,8 +9,10 @@ export interface instance {
 
 export interface CaptureInstance {
   captureID: string;
-  instances: instance[];
+  instances: Instance[];
   notes: string;
+  timesFound: number;
+  userID: string;
 }
 
 export type Captures = CaptureInstance[];
