@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { View, StyleSheet } from "react-native";
+import { View, StyleSheet, BackHandler } from "react-native";
 import { ParamListBase, useIsFocused } from "@react-navigation/native";
 import {
   Camera,
@@ -131,6 +131,21 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   useEffect(() => {
     zoom.value = neutralZoom;
   }, [neutralZoom, zoom]);
+
+  useEffect(() => {
+    const backAction = () => {
+      BackHandler.exitApp();
+      return true; // needs to return true to make event listener happy.
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction,
+    );
+
+    // When dissmounted, remove the eventlistener.
+    return () => backHandler.remove();
+  }, []);
   // #endregion
 
   // #region Pinch to Zoom Gesture
