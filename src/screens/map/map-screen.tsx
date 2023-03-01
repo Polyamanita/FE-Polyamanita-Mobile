@@ -1,12 +1,11 @@
 import React, { useMemo } from "react";
 import { View } from "react-native";
 import { useTheme } from "@react-navigation/native";
-import * as Map from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
 /**
  * ? Local Imports
  */
 import createStyles from "./map-screen.style";
-import Text from "@shared-components/text-wrapper/TextWrapper";
 
 interface MapScreenProps {}
 
@@ -17,9 +16,17 @@ const MapScreen: React.FC<MapScreenProps> = () => {
 
   return (
     <View style={styles.container}>
-      <Text h1 color={colors.text}>
-        Map
-      </Text>
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        style={{...styles.map, backgroundColor: 'red'}}
+        //specify our coordinates.
+        initialRegion={{
+          latitude: 37.78825,
+          longitude: -122.4324,
+          latitudeDelta: 0.0922,
+          longitudeDelta: 0.0421,
+        }}
+      />
     </View>
   );
 };

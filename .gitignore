@@ -10,6 +10,9 @@ build/
 local.properties
 *.iml
 
+# API keys.
+android/app/src/main/res/values/secrets.xml
+
 # Visual Studio Code
 #
 .vscode/
