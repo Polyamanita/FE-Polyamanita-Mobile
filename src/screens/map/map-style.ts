@@ -1,6 +1,6 @@
 // Custom map style, generated here:
 // https://mapstyle.withgoogle.com/
-export const style = [
+export const customMapStyle = [
   {
     elementType: "geometry",
     stylers: [

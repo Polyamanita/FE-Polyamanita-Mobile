@@ -6,7 +6,7 @@ import MapView, { PROVIDER_GOOGLE } from "react-native-maps";
  * ? Local Imports
  */
 import createStyles from "./map-screen.style";
-import { style } from "./map-style";
+import { customMapStyle } from "./map-style";
 
 interface MapScreenProps {}
 
@@ -19,7 +19,7 @@ const MapScreen: React.FC<MapScreenProps> = () => {
       <MapView
         provider={PROVIDER_GOOGLE}
         style={styles.map}
-        customMapStyle={style}
+        customMapStyle={customMapStyle}
         //specify our coordinates.
         initialRegion={{
           // UCF coords!
