@@ -2,11 +2,12 @@ import React, { useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
 import RNFS from "react-native-fs";
+import { shroomalyze } from "./utils/shroomalyze";
 import {
   fetchS3Key,
   getCurrentPosition,
   getUserInfo,
-  shroomify,
+  photoFileTimeToDateTime,
 } from "./utils/capture";
 import { createFileName } from "./utils/save";
 /**
@@ -18,6 +19,7 @@ import AuxButton from "@shared-components/button-aux/button-aux";
 import Button from "@shared-components/button-primary/button-primary";
 import SnapHeader from "./wrappers/header-snap-stack-wrapper";
 import CancelButton from "./components/button-cancel";
+import { PhotoFile } from "react-native-vision-camera";
 
 interface CaptureScreenProps {
   route: any;
@@ -44,16 +46,25 @@ interface CaptureScreenProps {
            If they reject, location info is simply ignored. (undefined).
     */
 
-const handleCapture = async (captureTime: Date) => {
+const handleCapture = async (
+  photoPath: string,
+  photo: PhotoFile,
+  captureTime: string,
+) => {
   // Promise Chain
   const position = getCurrentPosition();
-  const modelData = shroomify();
+  const modelData = shroomalyze(photoPath);
   const userInfo = getUserInfo();
   const s3Key = fetchS3Key();
 
   // When all above promises are fulfilled, handle the combined data.
   Promise.all([position, modelData, userInfo, s3Key]).then((responses) => {
-    const [resolvedPosition, resolvedModelData, resolvedUserInfo, resolvedS3Key] = responses;
+    const [
+      resolvedPosition,
+      resolvedModelData,
+      resolvedUserInfo,
+      resolvedS3Key,
+    ] = responses;
     console.log("Position: ", resolvedPosition);
     console.log("Mushroom: ", resolvedModelData);
     console.log("User: ", resolvedUserInfo);
@@ -68,7 +79,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
   //  const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
   // Passed from SnapScreen, contains image info.
-  const { path, time } = route.params;
+  const { photo, path } = route.params;
 
   return (
     <View style={styles.container}>
@@ -90,8 +101,11 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
         <Button
           title={"Capture"}
           onPress={() => {
+            const time = photoFileTimeToDateTime(
+              photo.metadata["{Exif}"].DateTimeOriginal,
+            );
             console.log("CAPTURED!");
-            handleCapture(time);
+            handleCapture(path, photo, time);
           }}
           varient={"primary"}
           size={"large"}

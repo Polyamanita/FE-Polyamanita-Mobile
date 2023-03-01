@@ -1,4 +1,6 @@
 apply plugin: "com.android.application"
+apply plugin: "kotlin-android"
+apply plugin: "kotlin-android-extensions"
 apply from: "../../node_modules/react-native-vector-icons/fonts.gradle"
 
 import com.android.build.OutputFile
@@ -161,14 +163,21 @@ android {
     }
 }
 
+// Dynamic definition of react native by running node to fetch react-native version from the package.json.
+// https://stackoverflow.com/questions/70890854/2-files-found-with-path-lib-arm64-v8a-libc-shared-so-from-inputs-react-na
+def REACT_NATIVE_VERSION = new File(['node', '--print',"JSON.parse(require('fs').readFileSync(require.resolve('react-native/package.json'), 'utf-8')).version"].execute(null, rootDir).text.trim())
+
 dependencies {
+    // Kotlin lang
+    implementation 'androidx.core:core-ktx:1.8.0'
+
+    // Boilerplate extensions
     implementation fileTree(dir: "libs", include: ["*.jar"])
-
+    // Force react-native version: https://stackoverflow.com/questions/74325460/a-failure-occurred-while-executing-com-android-build-gradle-internal-tasks-merge
     //noinspection GradleDynamicVersion
-    implementation "com.facebook.react:react-native:+"  // From node_modules
-
+    implementation "com.facebook.react:react-native:${REACT_NATIVE_VERSION}!!"  // From node_modules
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-
+    implementation "androidx.camera:camera-core:1.1.0-alpha08"
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
         exclude group:'com.facebook.fbjni'
     }
@@ -190,6 +199,13 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+
+    // Tensorflow integration
+    implementation 'org.tensorflow:tensorflow-lite-task-vision:0.4.0'
+    // Import the GPU delegate plugin Library for GPU inference
+    implementation 'org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.0'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:2.9.0'
 }
 
 if (isNewArchitectureEnabled()) {

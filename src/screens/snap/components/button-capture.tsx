@@ -39,7 +39,7 @@ const CaptureButton: React.FC<CaptureButtonProps> = ({
       qualityPrioritization: "speed",
       flash: flash,
       quality: 90,
-      skipMetadata: true,
+      skipMetadata: false,
     }),
     [flash],
   );

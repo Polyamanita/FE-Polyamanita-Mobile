@@ -110,8 +110,8 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
     (media: PhotoFile) => {
       // Navigate and pass following data to capture screen.
       navigation.navigate(SCREENS.CAPTURE, {
+        photo: media,
         path: media.path,
-        time: new Date(),
       });
     },
     [navigation],
