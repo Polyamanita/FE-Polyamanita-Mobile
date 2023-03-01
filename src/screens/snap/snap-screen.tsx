@@ -6,7 +6,11 @@ import React, {
   useState,
 } from "react";
 import { View, StyleSheet, BackHandler } from "react-native";
-import { ParamListBase, useFocusEffect, useIsFocused } from "@react-navigation/native";
+import {
+  ParamListBase,
+  useFocusEffect,
+  useIsFocused,
+} from "@react-navigation/native";
 import {
   Camera,
   CameraDeviceFormat,
@@ -132,7 +136,6 @@ const SnapScreen: React.FC<SnapScreenProps> = ({ navigation }) => {
   useEffect(() => {
     zoom.value = neutralZoom;
   }, [neutralZoom, zoom]);
-
 
   // Exit app effect.
   useFocusEffect(() => {

@@ -1,6 +1,7 @@
 import React, { useMemo } from "react";
 import { View } from "react-native";
 import { useTheme } from "@react-navigation/native";
+import * as Map from 'react-native-maps';
 /**
  * ? Local Imports
  */
