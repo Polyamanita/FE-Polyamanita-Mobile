@@ -17,6 +17,8 @@ export const SCREENS = {
   COMMUNITY: "CommunityScreen",
 
   PROFILE: "ProfileScreen",
+
+  IMAGE: "ImageSceen",
 };
 
 // ? Screenstacks

@@ -34,7 +34,8 @@ export const captures = [
 export const previewImage = {
   ...captures[0],
   dateFound: new Date().toUTCString(),
-  imageLink: "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Amanita_muscaria_3_vliegenzwammen_op_rij.jpg/1200px-Amanita_muscaria_3_vliegenzwammen_op_rij.jpg",
+  imageLink:
+    "https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Amanita_muscaria_3_vliegenzwammen_op_rij.jpg/1200px-Amanita_muscaria_3_vliegenzwammen_op_rij.jpg",
   location: "Orlando",
-  s3Key: "not sure yet"
+  s3Key: "not sure yet",
 } as capture;

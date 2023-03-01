@@ -2,9 +2,6 @@ import React, { useMemo } from "react";
 import { View } from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
-interface RegisterScreenProps {
-  navigation: StackNavigationProp<ParamListBase, string>;
-}
 /**
  * ? Local Imports
  */
@@ -47,7 +44,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
             description={e.userID}
             onPress={() => {
               // Fake search API for now.
-              navigation.push(SCREENS.IMAGE, {...previewImage})
+              navigation.push(SCREENS.IMAGE, { ...previewImage });
             }}
           />
         ))}
