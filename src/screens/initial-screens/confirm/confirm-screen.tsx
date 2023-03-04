@@ -55,19 +55,21 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
         <CTAButton
           title={localString.register}
           onPress={() => {
+            console.log("pressed");
             confirmConfirmation({ ...route, code: input as string }).then(
               (result) => {
-                result.status === 200
-                  ? () => {
-                      console.log(result);
-                      navigation.navigate(APPSECTIONS.APP);
-
-                      // TODO: We will also want to save the usertoken to local storage here.
-                      // TODO: Check for usertoken on startup, this is checked in navigation.
-                    }
-                  : () => {
-                      console.log(result);
-                    };
+                console.log(result.status);
+                if (result.status === 200) {
+                  handler.setStatus("confirm");
+                  // console.log(result);
+                  navigation.navigate(APPSECTIONS.APP);
+                  // TODO: We will also want to save the usertoken to local storage here.
+                  // TODO: Check for usertoken on startup, this is checked in navigation.
+                } else {
+                  // console.log(result);
+                  handler.setStatus("warn");
+                  handler.setFeedback("Reason why it went wrong.");
+                }
               },
             );
           }}
