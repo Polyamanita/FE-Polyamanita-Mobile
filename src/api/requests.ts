@@ -20,6 +20,7 @@ const handleError = (err: AxiosError) => {
   }
 };
 
+// Set of general Axios HTTP request functions.
 const requests = {
   get: (url: string, params?: unknown) => {
     return instance

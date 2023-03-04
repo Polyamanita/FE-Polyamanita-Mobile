@@ -19,9 +19,6 @@ interface ConfirmScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
 }
 
-// Mock auth code.
-// const magicNumber = "3212";
-
 const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
   const reference = useRef(null);
   // Input states
@@ -43,11 +40,6 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  function handleDigitInput() {
-    setFeedback("Message to provide user");
-    setValid("confirm");
-  }
-
   return (
     <ScreenContainer>
       <InitialAppWrapper
@@ -55,16 +47,12 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
         heading={localString.initialStackHeaderMessages.confirmation}
       >
         <View style={styles.digitContainer}>
-          <DigitInput
-            inputHandler={handler}
-            autoFocus={true}
-            onEndEditing={handleDigitInput}
-            onBlur={handleDigitInput}
-          />
+          <DigitInput inputHandler={handler} autoFocus={true} />
         </View>
         <CTAButton
           title={localString.register}
           onPress={() => {
+            console.log(input);
             navigation.navigate(APPSECTIONS.APP);
           }}
         />

@@ -23,7 +23,7 @@ interface DigitInputProps extends TextInputProps {
   placeholder?: string;
 }
 
-const Input: React.FC<DigitInputProps> = ({
+const DigitInput: React.FC<DigitInputProps> = ({
   inputHandler,
   placeholder = "0000",
   ...rest
@@ -60,20 +60,6 @@ const Input: React.FC<DigitInputProps> = ({
   ) => {
     const input = ev.nativeEvent.text;
     inputHandler.setInput(input);
-    // if (inputHandler.checkMethods) {
-    //   for (let i = 0; i < inputHandler.checkMethods.length; i++) {
-    //     // If one of the check methods fails, provide user with warning.
-    //     if (inputHandler.checkMethods[i].method(input) === false) {
-    //       inputHandler.setStatus(setStatusColor(false));
-    //       inputHandler.setFeedback(inputHandler.checkMethods[i].feedback);
-    //       return;
-    //     }
-    //   }
-    //   // Everything checked out!!
-    //   inputHandler.setStatus(setStatusColor(true));
-    //   inputHandler.setFeedback("");
-    //   return;
-    // }
   };
 
   return (
@@ -131,4 +117,4 @@ const Input: React.FC<DigitInputProps> = ({
   );
 };
 
-export default Input;
+export default DigitInput;
