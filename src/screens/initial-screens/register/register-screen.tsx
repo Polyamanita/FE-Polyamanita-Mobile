@@ -14,6 +14,7 @@ import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import InputWrapper from "../wrappers/input-wrapper";
 import { inputCheck } from "../utils";
+import { sendEmailConfirmation } from "./utils";
 
 interface RegisterScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -107,6 +108,8 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
           title={localString.register}
           onPress={() => {
             // Set of actions to perform when register is clicked.
+
+            sendEmailConfirmation("doxifip110@pubpng.com");
             navigation.navigate(SCREENS.CONFIRM);
           }}
         />
