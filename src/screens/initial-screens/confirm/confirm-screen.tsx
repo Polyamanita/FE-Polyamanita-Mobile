@@ -14,12 +14,15 @@ import { localString } from "shared/localization";
 import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import InitialAppWrapper from "../wrappers/initial-app-wrapper";
+import { confirmConfirmation } from "../utils";
+import { AuthUser } from "api/auth";
 
 interface ConfirmScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
+  route: AuthUser;
 }
 
-const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
+const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
   const reference = useRef(null);
   // Input states
   const [input, setInput] = useState<InputHandler["input"]>();
@@ -52,8 +55,21 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
         <CTAButton
           title={localString.register}
           onPress={() => {
-            console.log(input);
-            navigation.navigate(APPSECTIONS.APP);
+            confirmConfirmation({ ...route, code: input as string }).then(
+              (result) => {
+                result.status === 200
+                  ? () => {
+                      console.log(result);
+                      navigation.navigate(APPSECTIONS.APP);
+
+                      // TODO: We will also want to save the usertoken to local storage here.
+                      // TODO: Check for usertoken on startup, this is checked in navigation.
+                    }
+                  : () => {
+                      console.log(result);
+                    };
+              },
+            );
           }}
         />
         <CancelButton navigation={navigation} />

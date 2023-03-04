@@ -1,13 +1,7 @@
 import React, { useMemo } from "react";
 import { useTheme } from "@react-navigation/native";
 import { TextInput } from "react-native-gesture-handler";
-import {
-  ColorValue,
-  Keyboard,
-  Text,
-  TextInputProps,
-  View,
-} from "react-native";
+import { ColorValue, Keyboard, Text, TextInputProps, View } from "react-native";
 /**
  * ? Local Imports
  */
@@ -62,7 +56,9 @@ const DigitInput: React.FC<DigitInputProps> = ({
     inputHandler.setInput(input);
 
     // After each input, check if length is 4, if so, close the keyboard.
-    if (input.length === 4) { Keyboard.dismiss(); }
+    if (input.length === 4) {
+      Keyboard.dismiss();
+    }
   };
 
   return (

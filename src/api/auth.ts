@@ -5,7 +5,5 @@ export interface Session {
 
 export interface AuthUser extends Session {
   username: string;
-  firstname: "";
-  lastname: "";
   code: string;
 }

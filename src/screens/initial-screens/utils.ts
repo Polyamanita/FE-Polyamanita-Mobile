@@ -53,7 +53,5 @@ export const handleSendEmailConfirmation = async (
 };
 
 export const confirmConfirmation = (registrationDetails: AuthUser) => {
-  doAuthorize(registrationDetails).then((response) => {
-    console.log(response);
-  });
+  return doAuthorize(registrationDetails);
 };

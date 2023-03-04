@@ -125,8 +125,6 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 username: displayName,
                 email: email,
                 password: password,
-                firstname: "",
-                lastname: "",
                 code: "",
               } as AuthUser;
 
