@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { AuthUser } from "./auth";
 import { BEANSTALK_URL } from "./constants/secrets";
 
 const instance = axios.create({
@@ -6,17 +7,16 @@ const instance = axios.create({
   timeout: 7500,
 });
 
-const result = (res: AxiosResponse) => res.data;
+const result = (res: AxiosResponse) => res;
 const contentJSON = { "content-type": "application/json" };
 
 const handleError = (err: AxiosError) => {
   if (err.response) {
-    // This is the return where if a username/email has been already taken.
-    return err["request"]["_response"];
+    return err.response;
   } else if (err.request) {
-    console.log("No Response:", err.request);
+    return err.request;
   } else {
-    console.log("Request setup failed: ", err.message);
+    return err.message;
   }
 };
 
@@ -42,6 +42,8 @@ const requests = {
 };
 
 // Send user an email confirmation.
-export const doRegister = (
-  email: string,
-): Promise<{ codeExpiration: string }> => requests.post("/auths", email);
+export const doRegister = (email: string): Promise<AxiosResponse> =>
+  requests.post("/auth", email);
+
+export const doAuthorize = (registrationDetails: AuthUser) =>
+  requests.post("/users", registrationDetails);
