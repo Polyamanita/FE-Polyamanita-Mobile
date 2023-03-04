@@ -3,9 +3,8 @@ import { useTheme } from "@react-navigation/native";
 import { TextInput } from "react-native-gesture-handler";
 import {
   ColorValue,
-  NativeSyntheticEvent,
+  Keyboard,
   Text,
-  TextInputEndEditingEventData,
   TextInputProps,
   View,
 } from "react-native";
@@ -54,12 +53,16 @@ const DigitInput: React.FC<DigitInputProps> = ({
       break;
   }
 
-  // Text field handling.
-  const handleInput = (
-    ev: NativeSyntheticEvent<TextInputEndEditingEventData>,
-  ) => {
-    const input = ev.nativeEvent.text;
+  const handleInput = (ev: string) => {
+    let input = ev;
+    const length = input.length - 1;
+    if (input.charAt(length) == " " || input.charAt(length) == "-") {
+      input = input.slice(0, -1);
+    }
     inputHandler.setInput(input);
+
+    // After each input, check if length is 4, if so, close the keyboard.
+    if (input.length === 4) { Keyboard.dismiss(); }
   };
 
   return (
@@ -77,7 +80,7 @@ const DigitInput: React.FC<DigitInputProps> = ({
         <TextInput
           keyboardType={"decimal-pad"}
           textContentType={"none"}
-          onEndEditing={handleInput}
+          onChangeText={handleInput}
           defaultValue={inputHandler.input}
           // Default prop handling
           autoCapitalize={"none"}
@@ -88,6 +91,7 @@ const DigitInput: React.FC<DigitInputProps> = ({
           placeholderTextColor={colors.secondary50}
           style={styles.textfield}
           maxLength={4}
+          value={inputHandler.input}
           {...rest}
         />
       </View>
