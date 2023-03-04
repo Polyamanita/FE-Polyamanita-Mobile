@@ -62,9 +62,15 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
                 if (result.status === 200) {
                   handler.setStatus("confirm");
                   // console.log(result);
-                  navigation.navigate(APPSECTIONS.APP);
+                  
+                  // fix for when user reges, goes into main app, then logs out.
+                  // originally, this would send the user back to confirm screen.
+                  navigation.popToTop();
+                  // Then navigate user to main app.
+
                   // TODO: We will also want to save the usertoken to local storage here.
                   // TODO: Check for usertoken on startup, this is checked in navigation.
+                  navigation.navigate(APPSECTIONS.APP);
                 } else {
                   // console.log(result);
                   handler.setStatus("warn");
