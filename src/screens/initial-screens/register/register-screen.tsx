@@ -13,8 +13,12 @@ import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import InputWrapper from "../wrappers/input-wrapper";
-import { inputCheck } from "../utils";
-import { sendEmailConfirmation } from "./utils";
+import {
+  allInputsFulfilled,
+  handleSendEmailConfirmation,
+  inputCheck,
+} from "../utils";
+import { AuthUser } from "api/auth";
 
 interface RegisterScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -42,7 +46,10 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const displayNameHandler = {
     input: displayName,
     setInput: setDisplayName,
-    checkMethods: [inputCheck.onlyLettersAndNumbers],
+    checkMethods: [
+      inputCheck.onlyLettersAndNumbers,
+      inputCheck.minLengthDisplayName,
+    ],
     setStatus: setValidDisplayName,
     feedback: feedbackDisplayName,
     setFeedback: setFeedbackDisplayName,
@@ -65,7 +72,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
     input: password,
     setInput: setPassword,
     checkMethods: [
-      inputCheck.minLength,
+      inputCheck.minLengthPassword,
       inputCheck.hasAtleastOneCaptial,
       inputCheck.hasAtleastOneDigit,
     ],
@@ -107,10 +114,33 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
         <CTAButton
           title={localString.register}
           onPress={() => {
-            // Set of actions to perform when register is clicked.
+            if (
+              allInputsFulfilled([
+                displayNameHandler.status,
+                emailHandler.status,
+                passwordHandler.status,
+              ])
+            ) {
+              const userData = {
+                username: displayName,
+                email: email,
+                password: password,
+                firstname: "",
+                lastname: "",
+                code: "",
+              } as AuthUser;
 
-            sendEmailConfirmation("doxifip110@pubpng.com");
-            navigation.navigate(SCREENS.CONFIRM);
+              handleSendEmailConfirmation(userData).then(
+                // Future reader. A 200 resolve and 400-500 error will be a result.
+                (result) => {
+                  result.status === 200
+                    ? navigation.navigate(SCREENS.CONFIRM, userData)
+                    : () => {
+                        console.log(result.data);
+                      };
+                },
+              );
+            }
           }}
         />
         <CancelButton navigation={navigation} />
