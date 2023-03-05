@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pressable, ScrollView } from "react-native";
 // import { useTheme } from "@react-navigation/native";
 
@@ -31,18 +31,20 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   const [captures, setCaptures] = useState<Captures>([]);
 
   const userID = useSelector((store: ReduxStore) => store.userData.userID);
-  doGetCaptures(userID).then((result) => {
-    if (result.status === 200) {
-      setCaptures(result.data.captures);
-    }
-  });
+  useEffect(() => {
+    doGetCaptures(userID).then((result) => {
+      if (result.status === 200) {
+        setCaptures(result.data.captures);
+      }
+    });
+  }, [userID]);
 
   // TODO: organize capture list
   const entries = captures.map((capture) => (
     <Pressable
       key={capture.captureID}
       onPress={() => {
-        navigation.navigate(SCREENS.MUSHROOM, { data: capture });
+        navigation.navigate(SCREENS.MUSHROOM, capture);
       }}
     >
       <ListItem label={capture.captureID} />
