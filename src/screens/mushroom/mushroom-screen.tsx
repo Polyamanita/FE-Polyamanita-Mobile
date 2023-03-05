@@ -49,7 +49,45 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
   const { capture } = route.params;
   const { captureID, timesFound } = capture;
 
-  const instances: Instance[] = [];
+  const mockInstances: Instance[] = [
+    {
+      dateFound: "5 seconds ago",
+      imageLink:
+        "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Amanita_muscaria_%28fly_agaric%29.JPG/1200px-Amanita_muscaria_%28fly_agaric%29.JPG",
+      latitude: 28.600989,
+      location: "circle 1",
+      longitude: -81.203842,
+      s3key: "lol1",
+    },
+    {
+      dateFound: "10 seconds ago",
+      imageLink: "https://www.nps.gov/muwo/learn/nature/images/4_20.jpg",
+      latitude: 28.600618,
+      location: "circle 2",
+      longitude: -81.202811,
+      s3key: "lol2",
+    },
+    {
+      dateFound: "15 seconds ago",
+      imageLink:
+        "https://www.gardenbythesea.org/site/assets/files/2583/mg_0296_amanita_mushroom_n_forest.jpg",
+      latitude: 28.599326,
+      location: "circle 3",
+      longitude: -81.203701,
+      s3key: "lol3",
+    },
+    {
+      dateFound: "20 seconds ago",
+      imageLink:
+        "https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2022/06/16151752/594_feat_mushrooms_digi_main.jpeg",
+      latitude: 28.598124,
+      location: "not a circle",
+      longitude: -81.20111,
+      s3key: "lol3",
+    },
+  ];
+
+  const instances: Instance[] = [...mockInstances];
 
   return (
     <ScreenContainer>
