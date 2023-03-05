@@ -44,7 +44,7 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
     <Pressable
       key={capture.captureID}
       onPress={() => {
-        navigation.navigate(SCREENS.MUSHROOM, capture);
+        navigation.navigate(SCREENS.MUSHROOM, { capture });
       }}
     >
       <ListItem label={capture.captureID} />

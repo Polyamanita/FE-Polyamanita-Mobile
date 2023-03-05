@@ -7,19 +7,19 @@ import NavigationHeader from "shared/components/header-tabnavigation/header-tabn
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import createStyles from "./mushroom-screen.style";
 
+interface CountBoxProps {
+  count: number;
+  text: string;
+  isLarge?: boolean;
+}
+
 type MushroomScreenParams = {
-  data: CaptureInstance;
+  capture: CaptureInstance;
 };
 
 interface MushroomScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
   route: RouteProp<{ params: MushroomScreenParams }, "params">;
-}
-
-interface CountBoxProps {
-  count: number;
-  text: string;
-  isLarge?: boolean;
 }
 
 const CountBox: React.FC<CountBoxProps> = ({
@@ -46,8 +46,8 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const { data } = route.params;
-  const { captureID, timesFound }: CaptureInstance = data;
+  const { capture } = route.params;
+  const { captureID, timesFound } = capture;
 
   return (
     <ScreenContainer>
