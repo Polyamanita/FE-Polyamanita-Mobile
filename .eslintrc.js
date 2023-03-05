@@ -82,7 +82,6 @@ module.exports = {
       "error",
       { additionalHooks: "(useMemoOne)" },
     ],
-    "max-len": ["error", 120],
     "@typescript-eslint/ban-ts-comment": 2,
     "@typescript-eslint/no-empty-function": 0,
     "@typescript-eslint/no-explicit-any": 1,

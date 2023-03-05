@@ -14,15 +14,15 @@ import { localString } from "shared/localization";
 import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import InitialAppWrapper from "../wrappers/initial-app-wrapper";
+import { confirmConfirmation } from "../utils";
+import { AuthUser } from "api/auth";
 
 interface ConfirmScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
+  route: AuthUser;
 }
 
-// Mock auth code.
-// const magicNumber = "3212";
-
-const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
+const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
   const reference = useRef(null);
   // Input states
   const [input, setInput] = useState<InputHandler["input"]>();
@@ -43,11 +43,6 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  function handleDigitInput() {
-    setFeedback("Message to provide user");
-    setValid("confirm");
-  }
-
   return (
     <ScreenContainer>
       <InitialAppWrapper
@@ -55,17 +50,34 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ navigation }) => {
         heading={localString.initialStackHeaderMessages.confirmation}
       >
         <View style={styles.digitContainer}>
-          <DigitInput
-            inputHandler={handler}
-            autoFocus={true}
-            onEndEditing={handleDigitInput}
-            onBlur={handleDigitInput}
-          />
+          <DigitInput inputHandler={handler} autoFocus={true} />
         </View>
         <CTAButton
           title={localString.register}
           onPress={() => {
-            navigation.navigate(APPSECTIONS.APP);
+            console.log("pressed");
+            confirmConfirmation({ ...route, code: input as string }).then(
+              (result) => {
+                console.log(result.status);
+                if (result.status === 200) {
+                  handler.setStatus("confirm");
+                  // console.log(result);
+                  
+                  // fix for when user reges, goes into main app, then logs out.
+                  // originally, this would send the user back to confirm screen.
+                  navigation.popToTop();
+                  // Then navigate user to main app.
+
+                  // TODO: We will also want to save the usertoken to local storage here.
+                  // TODO: Check for usertoken on startup, this is checked in navigation.
+                  navigation.navigate(APPSECTIONS.APP);
+                } else {
+                  // console.log(result);
+                  handler.setStatus("warn");
+                  handler.setFeedback("Reason why it went wrong.");
+                }
+              },
+            );
           }}
         />
         <CancelButton navigation={navigation} />
