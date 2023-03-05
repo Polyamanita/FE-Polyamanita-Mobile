@@ -11,6 +11,7 @@ interface Style {
   container: ViewStyle;
   galleryContainer: ViewStyle;
   galleryHeader: ViewStyle;
+  galleryImage: ImageStyle;
   galleryImages: ViewStyle;
   galleryText: TextStyle;
   galleryViewBox: ViewStyle;
@@ -73,7 +74,20 @@ export default (theme: ExtendedTheme) => {
       justifyContent: "space-between",
       width: "100%",
     },
-    galleryImages: {},
+    galleryImage: {
+      // borderWidth: 1,
+      borderColor: "lime",
+      width: 100,
+      height: 100,
+    },
+    galleryImages: {
+      // borderWidth: 1,
+      borderRadius: 15,
+      height: 100,
+      overflow: "hidden",
+      flexDirection: "row",
+      width: "100%",
+    },
     galleryText: {
       fontSize: 24,
     },

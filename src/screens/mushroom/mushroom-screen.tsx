@@ -1,6 +1,6 @@
 import { ParamListBase, RouteProp, useTheme } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { CaptureInstance } from "api/constants/journal";
+import { CaptureInstance, Instance } from "api/constants/journal";
 import React, { useMemo } from "react";
 import { Image, ScrollView, Text, View } from "react-native";
 import NavigationHeader from "shared/components/header-tabnavigation/header-tabnavigation";
@@ -49,6 +49,8 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
   const { capture } = route.params;
   const { captureID, timesFound } = capture;
 
+  const instances: Instance[] = [];
+
   return (
     <ScreenContainer>
       <ScrollView>
@@ -65,9 +67,9 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           <Text style={[styles.text, styles.sciNameText]}>{captureID}</Text>
         </View>
         <View style={styles.countBoxContainer}>
-          <CountBox count={4} text="Personal" />
-          <CountBox count={timesFound} text="Total" isLarge={true} />
-          <CountBox count={534} text="Region" />
+          <CountBox count={timesFound} text="Personal" />
+          <CountBox count={0} text="Total" isLarge={true} />
+          <CountBox count={0} text="Region" />
         </View>
         <View style={styles.galleryContainer}>
           <View style={styles.galleryHeader}>
@@ -77,7 +79,17 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
             </View>
           </View>
           <View style={styles.galleryImages}>
-            {/* TODO: render instances here? */}
+            <ScrollView horizontal={true}>
+              {instances.map((instance) => {
+                return (
+                  <Image
+                    key={instance.imageLink}
+                    source={{ uri: instance.imageLink }}
+                    style={styles.galleryImage}
+                  />
+                );
+              })}
+            </ScrollView>
           </View>
         </View>
         {/* TODO: make thing for notes down here? */}
