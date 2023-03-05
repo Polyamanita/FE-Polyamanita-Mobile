@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Pressable, ScrollView } from "react-native";
 // import { useTheme } from "@react-navigation/native";
 
@@ -14,6 +14,9 @@ import AuxButton from "@shared-components/button-aux/button-aux";
 import NavigationHeader from "@shared-components/header-tabnavigation/header-tabnavigation";
 import { SCREENS } from "shared/constants/navigation-routes";
 import { Captures } from "api/constants/journal";
+import { doGetCaptures } from "api/requests";
+import { useSelector } from "react-redux";
+import { ReduxStore } from "redux/store";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -25,17 +28,26 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   // const { colors } = theme;
   // const styles = useMemo(() => createStyles(theme), [theme]);
 
-  // TODO: get user captures from API
-  const mock: Captures = [];
-  for (let i = 0; i < 18; i++) {
-    mock.push({
-      captureID: "" + i,
-      instances: [],
-      notes: "hi",
-      timesFound: i,
-      userID: "0",
-    });
-  }
+  const [captures, setCaptures] = useState<Captures>([]);
+
+  const userID = useSelector((store: ReduxStore) => store.userData.userID);
+  doGetCaptures(userID).then((result) => {
+    if (result.status === 200) {
+      setCaptures(result.data.captures);
+    }
+  });
+
+  // TODO: organize capture list
+  const entries = captures.map((capture) => (
+    <Pressable
+      key={capture.captureID}
+      onPress={() => {
+        navigation.navigate(SCREENS.MUSHROOM, { data: capture });
+      }}
+    >
+      <ListItem label={capture.captureID} />
+    </Pressable>
+  ));
 
   return (
     <ScreenContainer>
@@ -61,16 +73,7 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
           height: "100%",
         }}
       >
-        {mock.map((capture) => (
-          <Pressable
-            key={capture.captureID}
-            onPress={() => {
-              navigation.navigate(SCREENS.MUSHROOM, { data: capture });
-            }}
-          >
-            <ListItem label={capture.captureID} />
-          </Pressable>
-        ))}
+        {entries}
       </ScrollView>
     </ScreenContainer>
   );
