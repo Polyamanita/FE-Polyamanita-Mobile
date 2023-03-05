@@ -13,6 +13,10 @@ interface CountBoxProps {
   isLarge?: boolean;
 }
 
+interface GalleryProps {
+  instances: Instance[];
+}
+
 type MushroomScreenParams = {
   capture: CaptureInstance;
 };
@@ -35,6 +39,35 @@ const CountBox: React.FC<CountBoxProps> = ({
     >
       <Text style={[styles.text, styles.countBoxNumber]}>{count}</Text>
       <Text style={[styles.text, styles.countBoxText]}>{text}</Text>
+    </View>
+  );
+};
+
+const Gallery: React.FC<GalleryProps> = ({ instances }) => {
+  const theme = useTheme();
+  const styles = useMemo(() => createStyles(theme), [theme]);
+
+  return (
+    <View style={styles.galleryContainer}>
+      <View style={styles.galleryHeader}>
+        <Text style={[styles.text, styles.galleryText]}>Gallery</Text>
+        <View style={[styles.box, styles.galleryViewBox]}>
+          <Text style={[styles.text, styles.galleryViewText]}>View</Text>
+        </View>
+      </View>
+      <View style={styles.galleryImages}>
+        <ScrollView horizontal={true}>
+          {instances.map((instance) => {
+            return (
+              <Image
+                key={instance.imageLink}
+                source={{ uri: instance.imageLink }}
+                style={styles.galleryImage}
+              />
+            );
+          })}
+        </ScrollView>
+      </View>
     </View>
   );
 };
@@ -109,27 +142,7 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           <CountBox count={0} text="Total" isLarge={true} />
           <CountBox count={0} text="Region" />
         </View>
-        <View style={styles.galleryContainer}>
-          <View style={styles.galleryHeader}>
-            <Text style={[styles.text, styles.galleryText]}>Gallery</Text>
-            <View style={[styles.box, styles.galleryViewBox]}>
-              <Text style={[styles.text, styles.galleryViewText]}>View</Text>
-            </View>
-          </View>
-          <View style={styles.galleryImages}>
-            <ScrollView horizontal={true}>
-              {instances.map((instance) => {
-                return (
-                  <Image
-                    key={instance.imageLink}
-                    source={{ uri: instance.imageLink }}
-                    style={styles.galleryImage}
-                  />
-                );
-              })}
-            </ScrollView>
-          </View>
-        </View>
+        <Gallery instances={instances} />
         {/* TODO: make thing for notes down here? */}
       </ScrollView>
     </ScreenContainer>
