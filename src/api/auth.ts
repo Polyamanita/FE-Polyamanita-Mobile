@@ -3,7 +3,13 @@ export interface Session {
   password: string;
 }
 
-export interface AuthUser extends Session {
+export interface AuthUser {
   username: string;
+  email: string;
+}
+
+export interface NewUser extends Session, AuthUser {
   code: string;
 }
+
+

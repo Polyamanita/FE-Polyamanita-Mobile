@@ -18,7 +18,7 @@ import {
   handleSendEmailConfirmation,
   inputCheck,
 } from "../utils";
-import { AuthUser } from "api/auth";
+import { AuthUser, NewUser } from "api/auth";
 
 interface RegisterScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -121,21 +121,24 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 passwordHandler.status,
               ])
             ) {
-              const userData = {
+              const userAuth = {
                 username: displayName,
                 email: email,
-                password: password,
-                code: "",
               } as AuthUser;
 
-              handleSendEmailConfirmation(userData).then(
+              handleSendEmailConfirmation(userAuth).then(
                 // Future reader. A 200 resolve and 400-500 error will be a result.
                 (result) => {
-                  result.status === 200
-                    ? navigation.navigate(SCREENS.CONFIRM, userData)
-                    : () => {
-                        console.log(result.data);
-                      };
+                  if (result.status === 200) {
+                    console.log(result);
+                    navigation.navigate(SCREENS.CONFIRM, {
+                      ...userAuth,
+                      password: password,
+                      code: ""
+                    } as NewUser);
+                  } else {
+                    console.log(result);
+                  }
                 },
               );
             }
