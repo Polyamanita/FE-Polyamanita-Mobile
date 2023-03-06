@@ -11,5 +11,3 @@ export interface AuthUser {
 export interface NewUser extends Session, AuthUser {
   code: string;
 }
-
-

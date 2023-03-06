@@ -45,9 +45,7 @@ export const allInputsFulfilled = (inputStatuses: InputHandler["status"][]) => {
 };
 
 // USER REG HANDELING.
-export const handleSendEmailConfirmation = async (
-  userEmail: AuthUser,
-) => {
+export const handleSendEmailConfirmation = async (userEmail: AuthUser) => {
   // API takes in JSON string.
   return doRegister(JSON.stringify(userEmail));
 };

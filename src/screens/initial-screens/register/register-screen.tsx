@@ -134,7 +134,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                     navigation.navigate(SCREENS.CONFIRM, {
                       ...userAuth,
                       password: password,
-                      code: ""
+                      code: "",
                     } as NewUser);
                   } else {
                     console.log(result);

@@ -56,7 +56,7 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
           title={localString.register}
           onPress={() => {
             console.log("pressed");
-            confirmConfirmation({ ...route, code: input} as NewUser).then(
+            confirmConfirmation({ ...route, code: input } as NewUser).then(
               (result) => {
                 console.log(result.status);
                 if (result.status === 200) {
