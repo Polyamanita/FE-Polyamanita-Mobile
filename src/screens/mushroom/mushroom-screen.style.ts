@@ -18,6 +18,9 @@ interface Style {
   galleryViewText: TextStyle;
   logo: ImageStyle;
   nameText: TextStyle;
+  notesBox: ViewStyle;
+  notesContainer: ViewStyle;
+  notesHeader: ViewStyle;
   sciNameText: TextStyle;
   text: TextStyle;
 }
@@ -66,7 +69,10 @@ export default (theme: ExtendedTheme) => {
       backgroundColor: colors.background,
       justifyContent: "center",
     },
-    galleryContainer: {},
+    galleryContainer: {
+      marginTop: 12,
+      marginBottom: 24,
+    },
     galleryHeader: {
       alignItems: "center",
       flexDirection: "row",
@@ -115,6 +121,16 @@ export default (theme: ExtendedTheme) => {
       fontSize: 30,
       lineHeight: 30,
     },
+    notesBox: {
+      borderRadius: 15,
+      backgroundColor: colors.primary100,
+      height: 150,
+      overflow: "hidden",
+    },
+    notesContainer: {
+      marginBottom: 24,
+    },
+    notesHeader: { marginBottom: 16 },
     sciNameText: {
       fontSize: 20,
       fontStyle: "italic",
