@@ -3,7 +3,9 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { CaptureInstance, Instance } from "api/constants/journal";
 import React, { useMemo } from "react";
 import { Image, ScrollView, Text, TextInput, View } from "react-native";
+import { TouchableHighlight } from "react-native-gesture-handler";
 import NavigationHeader from "shared/components/header-tabnavigation/header-tabnavigation";
+import { SCREENS } from "shared/constants/navigation-routes";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import createStyles from "./mushroom-screen.style";
 
@@ -14,6 +16,7 @@ interface CountBoxProps {
 }
 
 interface GalleryProps {
+  navigation: StackNavigationProp<ParamListBase, string>;
   instances: Instance[];
 }
 
@@ -81,7 +84,7 @@ const CountBox: React.FC<CountBoxProps> = ({
   );
 };
 
-const Gallery: React.FC<GalleryProps> = ({ instances }) => {
+const Gallery: React.FC<GalleryProps> = ({ navigation, instances }) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
@@ -96,12 +99,20 @@ const Gallery: React.FC<GalleryProps> = ({ instances }) => {
       <View style={styles.galleryImages}>
         <ScrollView horizontal={true}>
           {instances.map((instance) => {
+            const imageParams = {
+              dateFound: instance.dateFound,
+              imageLink: instance.imageLink,
+            };
             return (
-              <Image
-                key={instance.imageLink}
-                source={{ uri: instance.imageLink }}
-                style={styles.galleryImage}
-              />
+              <TouchableHighlight
+                key={instance.s3key}
+                onPress={() => navigation.navigate(SCREENS.IMAGE, imageParams)}
+              >
+                <Image
+                  source={{ uri: instance.imageLink }}
+                  style={styles.galleryImage}
+                />
+              </TouchableHighlight>
             );
           })}
         </ScrollView>
@@ -119,8 +130,9 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
 
   const { capture } = route.params;
   // TODO: add dummy instances to db and grab+use them here
-  const { captureID, timesFound } = capture;
-  const instances: Instance[] = [...mockInstances];
+  const { captureID, timesFound, instances, notes } = capture;
+
+  const galleryInstances = instances ?? mockInstances;
 
   return (
     <ScreenContainer>
@@ -142,7 +154,7 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           <CountBox count={0} text="Total" isLarge={true} />
           <CountBox count={0} text="Region" />
         </View>
-        <Gallery instances={instances} />
+        <Gallery navigation={navigation} instances={galleryInstances} />
         {/* TODO: make thing for notes down here? */}
         <View style={styles.notesContainer}>
           <View style={styles.notesHeader}>
@@ -150,6 +162,7 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           </View>
           <View style={styles.notesBox}>
             <TextInput
+              defaultValue={notes}
               multiline={true}
               style={[
                 styles.text,
