@@ -1,5 +1,5 @@
-import { AuthUser } from "api/auth";
-import { doAuthorize, doRegister } from "api/requests";
+import { AuthUser, Session } from "api/auth";
+import { doAuthorize, doRegister, doSignin } from "api/requests";
 import { Check, InputHandler } from "shared/constants/interfaces";
 
 /* Set of checks to perform on an input field to verify the user has typed 
@@ -52,4 +52,8 @@ export const handleSendEmailConfirmation = async (userEmail: AuthUser) => {
 
 export const confirmConfirmation = (registrationDetails: AuthUser) => {
   return doAuthorize(registrationDetails);
+};
+
+export const handleSignin = (credentials: Session) => {
+  return doSignin(credentials);
 };
