@@ -73,10 +73,10 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
               !allInputsFulfilled([
                 displayNameHandler.status,
                 passwordHandler.status,
-              ])
+              ]) ||
+              (!displayName && !password)
             ) {
-              // Just bypass for now
-              // TODO: add handler for blank signin, use mock data?
+              // TODO: add demo handler for blank signin, use mock data?
               navigation.popToTop();
               navigation.push(APPSECTIONS.APP);
             }
