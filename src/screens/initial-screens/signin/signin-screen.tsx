@@ -13,7 +13,7 @@ import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
-import { handleSignin } from "../utils";
+import { allInputsFulfilled, handleSignin } from "../utils";
 import { Session } from "api/auth";
 import { useDispatch } from "react-redux";
 import { updateUserID } from "redux/actions/account-actions";
@@ -69,24 +69,36 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
         <CTAButton
           title={localString.signin}
           onPress={() => {
+            if (
+              !allInputsFulfilled([
+                displayNameHandler.status,
+                passwordHandler.status,
+              ])
+            ) {
+              // Just bypass for now
+              // TODO: add handler for blank signin, use mock data?
+              navigation.popToTop();
+              navigation.push(APPSECTIONS.APP);
+            }
+
             const credentials: Session = {
               // URGENT: resolve this
               email: displayName,
               password,
             };
-
             handleSignin(credentials).then((result) => {
               if (result.status === 200) {
                 // Update user ID in Redux store
                 dispatch(updateUserID(result.userID));
+
+                // TODO: handle session token?
+
+                navigation.popToTop();
                 navigation.push(APPSECTIONS.APP);
               } else {
                 console.log;
               }
             });
-            navigation.popToTop();
-            navigation.push(APPSECTIONS.APP);
-            // navigation.navigate(SCREENSTACK.APP);
 
             // else
             /* display message below password input why didnt work.
