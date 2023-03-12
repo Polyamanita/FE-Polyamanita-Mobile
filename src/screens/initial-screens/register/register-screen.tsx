@@ -121,10 +121,11 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 passwordHandler.status,
               ])
             ) {
-              const userAuth = {
+              const userAuth: AuthUser = {
+                email,
+                password,
                 username: displayName,
-                email: email,
-              } as AuthUser;
+              };
 
               handleSendEmailConfirmation(userAuth).then(
                 // Future reader. A 200 resolve and 400-500 error will be a result.

@@ -43,8 +43,8 @@ const requests = {
 };
 
 // Send user an email confirmation.
-export const doRegister = (email: string): Promise<AxiosResponse> =>
-  requests.post("/auth", email);
+export const doRegister = (user: AuthUser): Promise<AxiosResponse> =>
+  requests.post("/auth", user);
 
 export const doAuthorize = (registrationDetails: AuthUser) =>
   requests.post("/users", registrationDetails);
