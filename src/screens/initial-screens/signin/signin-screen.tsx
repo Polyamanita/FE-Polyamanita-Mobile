@@ -15,6 +15,8 @@ import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { handleSignin } from "../utils";
 import { Session } from "api/auth";
+import { useDispatch } from "react-redux";
+import { updateUserID } from "redux/actions/account-actions";
 
 interface SigninScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -27,6 +29,8 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
   const [password, setPassword] = useState("");
 
   const [validPassword, setValidPassword] = useState("");
+
+  const dispatch = useDispatch();
 
   // TODO: Repetitive code. Create a function to create this?
   const displayNameHandler = {
@@ -73,6 +77,8 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
 
             handleSignin(credentials).then((result) => {
               if (result.status === 200) {
+                // Update user ID in Redux store
+                dispatch(updateUserID(result.userID));
                 navigation.push(APPSECTIONS.APP);
               } else {
                 console.log;
