@@ -13,13 +13,11 @@ import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
+import { handleSignin } from "../utils";
+import { Session } from "api/auth";
 
 interface SigninScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
-}
-
-function handleSignIn() {
-  // magic.
 }
 
 const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
@@ -67,9 +65,19 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
         <CTAButton
           title={localString.signin}
           onPress={() => {
-            // handle sign in here.
-            // if valid, then
-            handleSignIn();
+            const credentials: Session = {
+              // URGENT: resolve this
+              email: displayName,
+              password,
+            };
+
+            handleSignin(credentials).then((result) => {
+              if (result.status === 200) {
+                navigation.push(APPSECTIONS.APP);
+              } else {
+                console.log;
+              }
+            });
             navigation.popToTop();
             navigation.push(APPSECTIONS.APP);
             // navigation.navigate(SCREENSTACK.APP);
