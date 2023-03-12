@@ -52,3 +52,5 @@ export const doAuthorize = (registrationDetails: AuthUser) =>
 // const userID = "some-id";
 export const doGetCaptures = (userID: string) =>
   requests.get("/users/" + userID + "/captures");
+
+export const doGetAllCaptures = () => requests.get("/users/captures");
