@@ -19,6 +19,7 @@ interface CountBoxProps {
 
 interface GalleryProps {
   navigation: StackNavigationProp<ParamListBase, string>;
+  captureID: string;
   instances: Instance[];
 }
 
@@ -86,7 +87,11 @@ const CountBox: React.FC<CountBoxProps> = ({
   );
 };
 
-const Gallery: React.FC<GalleryProps> = ({ navigation, instances }) => {
+const Gallery: React.FC<GalleryProps> = ({
+  navigation,
+  captureID,
+  instances,
+}) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
@@ -102,6 +107,7 @@ const Gallery: React.FC<GalleryProps> = ({ navigation, instances }) => {
         <ScrollView horizontal={true}>
           {instances.map((instance, i) => {
             const imageParams = {
+              captureID,
               dateFound: instance.dateFound,
               imageLink: instance.imageLink,
             };
@@ -159,7 +165,11 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           <CountBox count={0} text="Total" isLarge={true} />
           <CountBox count={0} text="Region" />
         </View>
-        <Gallery navigation={navigation} instances={galleryInstances} />
+        <Gallery
+          navigation={navigation}
+          captureID={captureID}
+          instances={galleryInstances}
+        />
         {/* TODO: make thing for notes down here? */}
         <View style={styles.notesContainer}>
           <View style={styles.notesHeader}>
