@@ -17,6 +17,8 @@ import { Captures } from "api/constants/journal";
 import { doGetCaptures } from "api/requests";
 import { useSelector } from "react-redux";
 import { ReduxStore } from "redux/store";
+import { extractShroomID } from "utils";
+import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -39,17 +41,22 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
     });
   }, [userID]);
 
-  // TODO: organize capture list
-  const entries = captures.map((capture) => (
-    <Pressable
-      key={capture.captureID}
-      onPress={() => {
-        navigation.navigate(SCREENS.MUSHROOM, { capture });
-      }}
-    >
-      <ListItem label={capture.captureID} />
-    </Pressable>
-  ));
+  // TODO: organize capture list?
+  const entries = captures.map((capture) => {
+    const shroomID = extractShroomID(capture.captureID);
+    const { common: shroomName } = MUSHROOM_NAMES[shroomID];
+
+    return (
+      <Pressable
+        key={capture.captureID}
+        onPress={() => {
+          navigation.navigate(SCREENS.MUSHROOM, { capture });
+        }}
+      >
+        <ListItem label={shroomName} />
+      </Pressable>
+    );
+  });
 
   return (
     <ScreenContainer>
