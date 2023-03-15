@@ -5,8 +5,10 @@ import React, { useMemo } from "react";
 import { Image, ScrollView, Text, TextInput, View } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import NavigationHeader from "shared/components/header-tabnavigation/header-tabnavigation";
+import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
 import { SCREENS } from "shared/constants/navigation-routes";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
+import { extractShroomID } from "utils";
 import createStyles from "./mushroom-screen.style";
 
 interface CountBoxProps {
@@ -98,14 +100,14 @@ const Gallery: React.FC<GalleryProps> = ({ navigation, instances }) => {
       </View>
       <View style={styles.galleryImages}>
         <ScrollView horizontal={true}>
-          {instances.map((instance) => {
+          {instances.map((instance, i) => {
             const imageParams = {
               dateFound: instance.dateFound,
               imageLink: instance.imageLink,
             };
             return (
               <TouchableHighlight
-                key={instance.s3key}
+                key={"galleryPic" + i}
                 onPress={() => navigation.navigate(SCREENS.IMAGE, imageParams)}
               >
                 <Image
@@ -134,6 +136,10 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
 
   const galleryInstances = instances ?? mockInstances;
 
+  // Mushroom names
+  const shroomID = extractShroomID(captureID);
+  const { common, scientific } = MUSHROOM_NAMES[shroomID];
+
   return (
     <ScreenContainer>
       <ScrollView showsVerticalScrollIndicator={false}>
@@ -145,9 +151,8 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           <Image source={require("@assets/found.png")} style={styles.logo} />
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text style={[styles.text, styles.nameText]}>Magic mushroom</Text>
-          {/* TODO: replace with shroom name once DB/API supports it */}
-          <Text style={[styles.text, styles.sciNameText]}>{captureID}</Text>
+          <Text style={[styles.text, styles.nameText]}>{common}</Text>
+          <Text style={[styles.text, styles.sciNameText]}>{scientific}</Text>
         </View>
         <View style={styles.countBoxContainer}>
           <CountBox count={timesFound} text="Personal" />
