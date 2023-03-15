@@ -10,6 +10,7 @@ import { SCREENS } from "shared/constants/navigation-routes";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { extractShroomID } from "utils";
 import createStyles from "./mushroom-screen.style";
+import { useGetCaptureData } from "./utils";
 
 interface CountBoxProps {
   count: number;
@@ -136,9 +137,15 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const { capture } = route.params;
-  // TODO: add dummy instances to db and grab+use them here
-  const { captureID, timesFound, instances, notes } = capture;
+  const { capture: captureStub } = route.params;
+  const { captureID } = captureStub;
+  const capture = useGetCaptureData(captureID);
+
+  if (!capture) {
+    return <></>;
+  }
+
+  const { timesFound, instances, notes } = capture;
 
   const galleryInstances = instances ?? mockInstances;
 
@@ -170,7 +177,6 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           captureID={captureID}
           instances={galleryInstances}
         />
-        {/* TODO: make thing for notes down here? */}
         <View style={styles.notesContainer}>
           <View style={styles.notesHeader}>
             <Text style={[styles.text, styles.galleryText]}>Notes</Text>
