@@ -10,7 +10,7 @@ import { SCREENS } from "shared/constants/navigation-routes";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { extractShroomID } from "utils";
 import createStyles from "./mushroom-screen.style";
-import { useGetCaptureData } from "./utils";
+import { useGetInstances } from "./utils";
 
 interface CountBoxProps {
   count: number;
@@ -137,16 +137,15 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const { capture: captureStub } = route.params;
-  const { captureID } = captureStub;
-  const capture = useGetCaptureData(captureID);
+  // const { capture: captureStub } = route.params;
+  // const { captureID } = captureStub;
+  // const { capture, loading } = useGetCaptureData(captureID);
 
-  if (!capture) {
-    return <></>;
-  }
+  const { capture } = route.params;
+  const { captureID, notes, timesFound } = capture;
 
-  const { timesFound, instances, notes } = capture;
-
+  // Need to fetch from API again to get instances' image links :/
+  const { loading, instances } = useGetInstances(captureID);
   const galleryInstances = instances ?? mockInstances;
 
   // Mushroom names
@@ -172,11 +171,13 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           <CountBox count={0} text="Total" isLarge={true} />
           <CountBox count={0} text="Region" />
         </View>
-        <Gallery
-          navigation={navigation}
-          captureID={captureID}
-          instances={galleryInstances}
-        />
+        {!loading && (
+          <Gallery
+            navigation={navigation}
+            captureID={captureID}
+            instances={galleryInstances}
+          />
+        )}
         <View style={styles.notesContainer}>
           <View style={styles.notesHeader}>
             <Text style={[styles.text, styles.galleryText]}>Notes</Text>
