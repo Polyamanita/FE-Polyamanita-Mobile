@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Pressable, ScrollView } from "react-native";
 // import { useTheme } from "@react-navigation/native";
 
@@ -13,12 +13,9 @@ import { ParamListBase } from "@react-navigation/native";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import NavigationHeader from "@shared-components/header-tabnavigation/header-tabnavigation";
 import { SCREENS } from "shared/constants/navigation-routes";
-import { Captures } from "api/constants/journal";
-import { doGetCaptures } from "api/requests";
-import { useSelector } from "react-redux";
-import { ReduxStore } from "redux/store";
 import { extractShroomID } from "utils";
 import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
+import { useGetCaptures } from "./utils";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -30,33 +27,27 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   // const { colors } = theme;
   // const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const [captures, setCaptures] = useState<Captures>([]);
-
-  const userID = useSelector((store: ReduxStore) => store.userData.userID);
-  useEffect(() => {
-    doGetCaptures(userID).then((result) => {
-      if (result.status === 200) {
-        setCaptures(result.data.captures);
-      }
-    });
-  }, [userID]);
+  const { loading, captures } = useGetCaptures();
 
   // TODO: organize capture list?
-  const entries = captures.map((capture) => {
-    const shroomID = extractShroomID(capture.captureID);
-    const { common: shroomName } = MUSHROOM_NAMES[shroomID];
+  const entries =
+    !loading &&
+    captures &&
+    captures.map((capture) => {
+      const shroomID = extractShroomID(capture.captureID);
+      const { common: shroomName } = MUSHROOM_NAMES[shroomID];
 
-    return (
-      <Pressable
-        key={capture.captureID}
-        onPress={() => {
-          navigation.navigate(SCREENS.MUSHROOM, { capture });
-        }}
-      >
-        <ListItem label={shroomName} />
-      </Pressable>
-    );
-  });
+      return (
+        <Pressable
+          key={capture.captureID}
+          onPress={() => {
+            navigation.navigate(SCREENS.MUSHROOM, { capture });
+          }}
+        >
+          <ListItem label={shroomName} />
+        </Pressable>
+      );
+    });
 
   return (
     <ScreenContainer>
