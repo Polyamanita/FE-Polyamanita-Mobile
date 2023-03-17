@@ -23,6 +23,11 @@ export default (state = initialUserData, action: { [key: string]: string }) => {
         userName: userName,
         userID: userID,
       };
+    case channelNames.updateUserID:
+      return {
+        ...state,
+        userID: action.userID,
+      };
     default:
       return state;
   }

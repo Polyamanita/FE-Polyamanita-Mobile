@@ -5,3 +5,10 @@ export const loadUserData = () => {
     type: channelNames.loadUserData,
   };
 };
+
+export const updateUserID = (userID: string) => {
+  return {
+    type: channelNames.updateUserID,
+    userID,
+  };
+};

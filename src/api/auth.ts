@@ -3,9 +3,8 @@ export interface Session {
   password: string;
 }
 
-export interface AuthUser {
+export interface AuthUser extends Session {
   username: string;
-  email: string;
 }
 
 export interface NewUser extends Session, AuthUser {
