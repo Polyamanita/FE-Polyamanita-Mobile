@@ -86,9 +86,7 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
               password: password,
             };
 
-            const sessionCredJSON = JSON.stringify(credentials);
-
-            handleSignin(sessionCredJSON).then((result) => {
+            handleSignin(credentials).then((result) => {
               if (result.status === 200) {
                 // Update user ID in Redux store
                 dispatch(updateUserID(result.userID));
@@ -98,7 +96,7 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
                 navigation.popToTop();
                 navigation.push(APPSECTIONS.APP);
               } else {
-                console.log;
+                // TODO: PROVIDE FEEDBACK MESSAGE FOR INCORRECT INFO.
               }
             });
 

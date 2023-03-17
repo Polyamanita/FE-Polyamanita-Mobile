@@ -1,4 +1,4 @@
-import { AuthUser, NewUser } from "api/auth";
+import { AuthUser, NewUser, Session } from "api/auth";
 import { doAuthorize, doRegister, doSignin } from "api/requests";
 import { Check, InputHandler } from "shared/constants/interfaces";
 
@@ -53,6 +53,6 @@ export const confirmConfirmation = (registrationDetails: NewUser) => {
   return doAuthorize(registrationDetails);
 };
 
-export const handleSignin = (credentialsJSON: string) => {
-  return doSignin(credentialsJSON);
+export const handleSignin = (credentials: Session) => {
+  return doSignin(credentials);
 };
