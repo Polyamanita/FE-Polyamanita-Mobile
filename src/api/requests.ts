@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { AuthUser, Session } from "./auth";
+import { AuthUser } from "./auth";
 import { BEANSTALK_URL } from "./constants/secrets";
 
 const instance = axios.create({

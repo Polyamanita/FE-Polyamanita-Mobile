@@ -1,4 +1,4 @@
-import { AuthUser, NewUser, Session } from "api/auth";
+import { AuthUser, NewUser } from "api/auth";
 import { doAuthorize, doRegister, doSignin } from "api/requests";
 import { Check, InputHandler } from "shared/constants/interfaces";
 

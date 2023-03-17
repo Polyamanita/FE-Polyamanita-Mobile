@@ -71,19 +71,17 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
                   const autoSignInCredentials = {
                     email: newUser.email,
                     password: newUser.password,
-                  } as Session
+                  } as Session;
 
                   // Conver creds to JSON.
                   const sessionCredJSON = JSON.stringify(autoSignInCredentials);
-                  handleSignin(sessionCredJSON).then(
-                    (signInResult) => {
-                      console.log("Signin Result: ", signInResult);
-                      // Then navigate user to main app.
-                      // FIX: for when user reges, goes into main app, then logs out.
-                      navigation.popToTop();
-                      navigation.navigate(APPSECTIONS.APP);
-                    }
-                  )
+                  handleSignin(sessionCredJSON).then((signInResult) => {
+                    console.log("Signin Result: ", signInResult);
+                    // Then navigate user to main app.
+                    // FIX: for when user reges, goes into main app, then logs out.
+                    navigation.popToTop();
+                    navigation.navigate(APPSECTIONS.APP);
+                  });
                 } else {
                   console.log(confirmationResult);
                   handler.setStatus("warn");
