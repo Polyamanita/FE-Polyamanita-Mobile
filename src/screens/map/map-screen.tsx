@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { View } from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
 import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
@@ -10,6 +10,8 @@ import { customMapStyle } from "./map-style";
 import { captures, previewImage } from "api/mockMapData";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SCREENS } from "shared/constants/navigation-routes";
+import { getAllCaptures } from "./utils";
+import { Captures } from "api/constants/journal";
 
 interface MapScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -18,6 +20,30 @@ interface MapScreenProps {
 const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
+
+  const [allCaptures, setAllCaptures] = useState<Captures>([]);
+  useEffect(() => {
+    getAllCaptures().then((result) => {
+      if (result.status === 200) {
+        // console.log(result.data.capture);
+        setAllCaptures(result.data.capture);
+      }
+    });
+  }, []);
+
+  // Create array of capture points from flattened instances
+  const capturePoints = allCaptures.flatMap((capture) =>
+    capture.instances.map((instance) => {
+      return {
+        userID: capture.userID,
+        captureID: capture.captureID,
+        latitude: instance.latitude,
+        longitude: instance.longitude,
+      };
+    }),
+  );
+
+  const mapCaptures = [...captures, ...capturePoints];
 
   return (
     <View style={styles.container}>
@@ -34,7 +60,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
           longitudeDelta: 0.0421,
         }}
       >
-        {captures.map((e, i) => (
+        {mapCaptures.map((e, i) => (
           <Marker
             key={i}
             coordinate={

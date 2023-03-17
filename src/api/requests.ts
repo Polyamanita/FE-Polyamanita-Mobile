@@ -48,3 +48,9 @@ export const doRegister = (user: AuthUser): Promise<AxiosResponse> =>
 
 export const doAuthorize = (registrationDetails: AuthUser) =>
   requests.post("/users", registrationDetails);
+
+// const userID = "some-id";
+export const doGetCaptures = (userID: string) =>
+  requests.get("/users/" + userID + "/captures");
+
+export const doGetAllCaptures = () => requests.get("/users/captures");

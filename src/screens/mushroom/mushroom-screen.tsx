@@ -1,14 +1,27 @@
 import { ParamListBase, RouteProp, useTheme } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
-import { CaptureInstance } from "api/constants/journal";
+import { CaptureInstance, Instance } from "api/constants/journal";
 import React, { useMemo } from "react";
-import { Image, ScrollView, Text, View } from "react-native";
+import { Image, ScrollView, Text, TextInput, View } from "react-native";
+import { TouchableHighlight } from "react-native-gesture-handler";
 import NavigationHeader from "shared/components/header-tabnavigation/header-tabnavigation";
+import { SCREENS } from "shared/constants/navigation-routes";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import createStyles from "./mushroom-screen.style";
 
+interface CountBoxProps {
+  count: number;
+  text: string;
+  isLarge?: boolean;
+}
+
+interface GalleryProps {
+  navigation: StackNavigationProp<ParamListBase, string>;
+  instances: Instance[];
+}
+
 type MushroomScreenParams = {
-  data: CaptureInstance;
+  capture: CaptureInstance;
 };
 
 interface MushroomScreenProps {
@@ -16,11 +29,43 @@ interface MushroomScreenProps {
   route: RouteProp<{ params: MushroomScreenParams }, "params">;
 }
 
-interface CountBoxProps {
-  count: number;
-  text: string;
-  isLarge?: boolean;
-}
+const mockInstances: Instance[] = [
+  {
+    dateFound: "5 seconds ago",
+    imageLink:
+      "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/Amanita_muscaria_%28fly_agaric%29.JPG/1200px-Amanita_muscaria_%28fly_agaric%29.JPG",
+    latitude: 28.600989,
+    location: "circle 1",
+    longitude: -81.203842,
+    s3key: "lol1",
+  },
+  {
+    dateFound: "10 seconds ago",
+    imageLink: "https://www.nps.gov/muwo/learn/nature/images/4_20.jpg",
+    latitude: 28.600618,
+    location: "circle 2",
+    longitude: -81.202811,
+    s3key: "lol2",
+  },
+  {
+    dateFound: "15 seconds ago",
+    imageLink:
+      "https://www.gardenbythesea.org/site/assets/files/2583/mg_0296_amanita_mushroom_n_forest.jpg",
+    latitude: 28.599326,
+    location: "circle 3",
+    longitude: -81.203701,
+    s3key: "lol3",
+  },
+  {
+    dateFound: "20 seconds ago",
+    imageLink:
+      "https://images-stylist.s3-eu-west-1.amazonaws.com/app/uploads/2022/06/16151752/594_feat_mushrooms_digi_main.jpeg",
+    latitude: 28.598124,
+    location: "not a circle",
+    longitude: -81.20111,
+    s3key: "lol3",
+  },
+];
 
 const CountBox: React.FC<CountBoxProps> = ({
   count,
@@ -39,6 +84,43 @@ const CountBox: React.FC<CountBoxProps> = ({
   );
 };
 
+const Gallery: React.FC<GalleryProps> = ({ navigation, instances }) => {
+  const theme = useTheme();
+  const styles = useMemo(() => createStyles(theme), [theme]);
+
+  return (
+    <View style={styles.galleryContainer}>
+      <View style={styles.galleryHeader}>
+        <Text style={[styles.text, styles.galleryText]}>Gallery</Text>
+        <View style={[styles.box, styles.galleryViewBox]}>
+          <Text style={[styles.text, styles.galleryViewText]}>View</Text>
+        </View>
+      </View>
+      <View style={styles.galleryImages}>
+        <ScrollView horizontal={true}>
+          {instances.map((instance) => {
+            const imageParams = {
+              dateFound: instance.dateFound,
+              imageLink: instance.imageLink,
+            };
+            return (
+              <TouchableHighlight
+                key={instance.s3key}
+                onPress={() => navigation.navigate(SCREENS.IMAGE, imageParams)}
+              >
+                <Image
+                  source={{ uri: instance.imageLink }}
+                  style={styles.galleryImage}
+                />
+              </TouchableHighlight>
+            );
+          })}
+        </ScrollView>
+      </View>
+    </View>
+  );
+};
+
 const MushroomScreen: React.FC<MushroomScreenProps> = ({
   navigation,
   route,
@@ -46,12 +128,15 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const { data } = route.params;
-  const { captureID, timesFound }: CaptureInstance = data;
+  const { capture } = route.params;
+  // TODO: add dummy instances to db and grab+use them here
+  const { captureID, timesFound, instances, notes } = capture;
+
+  const galleryInstances = instances ?? mockInstances;
 
   return (
     <ScreenContainer>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         <View style={{ paddingBottom: 24 }}>
           <NavigationHeader navigation={navigation} title={"Journal"} />
         </View>
@@ -65,22 +150,33 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           <Text style={[styles.text, styles.sciNameText]}>{captureID}</Text>
         </View>
         <View style={styles.countBoxContainer}>
-          <CountBox count={4} text="Personal" />
-          <CountBox count={timesFound} text="Total" isLarge={true} />
-          <CountBox count={534} text="Region" />
+          <CountBox count={timesFound} text="Personal" />
+          <CountBox count={0} text="Total" isLarge={true} />
+          <CountBox count={0} text="Region" />
         </View>
-        <View style={styles.galleryContainer}>
-          <View style={styles.galleryHeader}>
-            <Text style={[styles.text, styles.galleryText]}>Gallery</Text>
-            <View style={[styles.box, styles.galleryViewBox]}>
-              <Text style={[styles.text, styles.galleryViewText]}>View</Text>
-            </View>
-          </View>
-          <View style={styles.galleryImages}>
-            {/* TODO: render instances here? */}
-          </View>
-        </View>
+        <Gallery navigation={navigation} instances={galleryInstances} />
         {/* TODO: make thing for notes down here? */}
+        <View style={styles.notesContainer}>
+          <View style={styles.notesHeader}>
+            <Text style={[styles.text, styles.galleryText]}>Notes</Text>
+          </View>
+          <View style={styles.notesBox}>
+            <TextInput
+              defaultValue={notes}
+              multiline={true}
+              style={[
+                styles.text,
+                {
+                  textAlignVertical: "top",
+                  padding: 0,
+                  height: "100%",
+                  marginHorizontal: 12,
+                  marginTop: 12,
+                },
+              ]}
+            />
+          </View>
+        </View>
       </ScrollView>
     </ScreenContainer>
   );
