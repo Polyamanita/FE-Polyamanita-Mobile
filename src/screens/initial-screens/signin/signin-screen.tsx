@@ -25,7 +25,7 @@ interface SigninScreenProps {
 const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
   const reference = useRef(null);
 
-  const [displayName, setDisplayName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [validPassword, setValidPassword] = useState("");
@@ -33,9 +33,9 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
   const dispatch = useDispatch();
 
   // TODO: Repetitive code. Create a function to create this?
-  const displayNameHandler = {
-    input: displayName,
-    setInput: setDisplayName,
+  const emailHandler = {
+    input: email,
+    setInput: setEmail,
     ref: reference,
   } as InputHandler;
 
@@ -55,9 +55,9 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
       >
         <InputWrapper>
           <Input
-            inputHandler={displayNameHandler}
+            inputHandler={emailHandler}
             styling={{
-              placeholder: localString.username,
+              placeholder: localString.email,
             }}
           />
           <Input
@@ -71,10 +71,10 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
           onPress={() => {
             if (
               !allInputsFulfilled([
-                displayNameHandler.status,
+                emailHandler.status,
                 passwordHandler.status,
               ]) ||
-              (!displayName && !password)
+              (!email && !password)
             ) {
               // TODO: add demo handler for blank signin, use mock data?
               navigation.popToTop();
@@ -82,10 +82,10 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
             }
 
             const credentials: Session = {
-              // URGENT: resolve this
-              email: displayName,
+              email,
               password,
             };
+
             handleSignin(credentials).then((result) => {
               if (result.status === 200) {
                 // Update user ID in Redux store
