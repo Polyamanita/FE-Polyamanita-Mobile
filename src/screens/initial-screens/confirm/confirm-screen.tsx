@@ -14,8 +14,8 @@ import { localString } from "shared/localization";
 import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import InitialAppWrapper from "../wrappers/initial-app-wrapper";
-import { confirmConfirmation } from "../utils";
-import { AuthUser, NewUser } from "api/auth";
+import { confirmConfirmation, handleSignin } from "../utils";
+import { AuthUser, NewUser, Session } from "api/auth";
 
 type ConfirmScreenParams = {
   user: AuthUser;
@@ -47,7 +47,7 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const { user } = route.params;
+  const newUser = route.params as unknown as AuthUser;
 
   return (
     <ScreenContainer>
@@ -61,26 +61,33 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
         <CTAButton
           title={localString.register}
           onPress={() => {
-            console.log("pressed");
-            confirmConfirmation({ ...user, code: input } as NewUser).then(
-              (result) => {
-                console.log(result.status);
-                if (result.status === 200) {
+            confirmConfirmation({ ...newUser, code: input } as NewUser).then(
+              (confirmationResult) => {
+                console.log("Confirmation Result: ", confirmationResult.status);
+                if (confirmationResult.status === 201) {
                   handler.setStatus("confirm");
-                  console.log(result);
+                  // We will also want to save the usertoken to local storage here.
+                  // HACKY way of doing it is just automatically sign them in here.
+                  const autoSignInCredentials = {
+                    email: newUser.email,
+                    password: newUser.password,
+                  } as Session
 
-                  // fix for when user reges, goes into main app, then logs out.
-                  // originally, this would send the user back to confirm screen.
-                  navigation.popToTop();
-                  // Then navigate user to main app.
-
-                  // TODO: We will also want to save the usertoken to local storage here.
-                  // TODO: Check for usertoken on startup, this is checked in navigation.
-                  navigation.navigate(APPSECTIONS.APP);
+                  // Conver creds to JSON.
+                  const sessionCredJSON = JSON.stringify(autoSignInCredentials);
+                  handleSignin(sessionCredJSON).then(
+                    (signInResult) => {
+                      console.log("Signin Result: ", signInResult);
+                      // Then navigate user to main app.
+                      // FIX: for when user reges, goes into main app, then logs out.
+                      navigation.popToTop();
+                      navigation.navigate(APPSECTIONS.APP);
+                    }
+                  )
                 } else {
-                  console.log(result);
+                  console.log(confirmationResult);
                   handler.setStatus("warn");
-                  handler.setFeedback(result.data["response"]);
+                  handler.setFeedback(confirmationResult.data["response"]);
                 }
               },
             );

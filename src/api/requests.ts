@@ -56,7 +56,7 @@ export const doGetCapture = (userID: string, captureID: string) =>
 export const doGetCaptures = (userID: string) =>
   requests.get("/users/" + userID + "/captures");
 
-export const doSignin = (credentials: Session) =>
-  requests.get("/session", credentials);
+export const doSignin = (credentialsJSON: string) =>
+  requests.get("/session", credentialsJSON);
 
 export const doGetAllCaptures = () => requests.get("/users/captures");

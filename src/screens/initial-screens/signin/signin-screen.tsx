@@ -82,11 +82,13 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
             }
 
             const credentials: Session = {
-              email,
-              password,
+              email: email,
+              password: password,
             };
 
-            handleSignin(credentials).then((result) => {
+            const sessionCredJSON = JSON.stringify(credentials);
+
+            handleSignin(sessionCredJSON).then((result) => {
               if (result.status === 200) {
                 // Update user ID in Redux store
                 dispatch(updateUserID(result.userID));
