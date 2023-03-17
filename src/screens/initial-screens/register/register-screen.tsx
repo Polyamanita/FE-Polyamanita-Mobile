@@ -114,6 +114,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
         <CTAButton
           title={localString.register}
           onPress={() => {
+            // If all the status are "confirm", then:
             if (
               allInputsFulfilled([
                 displayNameHandler.status,

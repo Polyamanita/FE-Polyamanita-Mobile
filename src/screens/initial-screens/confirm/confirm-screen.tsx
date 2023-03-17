@@ -80,7 +80,7 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
                 } else {
                   console.log(result);
                   handler.setStatus("warn");
-                  handler.setFeedback("Reason why it went wrong.");
+                  handler.setFeedback(result.data["response"]);
                 }
               },
             );
