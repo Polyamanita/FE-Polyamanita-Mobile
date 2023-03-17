@@ -16,6 +16,8 @@ import CancelButton from "../components/cancel-button";
 import InitialAppWrapper from "../wrappers/initial-app-wrapper";
 import { confirmConfirmation, handleSignin } from "../utils";
 import { AuthUser, NewUser, Session } from "api/auth";
+import { useDispatch } from "react-redux";
+import { updateUserID } from "redux/actions/account-actions";
 
 type ConfirmScreenParams = {
   user: AuthUser;
@@ -46,7 +48,7 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
-
+  const dispatch = useDispatch();
   const newUser = route.params as unknown as AuthUser;
 
   return (
@@ -66,17 +68,21 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
                 console.log("Confirmation Result: ", confirmationResult.status);
                 if (confirmationResult.status === 201) {
                   handler.setStatus("confirm");
-                  // We will also want to save the usertoken to local storage here.
-                  // HACKY way of doing it is just automatically sign them in here.
-                  const autoSignInCredentials = {
+                  // TODO: ADD FEEDBACK MESSAGE FOR SIGNIN.
+                  
+                  
+                  const autoSignInCredentials: Session = {
                     email: newUser.email,
                     password: newUser.password,
-                  } as Session;
+                  };
+                  
 
-                  // Conver creds to JSON.
-                  const sessionCredJSON = JSON.stringify(autoSignInCredentials);
-                  handleSignin(sessionCredJSON).then((signInResult) => {
+                  // We will also want to save the usertoken to local storage here.
+                  // HACKY way of doing it is just automatically sign them in here.
+                  handleSignin(autoSignInCredentials).then((signInResult) => {
                     console.log("Signin Result: ", signInResult);
+                    dispatch(updateUserID(signInResult.data.userID));
+                    
                     // Then navigate user to main app.
                     // FIX: for when user reges, goes into main app, then logs out.
                     navigation.popToTop();
