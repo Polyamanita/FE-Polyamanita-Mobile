@@ -32,7 +32,6 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
   const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState("");
   const [feedbackPassword, setFeedbackPassword] = useState("");
-  
 
   const dispatch = useDispatch();
 

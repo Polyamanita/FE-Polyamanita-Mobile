@@ -51,7 +51,7 @@ export const localString = new LocalizedStrings({
       signin: "Continue your trek.",
       confirmation:
         "We have sent a 5-digit pin to your email!\nConfirm the pin below.",
-      incorrectUserPass: "Invalid email or password."
+      incorrectUserPass: "Invalid email or password.",
     },
 
     sectionHeaders: {

@@ -69,20 +69,18 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
                 if (confirmationResult.status === 201) {
                   handler.setStatus("confirm");
                   // TODO: ADD FEEDBACK MESSAGE FOR SIGNIN.
-                  
-                  
+
                   const autoSignInCredentials: Session = {
                     email: newUser.email,
                     password: newUser.password,
                   };
-                  
 
                   // We will also want to save the usertoken to local storage here.
                   // HACKY way of doing it is just automatically sign them in here.
                   handleSignin(autoSignInCredentials).then((signInResult) => {
                     console.log("Signin Result: ", signInResult);
                     dispatch(updateUserID(signInResult.data.userID));
-                    
+
                     // Then navigate user to main app.
                     // FIX: for when user reges, goes into main app, then logs out.
                     navigation.popToTop();
