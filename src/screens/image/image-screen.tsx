@@ -1,11 +1,6 @@
 import React, { useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
-import { ParamListBase, useTheme } from "@react-navigation/native";
-
-interface ImageScreenProps {
-  route: any;
-  navigation: StackNavigationProp<ParamListBase, string>;
-}
+import { ParamListBase, RouteProp, useTheme } from "@react-navigation/native";
 /**
  * ? Local Imports
  */
@@ -15,9 +10,18 @@ import LinearGradient from "react-native-linear-gradient";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import SnapHeader from "@screens/snap/wrappers/header-snap-stack-wrapper";
 import CancelButton from "@screens/snap/components/button-cancel";
+import { extractShroomID } from "utils";
+import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
+
+type ImageScreenParams = {
+  captureID: string;
+  dateFound: string;
+  imageLink: string;
+};
 
 interface ImageScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
+  route: RouteProp<{ params: ImageScreenParams }, "params">;
 }
 
 const ImageScreen: React.FC<ImageScreenProps> = ({ route, navigation }) => {
@@ -25,7 +29,10 @@ const ImageScreen: React.FC<ImageScreenProps> = ({ route, navigation }) => {
   const styles = useMemo(() => createStyles(theme), [theme]);
   const { colors } = theme;
 
-  const { dateFound, imageLink } = route.params;
+  const { captureID, dateFound, imageLink } = route.params;
+
+  const shroomID = extractShroomID(captureID);
+  const { common, scientific } = MUSHROOM_NAMES[shroomID];
 
   return (
     <View style={styles.container}>
@@ -44,14 +51,14 @@ const ImageScreen: React.FC<ImageScreenProps> = ({ route, navigation }) => {
       <View style={styles.infoContainer}>
         <View>
           <Text h2 bold color={colors.secondary100}>
-            Magic Mushroom
+            {common}
           </Text>
           <Text
             h2
             style={{ marginTop: -5, fontStyle: "italic" }}
             color={colors.secondary100}
           >
-            Abacadabara amanita
+            {scientific}
           </Text>
         </View>
 

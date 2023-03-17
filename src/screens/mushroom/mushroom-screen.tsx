@@ -5,9 +5,12 @@ import React, { useMemo } from "react";
 import { Image, ScrollView, Text, TextInput, View } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import NavigationHeader from "shared/components/header-tabnavigation/header-tabnavigation";
+import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
 import { SCREENS } from "shared/constants/navigation-routes";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
+import { extractShroomID } from "utils";
 import createStyles from "./mushroom-screen.style";
+import { useGetInstances } from "./utils";
 
 interface CountBoxProps {
   count: number;
@@ -17,6 +20,7 @@ interface CountBoxProps {
 
 interface GalleryProps {
   navigation: StackNavigationProp<ParamListBase, string>;
+  captureID: string;
   instances: Instance[];
 }
 
@@ -84,7 +88,11 @@ const CountBox: React.FC<CountBoxProps> = ({
   );
 };
 
-const Gallery: React.FC<GalleryProps> = ({ navigation, instances }) => {
+const Gallery: React.FC<GalleryProps> = ({
+  navigation,
+  captureID,
+  instances,
+}) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
@@ -98,14 +106,15 @@ const Gallery: React.FC<GalleryProps> = ({ navigation, instances }) => {
       </View>
       <View style={styles.galleryImages}>
         <ScrollView horizontal={true}>
-          {instances.map((instance) => {
+          {instances.map((instance, i) => {
             const imageParams = {
+              captureID,
               dateFound: instance.dateFound,
               imageLink: instance.imageLink,
             };
             return (
               <TouchableHighlight
-                key={instance.s3key}
+                key={"galleryPic" + i}
                 onPress={() => navigation.navigate(SCREENS.IMAGE, imageParams)}
               >
                 <Image
@@ -128,11 +137,20 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const { capture } = route.params;
-  // TODO: add dummy instances to db and grab+use them here
-  const { captureID, timesFound, instances, notes } = capture;
+  // const { capture: captureStub } = route.params;
+  // const { captureID } = captureStub;
+  // const { capture, loading } = useGetCaptureData(captureID);
 
+  const { capture } = route.params;
+  const { captureID, notes, timesFound } = capture;
+
+  // Need to fetch from API again to get instances' image links :/
+  const { loading, instances } = useGetInstances(captureID);
   const galleryInstances = instances ?? mockInstances;
+
+  // Mushroom names
+  const shroomID = extractShroomID(captureID);
+  const { common, scientific } = MUSHROOM_NAMES[shroomID];
 
   return (
     <ScreenContainer>
@@ -145,17 +163,21 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           <Image source={require("@assets/found.png")} style={styles.logo} />
         </View>
         <View style={{ alignItems: "center" }}>
-          <Text style={[styles.text, styles.nameText]}>Magic mushroom</Text>
-          {/* TODO: replace with shroom name once DB/API supports it */}
-          <Text style={[styles.text, styles.sciNameText]}>{captureID}</Text>
+          <Text style={[styles.text, styles.nameText]}>{common}</Text>
+          <Text style={[styles.text, styles.sciNameText]}>{scientific}</Text>
         </View>
         <View style={styles.countBoxContainer}>
           <CountBox count={timesFound} text="Personal" />
           <CountBox count={0} text="Total" isLarge={true} />
           <CountBox count={0} text="Region" />
         </View>
-        <Gallery navigation={navigation} instances={galleryInstances} />
-        {/* TODO: make thing for notes down here? */}
+        {!loading && (
+          <Gallery
+            navigation={navigation}
+            captureID={captureID}
+            instances={galleryInstances}
+          />
+        )}
         <View style={styles.notesContainer}>
           <View style={styles.notesHeader}>
             <Text style={[styles.text, styles.galleryText]}>Notes</Text>

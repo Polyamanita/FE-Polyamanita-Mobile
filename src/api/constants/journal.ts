@@ -16,3 +16,8 @@ export interface CaptureInstance {
 }
 
 export type Captures = CaptureInstance[];
+
+export interface JournalCache {
+  captures: Captures | undefined;
+  refetch: boolean;
+}
