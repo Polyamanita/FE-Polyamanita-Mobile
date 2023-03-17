@@ -123,9 +123,9 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
               ])
             ) {
               const userAuth: AuthUser = {
-                email,
-                password,
                 username: displayName,
+                email: email,
+                password: password,
               };
 
               handleSendEmailConfirmation(userAuth).then(
@@ -133,7 +133,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 (result) => {
                   if (result.status === 200) {
                     console.log(result);
-                    navigation.navigate(SCREENS.CONFIRM, { userAuth });
+                    navigation.navigate(SCREENS.CONFIRM, userAuth);
                   } else if (result.status === 400) {
                     // TODO: handle user/email already taken
                     // (this should be the only possible case with status 400)

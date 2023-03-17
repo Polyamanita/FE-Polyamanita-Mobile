@@ -53,6 +53,6 @@ export const confirmConfirmation = (registrationDetails: NewUser) => {
   return doAuthorize(registrationDetails);
 };
 
-export const handleSignin = (credentials: Session) => {
-  return doSignin(credentials);
+export const handleSignin = (credentialsJSON: string) => {
+  return doSignin(credentialsJSON);
 };
