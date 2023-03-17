@@ -16,6 +16,7 @@ import JournalScreen from "@screens/journal/journal-screen";
 import CommunityScreen from "@screens/community/community-screen";
 import ProfileScreen from "@screens/profile/profile-modal";
 import MushroomScreen from "@screens/mushroom/mushroom-screen";
+import ImageScreen from "@screens/image/image-screen";
 
 const Stack = createStackNavigator();
 // Function creates a Stack Navigator, that will later be nested inside a
@@ -50,6 +51,11 @@ export const InitialStack = () => {
 export const MapStack = () =>
   createTabStackNavigator([
     <Stack.Screen name={SCREENS.MAP} component={MapScreen} key={SCREENS.MAP} />,
+    <Stack.Screen
+      name={SCREENS.IMAGE}
+      component={ImageScreen}
+      key={SCREENS.IMAGE}
+    />,
   ]);
 
 export const SnapStack = () =>
@@ -87,6 +93,11 @@ export const JournalStack = () =>
       options={{
         presentation: "modal",
       }}
+    />,
+    <Stack.Screen
+      name={SCREENS.IMAGE}
+      component={ImageScreen}
+      key={SCREENS.IMAGE}
     />,
   ]);
 

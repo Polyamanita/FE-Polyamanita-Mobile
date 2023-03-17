@@ -13,7 +13,12 @@ import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import InputWrapper from "../wrappers/input-wrapper";
-import { inputCheck } from "../utils";
+import {
+  allInputsFulfilled,
+  handleSendEmailConfirmation,
+  inputCheck,
+} from "../utils";
+import { AuthUser } from "api/auth";
 
 interface RegisterScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -41,7 +46,10 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
   const displayNameHandler = {
     input: displayName,
     setInput: setDisplayName,
-    checkMethods: [inputCheck.onlyLettersAndNumbers],
+    checkMethods: [
+      inputCheck.onlyLettersAndNumbers,
+      inputCheck.minLengthDisplayName,
+    ],
     setStatus: setValidDisplayName,
     feedback: feedbackDisplayName,
     setFeedback: setFeedbackDisplayName,
@@ -64,7 +72,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
     input: password,
     setInput: setPassword,
     checkMethods: [
-      inputCheck.minLength,
+      inputCheck.minLengthPassword,
       inputCheck.hasAtleastOneCaptial,
       inputCheck.hasAtleastOneDigit,
     ],
@@ -106,8 +114,34 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
         <CTAButton
           title={localString.register}
           onPress={() => {
-            // Set of actions to perform when register is clicked.
-            navigation.navigate(SCREENS.CONFIRM);
+            if (
+              allInputsFulfilled([
+                displayNameHandler.status,
+                emailHandler.status,
+                passwordHandler.status,
+              ])
+            ) {
+              const userAuth: AuthUser = {
+                email,
+                password,
+                username: displayName,
+              };
+
+              handleSendEmailConfirmation(userAuth).then(
+                // Future reader. A 200 resolve and 400-500 error will be a result.
+                (result) => {
+                  if (result.status === 200) {
+                    console.log(result);
+                    navigation.navigate(SCREENS.CONFIRM, { userAuth });
+                  } else if (result.status === 400) {
+                    // TODO: handle user/email already taken
+                    // (this should be the only possible case with status 400)
+                  } else {
+                    console.log(result);
+                  }
+                },
+              );
+            }
           }}
         />
         <CancelButton navigation={navigation} />

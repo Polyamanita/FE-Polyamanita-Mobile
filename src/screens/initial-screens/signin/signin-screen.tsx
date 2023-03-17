@@ -13,27 +13,29 @@ import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
+import { allInputsFulfilled, handleSignin } from "../utils";
+import { Session } from "api/auth";
+import { useDispatch } from "react-redux";
+import { updateUserID } from "redux/actions/account-actions";
 
 interface SigninScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
 }
 
-function handleSignIn() {
-  // magic.
-}
-
 const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
   const reference = useRef(null);
 
-  const [displayName, setDisplayName] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const [validPassword, setValidPassword] = useState("");
 
+  const dispatch = useDispatch();
+
   // TODO: Repetitive code. Create a function to create this?
-  const displayNameHandler = {
-    input: displayName,
-    setInput: setDisplayName,
+  const emailHandler = {
+    input: email,
+    setInput: setEmail,
     ref: reference,
   } as InputHandler;
 
@@ -53,9 +55,9 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
       >
         <InputWrapper>
           <Input
-            inputHandler={displayNameHandler}
+            inputHandler={emailHandler}
             styling={{
-              placeholder: localString.username,
+              placeholder: localString.email,
             }}
           />
           <Input
@@ -67,12 +69,36 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
         <CTAButton
           title={localString.signin}
           onPress={() => {
-            // handle sign in here.
-            // if valid, then
-            handleSignIn();
-            navigation.popToTop();
-            navigation.push(APPSECTIONS.APP);
-            // navigation.navigate(SCREENSTACK.APP);
+            if (
+              !allInputsFulfilled([
+                emailHandler.status,
+                passwordHandler.status,
+              ]) ||
+              (!email && !password)
+            ) {
+              // TODO: add demo handler for blank signin, use mock data?
+              navigation.popToTop();
+              navigation.push(APPSECTIONS.APP);
+            }
+
+            const credentials: Session = {
+              email,
+              password,
+            };
+
+            handleSignin(credentials).then((result) => {
+              if (result.status === 200) {
+                // Update user ID in Redux store
+                dispatch(updateUserID(result.userID));
+
+                // TODO: handle session token?
+
+                navigation.popToTop();
+                navigation.push(APPSECTIONS.APP);
+              } else {
+                console.log;
+              }
+            });
 
             // else
             /* display message below password input why didnt work.

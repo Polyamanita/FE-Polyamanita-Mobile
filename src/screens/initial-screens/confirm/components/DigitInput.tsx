@@ -1,14 +1,7 @@
 import React, { useMemo } from "react";
 import { useTheme } from "@react-navigation/native";
 import { TextInput } from "react-native-gesture-handler";
-import {
-  ColorValue,
-  NativeSyntheticEvent,
-  Text,
-  TextInputEndEditingEventData,
-  TextInputProps,
-  View,
-} from "react-native";
+import { ColorValue, Keyboard, Text, TextInputProps, View } from "react-native";
 /**
  * ? Local Imports
  */
@@ -23,7 +16,7 @@ interface DigitInputProps extends TextInputProps {
   placeholder?: string;
 }
 
-const Input: React.FC<DigitInputProps> = ({
+const DigitInput: React.FC<DigitInputProps> = ({
   inputHandler,
   placeholder = "0000",
   ...rest
@@ -54,26 +47,18 @@ const Input: React.FC<DigitInputProps> = ({
       break;
   }
 
-  // Text field handling.
-  const handleInput = (
-    ev: NativeSyntheticEvent<TextInputEndEditingEventData>,
-  ) => {
-    const input = ev.nativeEvent.text;
+  const handleInput = (ev: string) => {
+    let input = ev;
+    const length = input.length - 1;
+    if (input.charAt(length) == " " || input.charAt(length) == "-") {
+      input = input.slice(0, -1);
+    }
     inputHandler.setInput(input);
-    // if (inputHandler.checkMethods) {
-    //   for (let i = 0; i < inputHandler.checkMethods.length; i++) {
-    //     // If one of the check methods fails, provide user with warning.
-    //     if (inputHandler.checkMethods[i].method(input) === false) {
-    //       inputHandler.setStatus(setStatusColor(false));
-    //       inputHandler.setFeedback(inputHandler.checkMethods[i].feedback);
-    //       return;
-    //     }
-    //   }
-    //   // Everything checked out!!
-    //   inputHandler.setStatus(setStatusColor(true));
-    //   inputHandler.setFeedback("");
-    //   return;
-    // }
+
+    // After each input, check if length is 4, if so, close the keyboard.
+    if (input.length === 4) {
+      Keyboard.dismiss();
+    }
   };
 
   return (
@@ -91,7 +76,7 @@ const Input: React.FC<DigitInputProps> = ({
         <TextInput
           keyboardType={"decimal-pad"}
           textContentType={"none"}
-          onEndEditing={handleInput}
+          onChangeText={handleInput}
           defaultValue={inputHandler.input}
           // Default prop handling
           autoCapitalize={"none"}
@@ -102,6 +87,7 @@ const Input: React.FC<DigitInputProps> = ({
           placeholderTextColor={colors.secondary50}
           style={styles.textfield}
           maxLength={4}
+          value={inputHandler.input}
           {...rest}
         />
       </View>
@@ -131,4 +117,4 @@ const Input: React.FC<DigitInputProps> = ({
   );
 };
 
-export default Input;
+export default DigitInput;

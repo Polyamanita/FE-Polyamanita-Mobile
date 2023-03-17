@@ -1,6 +1,6 @@
 import { channelNames } from "redux/constants";
 import { UserData } from "api/constants/user";
-import { userColors, userIconName, userName } from "api/mockUserData";
+import { userColors, userIconName, userID, userName } from "api/mockUserData";
 
 const initialUserData = {
   avatar: {
@@ -21,6 +21,12 @@ export default (state = initialUserData, action: { [key: string]: string }) => {
           iconName: userIconName,
         },
         userName: userName,
+        userID: userID,
+      };
+    case channelNames.updateUserID:
+      return {
+        ...state,
+        userID: action.userID,
       };
     default:
       return state;
