@@ -82,6 +82,7 @@ export default (theme: ExtendedTheme) => {
     },
     galleryImage: {
       borderColor: "lime",
+      height: "100%",
       width: 110,
       marginHorizontal: 1,
     },

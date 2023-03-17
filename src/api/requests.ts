@@ -43,11 +43,14 @@ const requests = {
 };
 
 // Send user an email confirmation.
-export const doRegister = (email: string): Promise<AxiosResponse> =>
-  requests.post("/auth", email);
+export const doRegister = (user: AuthUser): Promise<AxiosResponse> =>
+  requests.post("/auth", user);
 
 export const doAuthorize = (registrationDetails: AuthUser) =>
   requests.post("/users", registrationDetails);
+
+export const doGetCapture = (userID: string, captureID: string) =>
+  requests.get("/users/" + userID + "/captures/" + captureID);
 
 // const userID = "some-id";
 export const doGetCaptures = (userID: string) =>
@@ -55,3 +58,5 @@ export const doGetCaptures = (userID: string) =>
 
 export const doSignin = (credentials: Session) =>
   requests.get("/session", credentials);
+
+export const doGetAllCaptures = () => requests.get("/users/captures");

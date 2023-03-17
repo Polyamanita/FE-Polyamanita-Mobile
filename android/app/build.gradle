@@ -161,6 +161,10 @@ android {
         pickFirst '**/x86/libjsc.so'
         pickFirst '**/armeabi-v7a/libjsc.so'
     }
+
+    aaptOptions {
+        noCompress "tflite"
+    }
 }
 
 // Dynamic definition of react native by running node to fetch react-native version from the package.json.
@@ -202,10 +206,10 @@ dependencies {
 
 
     // Tensorflow integration
-    implementation 'org.tensorflow:tensorflow-lite-task-vision:0.4.0'
-    // Import the GPU delegate plugin Library for GPU inference
-    implementation 'org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.0'
-    implementation 'org.tensorflow:tensorflow-lite-gpu:2.9.0'
+    implementation 'org.tensorflow:tensorflow-lite:2.10.0'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:2.10.0'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.4.2'
+    implementation 'org.tensorflow:tensorflow-lite-task-vision:0.4.3'
 }
 
 if (isNewArchitectureEnabled()) {

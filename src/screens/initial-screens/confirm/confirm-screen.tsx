@@ -4,7 +4,7 @@ import React, { useMemo, useRef, useState } from "react";
  */
 import { StackNavigationProp } from "@react-navigation/stack";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
-import { ParamListBase, useTheme } from "@react-navigation/native";
+import { ParamListBase, RouteProp, useTheme } from "@react-navigation/native";
 import { View } from "react-native";
 import DigitInput from "./components/DigitInput";
 import createStyles from "./confirm-screen.style";
@@ -15,11 +15,15 @@ import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import InitialAppWrapper from "../wrappers/initial-app-wrapper";
 import { confirmConfirmation } from "../utils";
-import { NewUser } from "api/auth";
+import { AuthUser, NewUser } from "api/auth";
+
+type ConfirmScreenParams = {
+  user: AuthUser;
+};
 
 interface ConfirmScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
-  route: NewUser;
+  route: RouteProp<{ params: ConfirmScreenParams }, "params">;
 }
 
 const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
@@ -43,6 +47,8 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
+  const { user } = route.params;
+
   return (
     <ScreenContainer>
       <InitialAppWrapper
@@ -56,7 +62,7 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
           title={localString.register}
           onPress={() => {
             console.log("pressed");
-            confirmConfirmation({ ...route, code: input } as NewUser).then(
+            confirmConfirmation({ ...user, code: input } as NewUser).then(
               (result) => {
                 console.log(result.status);
                 if (result.status === 200) {

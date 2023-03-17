@@ -94,6 +94,11 @@ export const JournalStack = () =>
         presentation: "modal",
       }}
     />,
+    <Stack.Screen
+      name={SCREENS.IMAGE}
+      component={ImageScreen}
+      key={SCREENS.IMAGE}
+    />,
   ]);
 
 export const CommunityStack = () =>

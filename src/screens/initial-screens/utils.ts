@@ -1,4 +1,4 @@
-import { AuthUser, Session } from "api/auth";
+import { AuthUser, NewUser, Session } from "api/auth";
 import { doAuthorize, doRegister, doSignin } from "api/requests";
 import { Check, InputHandler } from "shared/constants/interfaces";
 
@@ -45,12 +45,11 @@ export const allInputsFulfilled = (inputStatuses: InputHandler["status"][]) => {
 };
 
 // USER REG HANDELING.
-export const handleSendEmailConfirmation = async (userEmail: AuthUser) => {
-  // API takes in JSON string.
-  return doRegister(JSON.stringify(userEmail));
+export const handleSendEmailConfirmation = (registrationDetails: AuthUser) => {
+  return doRegister(registrationDetails);
 };
 
-export const confirmConfirmation = (registrationDetails: AuthUser) => {
+export const confirmConfirmation = (registrationDetails: NewUser) => {
   return doAuthorize(registrationDetails);
 };
 
