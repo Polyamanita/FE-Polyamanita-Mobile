@@ -3,7 +3,7 @@ import { ViewStyle, StyleSheet } from "react-native";
 
 interface Style {
   container: ViewStyle;
-  map: ViewStyle;
+  infoContainer: ViewStyle;
 }
 
 export default (theme: ExtendedTheme) => {
@@ -13,6 +13,10 @@ export default (theme: ExtendedTheme) => {
       ...StyleSheet.absoluteFillObject,
       backgroundColor: colors.primary100,
     },
-    map: { ...StyleSheet.absoluteFillObject },
+    infoContainer: {
+      ...StyleSheet.absoluteFillObject,
+      justifyContent: "flex-end",
+      padding: 15,
+    },
   });
 };
