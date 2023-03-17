@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { AuthUser } from "./auth";
+import { AuthUser, Session } from "./auth";
 import { BEANSTALK_URL } from "./constants/secrets";
 
 const instance = axios.create({
@@ -55,5 +55,8 @@ export const doGetCapture = (userID: string, captureID: string) =>
 // const userID = "some-id";
 export const doGetCaptures = (userID: string) =>
   requests.get("/users/" + userID + "/captures");
+
+export const doSignin = (credentials: Session) =>
+  requests.get("/session", credentials);
 
 export const doGetAllCaptures = () => requests.get("/users/captures");
