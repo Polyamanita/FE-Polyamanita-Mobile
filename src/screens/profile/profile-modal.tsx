@@ -13,7 +13,8 @@ import SectionContainer from "shared/wrappers/section-wrapper/section-wrapper";
 import { localString } from "shared/localization";
 import ButtonWrapper from "@shared-components/button-primary/button-primary";
 import { ReduxStore } from "redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { queueRefetch } from "redux/actions/journal-actions";
 
 interface ProfileModalProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -69,13 +70,17 @@ const AboutSection = () => (
   <SectionContainer label={localString.sectionHeaders.about}></SectionContainer>
 );
 const AccountSection = ({ navigation }: AccountSectionProps) => {
+  const dispatch = useDispatch();
   return (
     <SectionContainer label={localString.sectionHeaders.account}>
       <View style={{ alignSelf: "flex-start" }}>
         <ButtonWrapper
           title={localString.logout}
           size={"small"}
-          onPress={() => navigation.popToTop()}
+          onPress={() => {
+            dispatch(queueRefetch());
+            navigation.popToTop();
+          }}
         />
       </View>
     </SectionContainer>
