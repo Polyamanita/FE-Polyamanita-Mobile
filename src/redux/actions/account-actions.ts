@@ -26,12 +26,12 @@ export const updateUserColors = (colors: [color1: string, color2: string]) => {
   return {
     type: channelNames.updateUserColors,
     colors,
-  }
-}
+  };
+};
 
 export const updateUserIcon = (iconName = "mushroom") => {
   return {
     type: channelNames.updateUserIcon,
     iconName,
-  }
-}
+  };
+};

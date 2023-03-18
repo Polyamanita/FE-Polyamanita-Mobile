@@ -1,12 +1,16 @@
 import { ParamListBase } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthUser, NewUser, Session } from "api/auth";
-import { UserData } from "api/constants/user";
 import { doAuthorize, doGetUser, doRegister, doSignin } from "api/requests";
 import { AxiosResponse } from "axios";
 import { Dispatch } from "react";
 import { AnyAction } from "redux";
-import { updateUserColors, updateUserIcon, updateUserID, updateUserName } from "redux/actions/account-actions";
+import {
+  updateUserColors,
+  updateUserIcon,
+  updateUserID,
+  updateUserName,
+} from "redux/actions/account-actions";
 import { Check, InputHandler } from "shared/constants/interfaces";
 import { APPSECTIONS } from "shared/constants/navigation-routes";
 

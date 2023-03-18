@@ -1,6 +1,6 @@
 export const channelNames = {
   loadUserData: "LOAD_USERDATA",
-  
+
   updateUserID: "UPDATE_USERID",
   updateUserName: "UPDATE_USERNAME",
   updateUserColors: "UPDATE_USERCOLORS",

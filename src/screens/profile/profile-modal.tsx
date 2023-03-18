@@ -92,16 +92,14 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   // const theme = useTheme();
   // const { colors } = theme;
   // const styles = useMemo(() => createStyles(theme), [theme]);
-  const [userName, setUserName] = useState<UserData>();
-  const reduxStoreUserName = useSelector(
-    (store: ReduxStore) => store.userData,
-  );
+  const [userData, setUserData] = useState<UserData>();
+  const reduxStoreUserData = useSelector((store: ReduxStore) => store.userData);
   useEffect(() => {
-    setUserName(reduxStoreUserName);
-  }, [reduxStoreUserName]);
+    setUserData(reduxStoreUserData);
+  }, [reduxStoreUserData]);
   return (
     <ModalContainer navigation={navigation}>
-      <AvatarPivot username={userName?.colors[1] as string} />
+      <AvatarPivot username={userData?.userName as string} />
       <ProfileStats />
       <ContentSection />
       <PreferencesSection />
