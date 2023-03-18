@@ -46,7 +46,7 @@ export const localString = new LocalizedStrings({
     profile: "profile",
 
     initialStackHeaderMessages: {
-      initial: "Welcome to Polyaminita, the mushroom foreaging app.",
+      initial: "Welcome to Polyamanita, the mushroom foraging app.",
       register: "Join the mushroom crew.",
       signin: "Continue your trek.",
       confirmation:
