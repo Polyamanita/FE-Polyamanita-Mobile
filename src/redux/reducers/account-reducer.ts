@@ -7,12 +7,13 @@ const initialUserData = {
     colors: ["#000000", "#FF00FF"],
     iconName: "help",
   },
-  username: "NAME_NOTFOUND",
+  userName: "NAME_NOTFOUND",
+  userID: "NOT_A_ID",
 } as UserData;
 
 export default (state = initialUserData, action: { [key: string]: string }) => {
   switch (action.type) {
-    case channelNames.loadUserData:
+    case channelNames.updateUserData:
       return {
         ...state,
         avatar: {
@@ -22,6 +23,11 @@ export default (state = initialUserData, action: { [key: string]: string }) => {
         },
         userName: userName,
         userID: userID,
+      };
+    case channelNames.updateUserName:
+      return {
+        ...state,
+        userName: action.userName,
       };
     case channelNames.updateUserID:
       return {

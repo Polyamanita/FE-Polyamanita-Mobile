@@ -15,7 +15,7 @@ import CancelButton from "../components/cancel-button";
 import InitialAppWrapper from "../wrappers/initial-app-wrapper";
 import { confirmConfirmation, handleSignin, setupUser } from "../utils";
 import { AuthUser, NewUser, Session } from "api/auth";
-import { useDispatch} from "react-redux";
+import { useDispatch } from "react-redux";
 import { AxiosResponse } from "axios";
 
 type ConfirmScreenParams = {
@@ -79,9 +79,9 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
                   handleSignin(signInCredentials).then(
                     (signInResult: AxiosResponse) => {
                       setupUser(dispatch, signInResult, navigation);
-                      // #endregion
                     },
                   );
+                  // #endregion
                 } else {
                   console.log(confirmationResult);
                   handler.setStatus("warn");
