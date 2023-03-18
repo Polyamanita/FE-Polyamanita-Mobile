@@ -4,6 +4,8 @@ import { CaptureInstance, Instance } from "api/constants/journal";
 import React, { useMemo } from "react";
 import { Image, ScrollView, Text, TextInput, View } from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
+import { useSelector } from "react-redux";
+import { ReduxStore } from "redux/store";
 import NavigationHeader from "shared/components/header-tabnavigation/header-tabnavigation";
 import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
 import { SCREENS } from "shared/constants/navigation-routes";
@@ -96,6 +98,9 @@ const Gallery: React.FC<GalleryProps> = ({
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
 
+  // Get user's ID for image screens
+  const userID = useSelector((store: ReduxStore) => store.userData.userID);
+
   return (
     <View style={styles.galleryContainer}>
       <View style={styles.galleryHeader}>
@@ -109,8 +114,8 @@ const Gallery: React.FC<GalleryProps> = ({
           {instances.map((instance, i) => {
             const imageParams = {
               captureID,
-              dateFound: instance.dateFound,
-              imageLink: instance.imageLink,
+              userID,
+              instance,
             };
             return (
               <TouchableHighlight

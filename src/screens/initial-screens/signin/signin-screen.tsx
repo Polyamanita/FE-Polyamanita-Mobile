@@ -82,8 +82,8 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
             }
 
             const credentials: Session = {
-              email,
-              password,
+              email: email,
+              password: password,
             };
 
             handleSignin(credentials).then((result) => {
@@ -96,7 +96,7 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
                 navigation.popToTop();
                 navigation.push(APPSECTIONS.APP);
               } else {
-                console.log;
+                // TODO: PROVIDE FEEDBACK MESSAGE FOR INCORRECT INFO.
               }
             });
 

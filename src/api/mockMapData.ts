@@ -1,10 +1,12 @@
 // No need to get all the data of a capture, just get enough to be able to
+
+import { Instance } from "./constants/journal";
+
 // search the DB later.
 interface capturePoint {
   userID: string;
   captureID: string;
-  latitude: number;
-  longitude: number;
+  instance: Instance;
 }
 
 // and when we select a point, call API to search captureID to return
@@ -20,14 +22,26 @@ export const captures = [
   {
     userID: "person1",
     captureID: "27",
-    latitude: 28.6016,
-    longitude: -81.2005,
+    instance: {
+      dateFound: "",
+      imageLink: "",
+      latitude: 28.6016,
+      longitude: -81.2005,
+      location: "",
+      s3key: "",
+    },
   },
   {
     userID: "person2",
     captureID: "53",
-    latitude: 28.16,
-    longitude: -81.1,
+    instance: {
+      dateFound: "",
+      imageLink: "",
+      latitude: 28.16,
+      longitude: -81.1,
+      location: "",
+      s3key: "",
+    },
   },
 ] as capturePoint[];
 
