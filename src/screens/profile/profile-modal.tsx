@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ParamListBase } from "@react-navigation/native";
 
 /**
@@ -14,6 +14,7 @@ import { localString } from "shared/localization";
 import ButtonWrapper from "@shared-components/button-primary/button-primary";
 import { ReduxStore } from "redux/store";
 import { useSelector } from "react-redux";
+import { UserData } from "api/constants/user";
 
 interface ProfileModalProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -23,9 +24,12 @@ interface AccountSectionProps {
   navigation: StackNavigationProp<ParamListBase, string>;
 }
 
-const AvatarPivot = () => {
+interface AvatarPivotProps {
+  username: string;
+}
+
+const AvatarPivot = ({ username }: AvatarPivotProps) => {
   const pivotSize = 100;
-  const userName = useSelector((store: ReduxStore) => store.userData.userName);
   return (
     <View
       style={{
@@ -45,7 +49,7 @@ const AvatarPivot = () => {
       >
         <Avatar wrapperSize={pivotSize} />
       </View>
-      <Text h1>{userName}</Text>
+      <Text h1>{username}</Text>
     </View>
   );
 };
@@ -88,10 +92,14 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   // const theme = useTheme();
   // const { colors } = theme;
   // const styles = useMemo(() => createStyles(theme), [theme]);
-
+  const [userData, setUserData] = useState<UserData>();
+  const reduxStoreUserData = useSelector((store: ReduxStore) => store.userData);
+  useEffect(() => {
+    setUserData(reduxStoreUserData);
+  }, [reduxStoreUserData]);
   return (
     <ModalContainer navigation={navigation}>
-      <AvatarPivot />
+      <AvatarPivot username={userData?.userName as string} />
       <ProfileStats />
       <ContentSection />
       <PreferencesSection />

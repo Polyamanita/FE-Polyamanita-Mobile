@@ -42,12 +42,16 @@ const requests = {
     instance.delete(url, { params: params }).then(result).catch(handleError),
 };
 
-// Send user an email confirmation.
+// #region API for user signin / reg
 export const doRegister = (user: AuthUser): Promise<AxiosResponse> =>
   requests.post("/auth", user);
 
 export const doAuthorize = (registrationDetails: AuthUser) =>
   requests.post("/users", registrationDetails);
+
+export const doSignin = (credentials: Session) =>
+  requests.post("/session", credentials);
+// #endregion
 
 export const doGetUser = (userID: string) => requests.get("/users/" + userID);
 
@@ -57,8 +61,5 @@ export const doGetCapture = (userID: string, captureID: string) =>
 // const userID = "some-id";
 export const doGetCaptures = (userID: string) =>
   requests.get("/users/" + userID + "/captures");
-
-export const doSignin = (credentials: Session) =>
-  requests.post("/session", credentials);
 
 export const doGetAllCaptures = () => requests.get("/users/captures");

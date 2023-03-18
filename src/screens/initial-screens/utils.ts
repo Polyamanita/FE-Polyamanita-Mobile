@@ -1,6 +1,18 @@
+import { ParamListBase } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthUser, NewUser, Session } from "api/auth";
-import { doAuthorize, doRegister, doSignin } from "api/requests";
+import { doAuthorize, doGetUser, doRegister, doSignin } from "api/requests";
+import { AxiosResponse } from "axios";
+import { Dispatch } from "react";
+import { AnyAction } from "redux";
+import {
+  updateUserColors,
+  updateUserIcon,
+  updateUserID,
+  updateUserName,
+} from "redux/actions/account-actions";
 import { Check, InputHandler } from "shared/constants/interfaces";
+import { APPSECTIONS } from "shared/constants/navigation-routes";
 
 /* Set of checks to perform on an input field to verify the user has typed 
    has typed in the correct information. */
@@ -44,7 +56,7 @@ export const allInputsFulfilled = (inputStatuses: InputHandler["status"][]) => {
   return !inputStatuses.includes("warn") && !inputStatuses.includes("alert");
 };
 
-// USER REG HANDELING.
+// #region Promise wrappers fror userReg / Signin
 export const handleSendEmailConfirmation = (registrationDetails: AuthUser) => {
   return doRegister(registrationDetails);
 };
@@ -55,4 +67,29 @@ export const confirmConfirmation = (registrationDetails: NewUser) => {
 
 export const handleSignin = (credentials: Session) => {
   return doSignin(credentials);
+};
+// #endregion
+
+// Decorator to handle set of signin actions to perform.
+export const setupUser = (
+  dispatch: Dispatch<AnyAction>,
+  response: AxiosResponse,
+  navigation: StackNavigationProp<ParamListBase, string>,
+) => {
+  // Now that we have the ID. We can also update; Redux store to contain user info/settings.
+  doGetUser(response.data.userID).then((userResponse: AxiosResponse) => {
+    // console.log("doGetUser: ", response);
+    const userData = userResponse.data.user;
+
+    // Sorry, was having problems making one dispatch as an object; SKILL ISSUE.
+    dispatch(updateUserID(response.data.userID));
+    dispatch(updateUserName(userData.username));
+    dispatch(updateUserIcon()); // default.
+    dispatch(updateUserColors([userData.color1, userData.color2]));
+  });
+
+  // Then navigate user to main app.
+  // FIX: for when user reges, goes into main app, then logs out.
+  navigation.popToTop();
+  navigation.navigate(APPSECTIONS.APP);
 };
