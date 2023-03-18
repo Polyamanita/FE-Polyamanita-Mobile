@@ -13,7 +13,9 @@ import { ParamListBase } from "@react-navigation/native";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import NavigationHeader from "@shared-components/header-tabnavigation/header-tabnavigation";
 import { SCREENS } from "shared/constants/navigation-routes";
-import { Captures } from "api/constants/journal";
+import { extractShroomID } from "utils";
+import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
+import { useGetCaptures } from "./utils";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -25,17 +27,27 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   // const { colors } = theme;
   // const styles = useMemo(() => createStyles(theme), [theme]);
 
-  // TODO: get user captures from API
-  const mock: Captures = [];
-  for (let i = 0; i < 18; i++) {
-    mock.push({
-      captureID: "" + i,
-      instances: [],
-      notes: "hi",
-      timesFound: i,
-      userID: "0",
+  const { loading, captures } = useGetCaptures();
+
+  // TODO: organize capture list?
+  const entries =
+    !loading &&
+    captures &&
+    captures.map((capture) => {
+      const shroomID = extractShroomID(capture.captureID);
+      const { common: shroomName } = MUSHROOM_NAMES[shroomID];
+
+      return (
+        <Pressable
+          key={capture.captureID}
+          onPress={() => {
+            navigation.navigate(SCREENS.MUSHROOM, { capture });
+          }}
+        >
+          <ListItem label={shroomName} />
+        </Pressable>
+      );
     });
-  }
 
   return (
     <ScreenContainer>
@@ -61,16 +73,7 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
           height: "100%",
         }}
       >
-        {mock.map((capture) => (
-          <Pressable
-            key={capture.captureID}
-            onPress={() => {
-              navigation.navigate(SCREENS.MUSHROOM, { data: capture });
-            }}
-          >
-            <ListItem label={capture.captureID} />
-          </Pressable>
-        ))}
+        {entries}
       </ScrollView>
     </ScreenContainer>
   );

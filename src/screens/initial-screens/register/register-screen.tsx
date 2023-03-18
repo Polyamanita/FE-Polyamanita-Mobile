@@ -18,7 +18,7 @@ import {
   handleSendEmailConfirmation,
   inputCheck,
 } from "../utils";
-import { AuthUser, NewUser } from "api/auth";
+import { AuthUser } from "api/auth";
 
 interface RegisterScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -114,6 +114,7 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
         <CTAButton
           title={localString.register}
           onPress={() => {
+            // If all the status are "confirm", then:
             if (
               allInputsFulfilled([
                 displayNameHandler.status,
@@ -121,21 +122,21 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
                 passwordHandler.status,
               ])
             ) {
-              const userAuth = {
+              const userAuth: AuthUser = {
                 username: displayName,
                 email: email,
-              } as AuthUser;
+                password: password,
+              };
 
               handleSendEmailConfirmation(userAuth).then(
                 // Future reader. A 200 resolve and 400-500 error will be a result.
                 (result) => {
                   if (result.status === 200) {
                     console.log(result);
-                    navigation.navigate(SCREENS.CONFIRM, {
-                      ...userAuth,
-                      password: password,
-                      code: "",
-                    } as NewUser);
+                    navigation.navigate(SCREENS.CONFIRM, userAuth);
+                  } else if (result.status === 400) {
+                    // TODO: handle user/email already taken
+                    // (this should be the only possible case with status 400)
                   } else {
                     console.log(result);
                   }

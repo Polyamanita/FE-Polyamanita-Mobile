@@ -11,12 +11,16 @@ interface Style {
   container: ViewStyle;
   galleryContainer: ViewStyle;
   galleryHeader: ViewStyle;
+  galleryImage: ImageStyle;
   galleryImages: ViewStyle;
   galleryText: TextStyle;
   galleryViewBox: ViewStyle;
   galleryViewText: TextStyle;
   logo: ImageStyle;
   nameText: TextStyle;
+  notesBox: ViewStyle;
+  notesContainer: ViewStyle;
+  notesHeader: ViewStyle;
   sciNameText: TextStyle;
   text: TextStyle;
 }
@@ -65,15 +69,33 @@ export default (theme: ExtendedTheme) => {
       backgroundColor: colors.background,
       justifyContent: "center",
     },
-    galleryContainer: {},
+    galleryContainer: {
+      marginTop: 12,
+      marginBottom: 24,
+    },
     galleryHeader: {
       alignItems: "center",
-      // borderWidth: 1,
       flexDirection: "row",
       justifyContent: "space-between",
+      marginBottom: 10,
       width: "100%",
     },
-    galleryImages: {},
+    galleryImage: {
+      borderColor: "lime",
+      height: "100%",
+      width: 110,
+      marginHorizontal: 1,
+    },
+    galleryImages: {
+      borderWidth: 1,
+      backgroundColor: colors.primary12,
+      borderColor: colors.primary12,
+      borderRadius: 15,
+      height: 120,
+      overflow: "hidden",
+      flexDirection: "row",
+      width: "100%",
+    },
     galleryText: {
       fontSize: 24,
     },
@@ -100,6 +122,16 @@ export default (theme: ExtendedTheme) => {
       fontSize: 30,
       lineHeight: 30,
     },
+    notesBox: {
+      borderRadius: 15,
+      backgroundColor: colors.primary100,
+      height: 150,
+      overflow: "hidden",
+    },
+    notesContainer: {
+      marginBottom: 24,
+    },
+    notesHeader: { marginBottom: 16 },
     sciNameText: {
       fontSize: 20,
       fontStyle: "italic",

@@ -18,7 +18,7 @@ interface DigitInputProps extends TextInputProps {
 
 const DigitInput: React.FC<DigitInputProps> = ({
   inputHandler,
-  placeholder = "0000",
+  placeholder = "00000",
   ...rest
 }) => {
   const theme = useTheme();
@@ -55,8 +55,8 @@ const DigitInput: React.FC<DigitInputProps> = ({
     }
     inputHandler.setInput(input);
 
-    // After each input, check if length is 4, if so, close the keyboard.
-    if (input.length === 4) {
+    // After each input, check if length is 5, if so, close the keyboard.
+    if (input.length === 5) {
       Keyboard.dismiss();
     }
   };
@@ -86,7 +86,7 @@ const DigitInput: React.FC<DigitInputProps> = ({
           placeholder={placeholder}
           placeholderTextColor={colors.secondary50}
           style={styles.textfield}
-          maxLength={4}
+          maxLength={5}
           value={inputHandler.input}
           {...rest}
         />
