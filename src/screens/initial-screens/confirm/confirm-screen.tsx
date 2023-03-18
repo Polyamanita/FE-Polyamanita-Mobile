@@ -67,7 +67,7 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
                 if (confirmationResult.status === 201) {
                   handler.setStatus("confirm");
                   // Shhhhh
-                  handler.setFeedback("AYO LETS GO, WELCOME!!");
+                  handler.setFeedback("LETS GO, WELCOME!!");
 
                   // #region Now that the user is registered authentically, we can auto sign them in.
                   const signInCredentials: Session = {
@@ -78,7 +78,7 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
                   // HACKY way of doing it is just automatically sign them in here.
                   handleSignin(signInCredentials).then(
                     (signInResult: AxiosResponse) => {
-                      setupUser(dispatch, signInResult, navigation);
+                      setupUser(dispatch, signInResult, navigation, true);
                     },
                   );
                   // #endregion
