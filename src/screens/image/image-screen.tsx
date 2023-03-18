@@ -13,7 +13,7 @@ import CancelButton from "@screens/snap/components/button-cancel";
 import { extractShroomID } from "utils";
 import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
 import { Instance } from "api/constants/journal";
-import { useGetUsername } from "./utils";
+import { convertDateTime, useGetUsername } from "./utils";
 
 type ImageScreenParams = {
   captureID: string;
@@ -77,7 +77,7 @@ const ImageScreen: React.FC<ImageScreenProps> = ({ route, navigation }) => {
                 Orlando, FL
               </Text>
               <Text h3 color={colors.secondary100}>
-                {dateFound}
+                {convertDateTime(dateFound)}
               </Text>
             </View>
           </View>
