@@ -32,7 +32,7 @@ const ImageScreen: React.FC<ImageScreenProps> = ({ route, navigation }) => {
   const { colors } = theme;
 
   const { captureID, userID, instance } = route.params;
-  const { dateFound, imageLink } = instance;
+  const { dateFound, imageLink, location } = instance;
 
   const shroomID = extractShroomID(captureID);
   const { common, scientific } = MUSHROOM_NAMES[shroomID];
@@ -74,7 +74,7 @@ const ImageScreen: React.FC<ImageScreenProps> = ({ route, navigation }) => {
                 {username}
               </Text>
               <Text h3 color={colors.secondary100}>
-                Orlando, FL
+                {location}
               </Text>
               <Text h3 color={colors.secondary100}>
                 {convertDateTime(dateFound)}
