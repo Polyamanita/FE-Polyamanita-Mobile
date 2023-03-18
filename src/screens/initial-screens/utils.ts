@@ -1,6 +1,13 @@
+import { ParamListBase } from "@react-navigation/native";
+import { StackNavigationProp } from "@react-navigation/stack";
 import { AuthUser, NewUser, Session } from "api/auth";
 import { doAuthorize, doRegister, doSignin } from "api/requests";
+import { AxiosResponse } from "axios";
+import { Dispatch } from "react";
+import { AnyAction } from "redux";
+import { updateUserID } from "redux/actions/account-actions";
 import { Check, InputHandler } from "shared/constants/interfaces";
+import { APPSECTIONS } from "shared/constants/navigation-routes";
 
 /* Set of checks to perform on an input field to verify the user has typed 
    has typed in the correct information. */
@@ -44,7 +51,7 @@ export const allInputsFulfilled = (inputStatuses: InputHandler["status"][]) => {
   return !inputStatuses.includes("warn") && !inputStatuses.includes("alert");
 };
 
-// USER REG HANDELING.
+// #region Promise wrappers fror userReg / Signin
 export const handleSendEmailConfirmation = (registrationDetails: AuthUser) => {
   return doRegister(registrationDetails);
 };
@@ -55,4 +62,19 @@ export const confirmConfirmation = (registrationDetails: NewUser) => {
 
 export const handleSignin = (credentials: Session) => {
   return doSignin(credentials);
+};
+// #endregion
+
+// Decorator to handle set of signin actions to perform.
+export const setupUser = (
+  dispatch: Dispatch<AnyAction>,
+  response: AxiosResponse,
+  navigation: StackNavigationProp<ParamListBase, string>,
+) => {
+  // console.log("SignIn Respose: ", response);
+  dispatch(updateUserID(response.data.userID));
+  // Then navigate user to main app.
+  // FIX: for when user reges, goes into main app, then logs out.
+  navigation.popToTop();
+  navigation.navigate(APPSECTIONS.APP);
 };

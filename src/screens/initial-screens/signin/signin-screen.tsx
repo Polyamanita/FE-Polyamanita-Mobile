@@ -6,17 +6,20 @@ import Input from "@shared-components/input/input";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";
 import { InputHandler } from "shared/constants/interfaces";
-import { APPSECTIONS } from "shared/constants/navigation-routes";
 import { localString } from "shared/localization";
 import InputWrapper from "../wrappers/input-wrapper";
 import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
-import { allInputsFulfilled, handleSignin, inputCheck } from "../utils";
+import {
+  allInputsFulfilled,
+  handleSignin,
+  inputCheck,
+  setupUser,
+} from "../utils";
 import { Session } from "api/auth";
 import { useDispatch } from "react-redux";
-import { updateUserID } from "redux/actions/account-actions";
 
 interface SigninScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -103,11 +106,7 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
               handleSignin(credentials).then((result) => {
                 console.log(result.status === 200);
                 if (result.status === 200) {
-                  // Update user ID in Redux store
-                  dispatch(updateUserID(result.userID));
-                  // TODO: handle session token?
-                  navigation.popToTop();
-                  navigation.push(APPSECTIONS.APP);
+                  setupUser(dispatch, result, navigation);
                 } else {
                   emailHandler.setStatus("warn");
                   emailHandler.setFeedback("");

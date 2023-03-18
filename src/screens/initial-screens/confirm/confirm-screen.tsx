@@ -9,15 +9,14 @@ import { View } from "react-native";
 import DigitInput from "./components/DigitInput";
 import createStyles from "./confirm-screen.style";
 import { InputHandler } from "shared/constants/interfaces";
-import { APPSECTIONS } from "shared/constants/navigation-routes";
 import { localString } from "shared/localization";
 import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import InitialAppWrapper from "../wrappers/initial-app-wrapper";
-import { confirmConfirmation, handleSignin } from "../utils";
+import { confirmConfirmation, handleSignin, setupUser } from "../utils";
 import { AuthUser, NewUser, Session } from "api/auth";
-import { useDispatch } from "react-redux";
-import { updateUserID } from "redux/actions/account-actions";
+import { useDispatch} from "react-redux";
+import { AxiosResponse } from "axios";
 
 type ConfirmScreenParams = {
   user: AuthUser;
@@ -48,9 +47,8 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
   const theme = useTheme();
   // const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
-  const dispatch = useDispatch();
   const newUser = route.params as unknown as AuthUser;
-
+  const dispatch = useDispatch();
   return (
     <ScreenContainer>
       <InitialAppWrapper
@@ -68,24 +66,22 @@ const ConfirmScreen: React.FC<ConfirmScreenProps> = ({ route, navigation }) => {
                 console.log("Confirmation Result: ", confirmationResult.status);
                 if (confirmationResult.status === 201) {
                   handler.setStatus("confirm");
-                  // TODO: ADD FEEDBACK MESSAGE FOR SIGNIN.
+                  // Shhhhh
+                  handler.setFeedback("AYO LETS GO, WELCOME!!");
 
-                  const autoSignInCredentials: Session = {
+                  // #region Now that the user is registered authentically, we can auto sign them in.
+                  const signInCredentials: Session = {
                     email: newUser.email,
                     password: newUser.password,
                   };
-
                   // We will also want to save the usertoken to local storage here.
                   // HACKY way of doing it is just automatically sign them in here.
-                  handleSignin(autoSignInCredentials).then((signInResult) => {
-                    console.log("Signin Result: ", signInResult);
-                    dispatch(updateUserID(signInResult.data.userID));
-
-                    // Then navigate user to main app.
-                    // FIX: for when user reges, goes into main app, then logs out.
-                    navigation.popToTop();
-                    navigation.navigate(APPSECTIONS.APP);
-                  });
+                  handleSignin(signInCredentials).then(
+                    (signInResult: AxiosResponse) => {
+                      setupUser(dispatch, signInResult, navigation);
+                      // #endregion
+                    },
+                  );
                 } else {
                   console.log(confirmationResult);
                   handler.setStatus("warn");
