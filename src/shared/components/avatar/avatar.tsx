@@ -23,17 +23,17 @@ const Avatar: React.FC<AvatarProps> = ({ wrapperSize }) => {
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
 
-  const userAvatar = useSelector((store: ReduxStore) => store.userData.avatar);
+  const userData = useSelector((store: ReduxStore) => store.userData);
   const ratio = 0.75;
   return (
     <LinearGradient
-      colors={userAvatar.colors}
+      colors={userData.colors}
       useAngle={true}
       angle={0}
       style={styles.wrapper}
     >
       <Icon
-        name={userAvatar.iconName}
+        name={userData.iconName}
         type="MaterialCommunityIcons"
         size={Math.ceil(wrapperSize * ratio)}
         color={colors.secondary100}

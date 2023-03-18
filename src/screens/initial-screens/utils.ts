@@ -6,10 +6,7 @@ import { doAuthorize, doGetUser, doRegister, doSignin } from "api/requests";
 import { AxiosResponse } from "axios";
 import { Dispatch } from "react";
 import { AnyAction } from "redux";
-import {
-  updateUserID,
-  updateUserName,
-} from "redux/actions/account-actions";
+import { updateUserColors, updateUserIcon, updateUserID, updateUserName } from "redux/actions/account-actions";
 import { Check, InputHandler } from "shared/constants/interfaces";
 import { APPSECTIONS } from "shared/constants/navigation-routes";
 
@@ -75,27 +72,16 @@ export const setupUser = (
   response: AxiosResponse,
   navigation: StackNavigationProp<ParamListBase, string>,
 ) => {
-  dispatch(updateUserID(response.data.userID));
   // Now that we have the ID. We can also update; Redux store to contain user info/settings.
   doGetUser(response.data.userID).then((userResponse: AxiosResponse) => {
     // console.log("doGetUser: ", response);
     const userData = userResponse.data.user;
-    const userColors = [userData.color1, userData.color2] as [
-      color1: string,
-      color2: string,
-    ];
 
-    const userDataObject: UserData = {
-      avatar: {
-        colors: userColors,
-        iconName: "mushroom", // TODO: forced, would be cool for custom icons later.
-      },
-      TotalCaputes: userData.TotalCaputes,
-      userName: userData.username,
-      userID: response.data.userID,
-    };
-
-    dispatch(updateUserName(userDataObject.userName));
+    // Sorry, was having problems making one dispatch as an object; SKILL ISSUE.
+    dispatch(updateUserID(response.data.userID));
+    dispatch(updateUserName(userData.username));
+    dispatch(updateUserIcon()); // default.
+    dispatch(updateUserColors([userData.color1, userData.color2]));
   });
 
   // Then navigate user to main app.

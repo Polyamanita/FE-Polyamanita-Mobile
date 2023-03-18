@@ -14,6 +14,7 @@ import { localString } from "shared/localization";
 import ButtonWrapper from "@shared-components/button-primary/button-primary";
 import { ReduxStore } from "redux/store";
 import { useSelector } from "react-redux";
+import { UserData } from "api/constants/user";
 
 interface ProfileModalProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -91,16 +92,16 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
   // const theme = useTheme();
   // const { colors } = theme;
   // const styles = useMemo(() => createStyles(theme), [theme]);
-  const [userName, setUserName] = useState("");
+  const [userName, setUserName] = useState<UserData>();
   const reduxStoreUserName = useSelector(
-    (store: ReduxStore) => store.userData.userName,
+    (store: ReduxStore) => store.userData,
   );
   useEffect(() => {
     setUserName(reduxStoreUserName);
   }, [reduxStoreUserName]);
   return (
     <ModalContainer navigation={navigation}>
-      <AvatarPivot username={userName} />
+      <AvatarPivot username={userName?.colors[1] as string} />
       <ProfileStats />
       <ContentSection />
       <PreferencesSection />

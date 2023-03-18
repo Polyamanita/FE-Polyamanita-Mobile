@@ -1,10 +1,17 @@
 import { UserData } from "api/constants/user";
 import { channelNames } from "redux/constants";
 
-export const updateUserData = (userData: UserData) => {
+export const loadUserData = (userData: UserData) => {
   return {
-    type: channelNames.updateUserData,
+    type: channelNames.loadUserData,
     userData,
+  };
+};
+
+export const updateUserID = (userID: string) => {
+  return {
+    type: channelNames.updateUserID,
+    userID,
   };
 };
 
@@ -15,9 +22,16 @@ export const updateUserName = (userName: string) => {
   };
 };
 
-export const updateUserID = (userID: string) => {
+export const updateUserColors = (colors: [color1: string, color2: string]) => {
   return {
-    type: channelNames.updateUserID,
-    userID,
-  };
-};
+    type: channelNames.updateUserColors,
+    colors,
+  }
+}
+
+export const updateUserIcon = (iconName = "mushroom") => {
+  return {
+    type: channelNames.updateUserIcon,
+    iconName,
+  }
+}
