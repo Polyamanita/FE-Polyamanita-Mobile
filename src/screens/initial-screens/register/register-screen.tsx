@@ -131,17 +131,17 @@ const RegisterScreen: React.FC<RegisterScreenProps> = ({ navigation }) => {
               handleSendEmailConfirmation(userAuth).then(
                 // Future reader. A 200 resolve and 400-500 error will be a result.
                 (result) => {
-                  console.log(result.data)
+                  console.log(result.data);
                   if (result.status === 200) {
                     console.log(result);
                     navigation.navigate(SCREENS.CONFIRM, userAuth);
                   } else if (result.status === 400) {
                     // TODO: For now, this message is a combined or statmenet.
                     // API needs to update to seperate checks.
-                    emailHandler.setStatus("warn")
+                    emailHandler.setStatus("warn");
                     emailHandler.setFeedback(result.data["response"]);
 
-                    displayNameHandler.setStatus("warn")
+                    displayNameHandler.setStatus("warn");
                     displayNameHandler.setFeedback(result.data["response"]);
                   } else {
                     console.log(result.data);
