@@ -60,7 +60,7 @@ export const photoFileTimeToDateTime = (photoTime: string) => {
 
   // <Month> <Day>, <Year> <H:MM:SS>
   const dateString = `${date[1]} ${date[2]}, ${date[0]} ${dateTimeString[1]}`;
-  const dateUTC = new Date(dateString).toUTCString();
+  const dateUTC = new Date(dateString).toISOString();
 
   return dateUTC;
 };
