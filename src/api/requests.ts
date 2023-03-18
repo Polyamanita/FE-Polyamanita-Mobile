@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { AuthUser, Session } from "./auth";
 import { BEANSTALK_URL } from "./constants/secrets";
+import { UpdateUserData } from "./constants/user";
 
 const instance = axios.create({
   baseURL: BEANSTALK_URL,
@@ -51,9 +52,27 @@ export const doAuthorize = (registrationDetails: AuthUser) =>
 
 export const doSignin = (credentials: Session) =>
   requests.post("/session", credentials);
-// #endregion
 
 export const doGetUser = (userID: string) => requests.get("/users/" + userID);
+
+export const doUpdateColor = (
+  userID: string,
+  colors: [color1: string, color2: string],
+) => {
+  doGetUser(userID).then((resolve: AxiosResponse) => {
+    console.log("Update Color: ", resolve);
+    const updateUserData = {
+      username: "",
+      email: "",
+      color1: colors[0],
+      color2: colors[1],
+    } as UpdateUserData;
+    requests.put(`/users/${userID}`, updateUserData);
+
+    return colors;
+  });
+};
+// #endregion
 
 export const doGetCapture = (userID: string, captureID: string) =>
   requests.get("/users/" + userID + "/captures/" + captureID);
