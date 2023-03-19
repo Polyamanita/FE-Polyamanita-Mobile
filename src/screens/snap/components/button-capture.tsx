@@ -52,7 +52,7 @@ const CaptureButton: React.FC<CaptureButtonProps> = ({
       const now = new Date();
       pressDownDate.current = now;
 
-      const photo = await camera.current.takePhoto(takePhotoOptions);
+      const photo = await camera.current.takeSnapshot(takePhotoOptions);
       onMediaCaptured(photo, "photo");
     } catch (e) {
       console.error("Failed to take a photo. :c", e);
