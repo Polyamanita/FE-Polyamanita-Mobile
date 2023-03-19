@@ -1,6 +1,14 @@
 export interface UserData {
-  avatar: {
-    colors: [color1: string, color2: string];
-    iconName: string;
-  };
+  TotalCaputes: number;
+  colors: [color1: string, color2: string];
+  iconName: string;
+  userName: string;
+  userID: string;
+}
+
+export interface UpdateUserData {
+  username: string;
+  email: string;
+  color1: string;
+  color2: string;
 }

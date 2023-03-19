@@ -1,13 +1,11 @@
 import { channelNames } from "redux/constants";
 import { UserData } from "api/constants/user";
-import { userColors, userIconName, userID, userName } from "api/mockUserData";
 
 const initialUserData = {
-  avatar: {
-    colors: ["#000000", "#FF00FF"],
-    iconName: "help",
-  },
-  username: "NAME_NOTFOUND",
+  colors: ["#000000", "#FF00FF"],
+  iconName: "help",
+  userName: "NAME_NOTFOUND",
+  userID: "NOT_A_ID",
 } as UserData;
 
 export default (state = initialUserData, action: { [key: string]: string }) => {
@@ -15,18 +13,30 @@ export default (state = initialUserData, action: { [key: string]: string }) => {
     case channelNames.loadUserData:
       return {
         ...state,
-        avatar: {
-          // These are acting as fetching from API
-          colors: userColors,
-          iconName: userIconName,
-        },
-        userName: userName,
-        userID: userID,
+        colors: state.colors,
+        iconName: state.iconName,
+        userName: state.userName,
+        userID: state.userID,
       };
     case channelNames.updateUserID:
       return {
         ...state,
         userID: action.userID,
+      };
+    case channelNames.updateUserName:
+      return {
+        ...state,
+        userName: action.userName,
+      };
+    case channelNames.updateUserColors:
+      return {
+        ...state,
+        colors: action.colors,
+      };
+    case channelNames.updateUserIcon:
+      return {
+        ...state,
+        iconName: action.iconName,
       };
     default:
       return state;

@@ -37,8 +37,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
       return {
         userID: capture.userID,
         captureID: capture.captureID,
-        latitude: instance.latitude,
-        longitude: instance.longitude,
+        instance,
       };
     }),
   );
@@ -64,7 +63,10 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
           <Marker
             key={i}
             coordinate={
-              { latitude: e.latitude, longitude: e.longitude } as LatLng
+              {
+                latitude: e.instance.latitude,
+                longitude: e.instance.longitude,
+              } as LatLng
             }
             title={e.captureID}
             description={e.userID}
