@@ -35,3 +35,10 @@ export const updateUserIcon = (iconName = "mushroom") => {
     iconName,
   };
 };
+
+export const updateUserTotalCaptures = (TotalCaptures: number) => {
+  return {
+    type: channelNames.updateUserTotalCaptures,
+    TotalCaptures,
+  };
+};

@@ -100,11 +100,8 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
               password: password,
             };
 
-            if (
-              allInputsFulfilled([emailHandler.status, passwordHandler.status])
-            ) {
+            if (allInputsFulfilled([emailHandler.status])) {
               handleSignin(credentials).then((result) => {
-                console.log(result.status === 200);
                 if (result.status === 200) {
                   setupUser(dispatch, result, navigation);
                 } else {
