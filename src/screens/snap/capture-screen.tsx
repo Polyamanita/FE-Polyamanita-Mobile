@@ -7,7 +7,6 @@ import {
   fetchS3Key,
   getCurrentPosition,
   getUserInfo,
-  photoFileTimeToDateTime,
 } from "./utils/capture";
 import { createFileName } from "./utils/save";
 /**
@@ -101,10 +100,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
         <Button
           title={"Capture"}
           onPress={() => {
-            const time = photoFileTimeToDateTime(
-              photo.metadata["{Exif}"].DateTimeOriginal,
-            );
-            console.log("CAPTURED!");
+            const time = new Date().toISOString();
             handleCapture(path, photo, time);
           }}
           varient={"primary"}
