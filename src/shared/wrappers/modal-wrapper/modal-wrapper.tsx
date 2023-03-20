@@ -1,15 +1,11 @@
-import React, { useMemo } from "react";
-import { ParamListBase, useTheme } from "@react-navigation/native";
-/**
- * ? Local Imports
- */
-import createStyles from "./modal-wrapper.style";
+import React from "react";
+import { ParamListBase } from "@react-navigation/native";
 import { ScrollView } from "react-native-gesture-handler";
-import { View } from "react-native";
 import Header from "shared/wrappers/header-wrapper/header-wrapper";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { localString } from "shared/localization";
+import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 
 interface ScreenWrapperProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -29,18 +25,18 @@ const ModalContainer: React.FC<ScreenWrapperProps> = ({
   children,
   navigation,
 }) => {
-  const theme = useTheme();
-  const styles = useMemo(() => createStyles(theme), [theme]);
+  // const theme = useTheme();
+  // const styles = useMemo(() => createStyles(theme), [theme]);
   // const { colors } = theme;
 
   return (
-    <View style={styles.container}>
+    <ScreenContainer>
       <Header
         leftContent={<BackButton navigation={navigation} />}
         title={localString.profile}
       />
       <ScrollView>{children}</ScrollView>
-    </View>
+    </ScreenContainer>
   );
 };
 
