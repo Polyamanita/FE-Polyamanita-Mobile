@@ -1,9 +1,6 @@
-import React from "react";
-import { ParamListBase } from "@react-navigation/native";
-
-/**
- * ? Local Imports
- */
+import React, { useEffect, useMemo, useState } from "react";
+import { ParamListBase, useTheme } from "@react-navigation/native";
+import createStyles from "./profile-modal.style";
 import { StackNavigationProp } from "@react-navigation/stack";
 import ModalContainer from "shared/wrappers/modal-wrapper/modal-wrapper";
 import Avatar from "@shared-components/avatar/avatar";
@@ -13,7 +10,9 @@ import SectionContainer from "shared/wrappers/section-wrapper/section-wrapper";
 import { localString } from "shared/localization";
 import ButtonWrapper from "@shared-components/button-primary/button-primary";
 import { ReduxStore } from "redux/store";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { queueRefetch } from "redux/actions/journal-actions";
+import { UserData } from "api/constants/user";
 
 interface ProfileModalProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -23,36 +22,24 @@ interface AccountSectionProps {
   navigation: StackNavigationProp<ParamListBase, string>;
 }
 
-const AvatarPivot = () => {
+interface AvatarPivotProps {
+  styles: any;
+  username: string;
+}
+
+const AvatarPivot = ({ styles, username }: AvatarPivotProps) => {
   const pivotSize = 100;
-  const userName = useSelector((store: ReduxStore) => store.userData.userName);
   return (
-    <View
-      style={{
-        width: "100%",
-        justifyContent: "center",
-        alignItems: "center",
-        backgroundColor: "green",
-        marginVertical: 5,
-      }}
-    >
-      <View
-        style={{
-          height: pivotSize,
-          width: pivotSize,
-          borderRadius: 1000,
-        }}
-      >
+    <View style={styles.avatarPivotContainer}>
+      <View style={styles.avatarContainer}>
         <Avatar wrapperSize={pivotSize} />
       </View>
-      <Text h1>{userName}</Text>
+      <Text style={styles.username} h1 bold>
+        {username}
+      </Text>
     </View>
   );
 };
-
-const ProfileStats = () => (
-  <View style={{ backgroundColor: "red", height: 100 }}></View>
-);
 
 const ContentSection = () => (
   <SectionContainer
@@ -60,22 +47,28 @@ const ContentSection = () => (
     sectionAction={() => console.log("yes")}
   ></SectionContainer>
 );
-const PreferencesSection = () => (
-  <SectionContainer
-    label={localString.sectionHeaders.preferences}
-  ></SectionContainer>
-);
-const AboutSection = () => (
-  <SectionContainer label={localString.sectionHeaders.about}></SectionContainer>
-);
+
+// const PreferencesSection = () => (
+//   <SectionContainer
+//     label={localString.sectionHeaders.preferences}
+//   ></SectionContainer>
+// );
+// const AboutSection = () => (
+//   <SectionContainer label={localString.sectionHeaders.about}></SectionContainer>
+// );
+
 const AccountSection = ({ navigation }: AccountSectionProps) => {
+  const dispatch = useDispatch();
   return (
     <SectionContainer label={localString.sectionHeaders.account}>
       <View style={{ alignSelf: "flex-start" }}>
         <ButtonWrapper
           title={localString.logout}
           size={"small"}
-          onPress={() => navigation.popToTop()}
+          onPress={() => {
+            dispatch(queueRefetch());
+            navigation.popToTop();
+          }}
         />
       </View>
     </SectionContainer>
@@ -85,17 +78,23 @@ const AccountSection = ({ navigation }: AccountSectionProps) => {
 const ProfileModal: React.FC<ProfileModalProps> = ({
   navigation,
 }: ProfileModalProps) => {
-  // const theme = useTheme();
-  // const { colors } = theme;
-  // const styles = useMemo(() => createStyles(theme), [theme]);
-
+  const theme = useTheme();
+  const styles = useMemo(() => createStyles(theme), [theme]);
+  const [userData, setUserData] = useState<UserData>();
+  const reduxStoreUserData = useSelector((store: ReduxStore) => store.userData);
+  useEffect(() => {
+    setUserData(reduxStoreUserData);
+  }, [reduxStoreUserData]);
   return (
     <ModalContainer navigation={navigation}>
-      <AvatarPivot />
-      <ProfileStats />
+      <AvatarPivot styles={styles} username={userData?.userName as string} />
+      <Text
+        h2
+        style={styles.userstats}
+      >{`Total Captures: ${userData?.TotalCaptures}`}</Text>
       <ContentSection />
-      <PreferencesSection />
-      <AboutSection />
+      {/* <PreferencesSection /> */}
+      {/* <AboutSection /> */}
       <AccountSection navigation={navigation} />
     </ModalContainer>
   );

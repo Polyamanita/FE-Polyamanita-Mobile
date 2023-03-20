@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { AuthUser, Session } from "./auth";
 import { BEANSTALK_URL } from "./constants/secrets";
+import { UpdateUserData } from "./constants/user";
 
 const instance = axios.create({
   baseURL: BEANSTALK_URL,
@@ -42,14 +43,36 @@ const requests = {
     instance.delete(url, { params: params }).then(result).catch(handleError),
 };
 
-// Send user an email confirmation.
+// #region API for user signin / reg
 export const doRegister = (user: AuthUser): Promise<AxiosResponse> =>
   requests.post("/auth", user);
 
 export const doAuthorize = (registrationDetails: AuthUser) =>
   requests.post("/users", registrationDetails);
 
+export const doSignin = (credentials: Session) =>
+  requests.post("/session", credentials);
+
 export const doGetUser = (userID: string) => requests.get("/users/" + userID);
+
+export const doUpdateColor = (
+  userID: string,
+  colors: [color1: string, color2: string],
+) => {
+  doGetUser(userID).then((resolve: AxiosResponse) => {
+    console.log("Update Color: ", resolve);
+    const updateUserData = {
+      username: "",
+      email: "",
+      color1: colors[0],
+      color2: colors[1],
+    } as UpdateUserData;
+    requests.put(`/users/${userID}`, updateUserData);
+
+    return colors;
+  });
+};
+// #endregion
 
 export const doGetCapture = (userID: string, captureID: string) =>
   requests.get("/users/" + userID + "/captures/" + captureID);
@@ -57,8 +80,5 @@ export const doGetCapture = (userID: string, captureID: string) =>
 // const userID = "some-id";
 export const doGetCaptures = (userID: string) =>
   requests.get("/users/" + userID + "/captures");
-
-export const doSignin = (credentials: Session) =>
-  requests.get("/session", credentials);
 
 export const doGetAllCaptures = () => requests.get("/users/captures");

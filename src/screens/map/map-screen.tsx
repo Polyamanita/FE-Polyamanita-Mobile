@@ -7,7 +7,7 @@ import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
  */
 import createStyles from "./map-screen.style";
 import { customMapStyle } from "./map-style";
-import { captures, previewImage } from "api/mockMapData";
+import { captures } from "api/mockMapData";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SCREENS } from "shared/constants/navigation-routes";
 import { getAllCaptures } from "./utils";
@@ -37,8 +37,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
       return {
         userID: capture.userID,
         captureID: capture.captureID,
-        latitude: instance.latitude,
-        longitude: instance.longitude,
+        instance,
       };
     }),
   );
@@ -60,17 +59,20 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
           longitudeDelta: 0.0421,
         }}
       >
-        {mapCaptures.map((e, i) => (
+        {mapCaptures.map((capturePoint, i) => (
           <Marker
             key={i}
             coordinate={
-              { latitude: e.latitude, longitude: e.longitude } as LatLng
+              {
+                latitude: capturePoint.instance.latitude,
+                longitude: capturePoint.instance.longitude,
+              } as LatLng
             }
-            title={e.captureID}
-            description={e.userID}
+            title={capturePoint.captureID}
+            description={capturePoint.userID}
             onPress={() => {
               // Fake search API for now.
-              navigation.push(SCREENS.IMAGE, { ...previewImage });
+              navigation.push(SCREENS.IMAGE, capturePoint);
             }}
           />
         ))}
