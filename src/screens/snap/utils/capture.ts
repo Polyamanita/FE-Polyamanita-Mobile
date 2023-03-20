@@ -1,5 +1,7 @@
 // FILE PURPOSE:
 // Set of functions that happens when user is capturing a mushroom.
+import { doGetLocationFromLatlng } from "api/gmaps-requests";
+import { useState } from "react";
 import Geolocation from "react-native-geolocation-service";
 
 // Get the current position of the user.
@@ -22,6 +24,22 @@ export const getCurrentPosition = () =>
       positionOptions,
     );
   });
+
+export const useGetLocation = (latitude: number, longitude: number) => {
+  const [location, setLocation] = useState("hiii");
+  const latlng = { latitude, longitude };
+
+  doGetLocationFromLatlng(latlng).then((response) => {
+    console.log(response);
+    if (response.status === 200) {
+      // setLocation to something
+      // CHANGE THIS BEFORE USING !!!!!!!!!!!!!
+      setLocation("lol");
+    }
+  });
+
+  return location;
+};
 
 // Grab info from redux. (dont think this needs to be a promise as we can
 // get this info from redux )
@@ -60,7 +78,7 @@ export const photoFileTimeToDateTime = (photoTime: string) => {
 
   // <Month> <Day>, <Year> <H:MM:SS>
   const dateString = `${date[1]} ${date[2]}, ${date[0]} ${dateTimeString[1]}`;
-  const dateUTC = new Date(dateString).toUTCString();
+  const dateUTC = new Date(dateString).toISOString();
 
   return dateUTC;
 };

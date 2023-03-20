@@ -6,17 +6,22 @@ import Input from "@shared-components/input/input";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { ParamListBase } from "@react-navigation/native";
 import { InputHandler } from "shared/constants/interfaces";
-import { APPSECTIONS } from "shared/constants/navigation-routes";
 import { localString } from "shared/localization";
 import InputWrapper from "../wrappers/input-wrapper";
 import CTAButton from "../components/button-cta";
 import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
-import { allInputsFulfilled, handleSignin } from "../utils";
+import {
+  allInputsFulfilled,
+  handleSignin,
+  inputCheck,
+  setupUser,
+} from "../utils";
 import { Session } from "api/auth";
 import { useDispatch } from "react-redux";
-import { updateUserID } from "redux/actions/account-actions";
+
+const ALLOW_DEV_SIGNIN = true;
 
 interface SigninScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -26,9 +31,12 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
   const reference = useRef(null);
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [validEmail, setValidEmail] = useState("");
+  const [feedbackEmail, setFeedbackEmail] = useState("");
 
+  const [password, setPassword] = useState("");
   const [validPassword, setValidPassword] = useState("");
+  const [feedbackPassword, setFeedbackPassword] = useState("");
 
   const dispatch = useDispatch();
 
@@ -36,13 +44,20 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
   const emailHandler = {
     input: email,
     setInput: setEmail,
+    checkMethods: [inputCheck.validEmailFormat],
+    setStatus: setValidEmail,
+    feedback: feedbackEmail,
+    setFeedback: setFeedbackEmail,
     ref: reference,
+    status: validEmail,
   } as InputHandler;
 
   const passwordHandler = {
     input: password,
     setInput: setPassword,
     setStatus: setValidPassword,
+    feedback: feedbackPassword,
+    setFeedback: setFeedbackPassword,
     ref: reference,
     status: validPassword,
   } as InputHandler;
@@ -69,16 +84,16 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
         <CTAButton
           title={localString.signin}
           onPress={() => {
-            if (
-              !allInputsFulfilled([
-                emailHandler.status,
-                passwordHandler.status,
-              ]) ||
-              (!email && !password)
-            ) {
-              // TODO: add demo handler for blank signin, use mock data?
-              navigation.popToTop();
-              navigation.push(APPSECTIONS.APP);
+            // DEV WHATEVER STUFF AUTOSIGNIN
+            if (ALLOW_DEV_SIGNIN && !email && !password) {
+              handleSignin({
+                email: "someemail@domain.com",
+                password: "password123",
+              }).then((result) => {
+                if (result.status === 200) {
+                  setupUser(dispatch, result, navigation);
+                }
+              });
             }
 
             const credentials: Session = {
@@ -86,24 +101,23 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
               password: password,
             };
 
-            handleSignin(credentials).then((result) => {
-              if (result.status === 200) {
-                // Update user ID in Redux store
-                dispatch(updateUserID(result.userID));
-
-                // TODO: handle session token?
-
-                navigation.popToTop();
-                navigation.push(APPSECTIONS.APP);
-              } else {
-                // TODO: PROVIDE FEEDBACK MESSAGE FOR INCORRECT INFO.
-              }
-            });
-
-            // else
-            /* display message below password input why didnt work.
-        invalid credientials, failed to reach server, etc.
-        put this message by using the password message prop */
+            if (
+              allInputsFulfilled([emailHandler.status, passwordHandler.status])
+            ) {
+              handleSignin(credentials).then((result) => {
+                console.log(result.status === 200);
+                if (result.status === 200) {
+                  setupUser(dispatch, result, navigation);
+                } else {
+                  emailHandler.setStatus("warn");
+                  emailHandler.setFeedback("");
+                  passwordHandler.setStatus("warn");
+                  passwordHandler.setFeedback(
+                    localString.initialStackHeaderMessages.incorrectUserPass,
+                  );
+                }
+              });
+            }
           }}
         />
         <CancelButton navigation={navigation} />
