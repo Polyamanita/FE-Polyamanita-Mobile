@@ -41,12 +41,6 @@ export const useGetLocation = (latitude: number, longitude: number) => {
   return location;
 };
 
-// Grab info from redux. (dont think this needs to be a promise as we can
-// get this info from redux )
-export const getUserInfo = () =>
-  new Promise((resolve) => setTimeout(() => resolve(2), 7500));
-
 // Make request to get S3 key for image upload.
 export const fetchS3Key = () =>
   new Promise((resolve) => setTimeout(() => resolve(3), 3000));
-

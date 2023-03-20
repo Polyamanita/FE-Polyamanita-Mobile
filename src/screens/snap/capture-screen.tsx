@@ -3,11 +3,7 @@ import { Image, StyleSheet, View } from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
 import RNFS from "react-native-fs";
 import { shroomalyze } from "./utils/shroomalyze";
-import {
-  fetchS3Key,
-  getCurrentPosition,
-  getUserInfo,
-} from "./utils/capture";
+import { fetchS3Key, getCurrentPosition } from "./utils/capture";
 import { createFileName } from "./utils/save";
 /**
  * ? Local Imports
@@ -19,6 +15,8 @@ import Button from "@shared-components/button-primary/button-primary";
 import SnapHeader from "./wrappers/header-snap-stack-wrapper";
 import CancelButton from "./components/button-cancel";
 import { PhotoFile } from "react-native-vision-camera";
+import { useSelector } from "react-redux";
+import { ReduxStore } from "redux/store";
 
 interface CaptureScreenProps {
   route: any;
@@ -48,28 +46,27 @@ interface CaptureScreenProps {
 const handleCapture = async (
   photoPath: string,
   photo: PhotoFile,
+  userID: string, 
   captureTime: string,
 ) => {
   // Promise Chain
   const position = getCurrentPosition();
   const modelData = shroomalyze(photoPath);
-  const userInfo = getUserInfo();
   const s3Key = fetchS3Key();
 
   // When all above promises are fulfilled, handle the combined data.
-  Promise.all([position, modelData, userInfo, s3Key]).then((responses) => {
+  Promise.all([position, modelData, s3Key]).then((responses) => {
     const [
       resolvedPosition,
       resolvedModelData,
-      resolvedUserInfo,
       resolvedS3Key,
     ] = responses;
     console.log("Position: ", resolvedPosition);
     console.log("Mushroom: ", resolvedModelData);
-    console.log("User: ", resolvedUserInfo);
     console.log("Key: ", resolvedS3Key);
   });
 
+  console.log(userID)
   console.log(captureTime);
 };
 
@@ -79,7 +76,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
   const styles = useMemo(() => createStyles(theme), [theme]);
   // Passed from SnapScreen, contains image info.
   const { photo, path } = route.params;
-
+  const userData = useSelector((store: ReduxStore) => store.userData.userID as string);
   return (
     <View style={styles.container}>
       <SnapHeader
@@ -101,7 +98,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
           title={"Capture"}
           onPress={() => {
             const time = new Date().toISOString();
-            handleCapture(path, photo, time);
+            handleCapture(path, photo, userData, time);
           }}
           varient={"primary"}
           size={"large"}
