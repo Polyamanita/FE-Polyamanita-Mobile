@@ -10,6 +10,7 @@ import {
   updateUserIcon,
   updateUserID,
   updateUserName,
+  updateUserTotalCaptures,
 } from "redux/actions/account-actions";
 import { Check, InputHandler } from "shared/constants/interfaces";
 import { APPSECTIONS } from "shared/constants/navigation-routes";
@@ -70,7 +71,7 @@ export const handleSignin = (credentials: Session) => {
 };
 // #endregion
 
-// #region
+// #region Random Color assignment.
 
 // Starts as HSL -> RGB -> HEX.
 // https://css-tricks.com/converting-color-spaces-in-javascript/
@@ -179,6 +180,7 @@ export function setupUser(
         !newUser ? [userData.color1, userData.color2] : newColors,
       ),
     );
+    dispatch(updateUserTotalCaptures(userData.TotalCaptures));
   });
 
   // Then navigate user to main app.

@@ -6,6 +6,7 @@ const initialUserData = {
   iconName: "help",
   userName: "NAME_NOTFOUND",
   userID: "NOT_A_ID",
+  TotalCaptures: -1,
 } as UserData;
 
 export default (state = initialUserData, action: { [key: string]: string }) => {
@@ -17,6 +18,7 @@ export default (state = initialUserData, action: { [key: string]: string }) => {
         iconName: state.iconName,
         userName: state.userName,
         userID: state.userID,
+        TotalCaptures: state.TotalCaptures,
       };
     case channelNames.updateUserID:
       return {
@@ -37,6 +39,11 @@ export default (state = initialUserData, action: { [key: string]: string }) => {
       return {
         ...state,
         iconName: action.iconName,
+      };
+    case channelNames.updateUserTotalCaptures:
+      return {
+        ...state,
+        TotalCaptures: action.TotalCaptures,
       };
     default:
       return state;

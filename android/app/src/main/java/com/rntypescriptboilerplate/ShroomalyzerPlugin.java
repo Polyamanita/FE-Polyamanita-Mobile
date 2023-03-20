@@ -24,6 +24,8 @@ import org.tensorflow.lite.task.vision.classifier.Classifications;
 
 public class ShroomalyzerPlugin extends ReactContextBaseJavaModule implements ImageClassifierHelper.ClassifierListener {
   private ReactApplicationContext context;
+  private WritableMap resultData = new WritableNativeMap();
+
   public ShroomalyzerPlugin(ReactApplicationContext reactContext) {
     super(reactContext); // required by React Native.
     context  = reactContext;
@@ -37,7 +39,6 @@ public class ShroomalyzerPlugin extends ReactContextBaseJavaModule implements Im
   @ReactMethod
   public void RunModel(String filePath, Callback success, Callback error) {
     try {
-      WritableMap resultData = new WritableNativeMap();
       Bitmap bitmap = loadImage(filePath);
       
       Log.d("MARKER", "\n\n\nSTART OF IMAGECLASSIFIER\n\n\n");
@@ -48,8 +49,6 @@ public class ShroomalyzerPlugin extends ReactContextBaseJavaModule implements Im
       Log.d("MARKER", "\n\n\n CLASSIFICATION COMPLETE. \n\n\n");
       
       
-      resultData.putInt("key1", bitmap.getHeight());
-      resultData.putString("key2", "data200");
       // success.invoke("Hello from java!!! " + filePath);
       success.invoke(resultData);
     } catch (IllegalViewOperationException e) {
@@ -62,8 +61,12 @@ public class ShroomalyzerPlugin extends ReactContextBaseJavaModule implements Im
   }
 
   @Override
-    public void onError(String error) {}
+  public void onError(String error) {
+    resultData.putString("err", "an error occurred with model :(");
+  }
 
   @Override
-  public void onResults(List<Classifications> results, long inferenceTime) {}
+  public void onResults(List<Classifications> results, long inferenceTime) {
+    resultData.putString("results", results.toString());
+  }
 }

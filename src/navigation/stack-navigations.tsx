@@ -114,20 +114,11 @@ export const CommunityStack = () =>
 // to the other stacks, this way we can access the profile "screen" on any
 export const ProfileStack = () => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        cardOverlayEnabled: true,
-        cardStyle: { backgroundColor: "red" },
-        presentation: "card",
-      }}
-    >
+    <Stack.Navigator>
       <Stack.Screen
         name={SCREENS.PROFILE}
         component={ProfileScreen}
         key={SCREENS.PROFILE}
-        options={{
-          presentation: "transparentModal",
-        }}
       />
       ,
     </Stack.Navigator>
