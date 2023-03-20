@@ -21,14 +21,13 @@ import com.facebook.react.uimanager.IllegalViewOperationException;
 
 import org.tensorflow.lite.task.vision.classifier.Classifications;
 
-
 public class ShroomalyzerPlugin extends ReactContextBaseJavaModule implements ImageClassifierHelper.ClassifierListener {
   private ReactApplicationContext context;
   private WritableMap resultData = new WritableNativeMap();
 
   public ShroomalyzerPlugin(ReactApplicationContext reactContext) {
     super(reactContext); // required by React Native.
-    context  = reactContext;
+    context = reactContext;
   }
 
   // Identifyer so javascript can read native plugin.
@@ -40,17 +39,19 @@ public class ShroomalyzerPlugin extends ReactContextBaseJavaModule implements Im
   public void RunModel(String filePath, Callback success, Callback error) {
     try {
       Bitmap bitmap = loadImage(filePath);
-      
+
       Log.d("MARKER", "\n\n\nSTART OF IMAGECLASSIFIER\n\n\n");
       ImageClassifierHelper imageClassifier = ImageClassifierHelper.create(context, this);
       Log.d("MARKER", "\n\n\n IMAGE CLASSIFIER DECLARED \n\n\n");
       imageClassifier.classify(bitmap);
 
       Log.d("MARKER", "\n\n\n CLASSIFICATION COMPLETE. \n\n\n");
-      
-      
+
       // success.invoke("Hello from java!!! " + filePath);
       success.invoke(resultData);
+
+      // Clean up
+      resultData = new WritableNativeMap();
     } catch (IllegalViewOperationException e) {
       error.invoke(e.getMessage());
     }
