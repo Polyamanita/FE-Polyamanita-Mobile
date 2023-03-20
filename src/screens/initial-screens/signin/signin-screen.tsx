@@ -21,6 +21,8 @@ import {
 import { Session } from "api/auth";
 import { useDispatch } from "react-redux";
 
+const ALLOW_DEV_SIGNIN = true;
+
 interface SigninScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
 }
@@ -83,17 +85,16 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
           title={localString.signin}
           onPress={() => {
             // DEV WHATEVER STUFF AUTOSIGNIN
-            // if (
-            //   !allInputsFulfilled([
-            //     emailHandler.status,
-            //     passwordHandler.status,
-            //   ]) ||
-            //   (!email && !password)
-            // ) {
-            //   // TODO: add demo handler for blank signin, use mock data?
-            //   navigation.popToTop();
-            //   navigation.push(APPSECTIONS.APP);
-            // }
+            if (ALLOW_DEV_SIGNIN && !email && !password) {
+              handleSignin({
+                email: "someemail@domain.com",
+                password: "password123",
+              }).then((result) => {
+                if (result.status === 200) {
+                  setupUser(dispatch, result, navigation);
+                }
+              });
+            }
 
             const credentials: Session = {
               email: email,
