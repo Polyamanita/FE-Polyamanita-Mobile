@@ -1,10 +1,12 @@
 // FILE PURPOSE:
 // Set of functions that happens when user is capturing a mushroom.
 import { doGetLocationFromLatlng } from "api/gmaps-requests";
-import { useState } from "react";
+import { AxiosResponse } from "axios";
 import Geolocation from "react-native-geolocation-service";
 
 // Get the current position of the user.
+// First by getting coords of user from Geolocator library,
+// Then do a reverse lookup of the coords to get name of town user is near.
 export const getCurrentPosition = () =>
   new Promise((resolve, reject) => {
     const positionOptions = {
@@ -15,9 +17,21 @@ export const getCurrentPosition = () =>
 
     Geolocation.getCurrentPosition(
       (pos) => {
-        // console.log(pos);
-        resolve(pos);
+        const latlng = {
+          latitude: pos.coords.latitude,
+          longitude: pos.coords.longitude,
+        };
+        doGetLocationFromLatlng(latlng).then((response: AxiosResponse) => {
+          if (response.status === 200) {
+            console.log(response.data);
+            const locationName = response.data.formatted_address;
+            resolve({ ...latlng, location: locationName } as Location);
+          } else {
+            reject(response.data);
+          }
+        });
       },
+      // Error for Geolocation Library.
       (error) => {
         reject(error.message);
       },
@@ -26,19 +40,32 @@ export const getCurrentPosition = () =>
   });
 
 export const useGetLocation = (latitude: number, longitude: number) => {
-  const [location, setLocation] = useState("hiii");
-  const latlng = { latitude, longitude };
+  // const [location, setLocation] = useState("hiii");
+  // const latlng = { latitude, longitude };
 
-  doGetLocationFromLatlng(latlng).then((response) => {
-    console.log(response);
-    if (response.status === 200) {
-      // setLocation to something
-      // CHANGE THIS BEFORE USING !!!!!!!!!!!!!
-      setLocation("lol");
-    }
+  // doGetLocationFromLatlng(latlng).then((response) => {
+  //   console.log(response);
+  //   if (response.status === 200) {
+  //     // setLocation to something
+  //     // CHANGE THIS BEFORE USING !!!!!!!!!!!!!
+  //     setLocation("lol");
+  //   }
+  // });
+
+  // return location;
+  new Promise((resolve, reject) => {
+    const latlng = { latitude, longitude };
+    doGetLocationFromLatlng(latlng).then((response: AxiosResponse) => {
+      console.log(response);
+      if (response.status === 200) {
+        // Perform it here.
+        console.log(response);
+        resolve(response);
+      } else {
+        reject();
+      }
+    });
   });
-
-  return location;
 };
 
 // Make request to get S3 key for image upload.

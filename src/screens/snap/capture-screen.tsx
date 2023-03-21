@@ -5,6 +5,7 @@ import RNFS from "react-native-fs";
 import { shroomalyze } from "./utils/shroomalyze";
 import { fetchS3Key, getCurrentPosition } from "./utils/capture";
 import { createFileName } from "./utils/save";
+import { Instance } from "api/constants/journal";
 /**
  * ? Local Imports
  */
@@ -17,6 +18,7 @@ import CancelButton from "./components/button-cancel";
 import { PhotoFile } from "react-native-vision-camera";
 import { useSelector } from "react-redux";
 import { ReduxStore } from "redux/store";
+import { Location } from "api/constants/location";
 
 interface CaptureScreenProps {
   route: any;
@@ -46,28 +48,36 @@ interface CaptureScreenProps {
 const handleCapture = async (
   photoPath: string,
   photo: PhotoFile,
-  userID: string, 
+  userID: string,
   captureTime: string,
 ) => {
   // Promise Chain
-  const position = getCurrentPosition();
-  const modelData = shroomalyze(photoPath);
-  const s3Key = fetchS3Key();
+  const position = getCurrentPosition() as Promise<Location>;
+  const modelData = shroomalyze(photoPath) as Promise<unknown>;
+  const s3Key = fetchS3Key() as Promise<string>;
 
   // When all above promises are fulfilled, handle the combined data.
-  Promise.all([position, modelData, s3Key]).then((responses) => {
-    const [
-      resolvedPosition,
-      resolvedModelData,
-      resolvedS3Key,
-    ] = responses;
-    console.log("Position: ", resolvedPosition);
-    console.log("Mushroom: ", resolvedModelData);
-    console.log("Key: ", resolvedS3Key);
-  });
+  Promise.all([position, modelData, s3Key]).then(
+    (captureResolve: [resPos: Location, resModel: unknown, resS3: string]) => {
+      const [resolvedPosition, resolvedModelData, resolvedS3Key] =
+        captureResolve;
+      console.log("Position: ", resolvedPosition);
+      console.log("Mushroom: ", resolvedModelData);
+      console.log("Key: ", resolvedS3Key);
 
-  console.log(userID)
-  console.log(captureTime);
+      // HANDLE THE PROMISE!
+      const instance = {
+        dateFound: captureTime,
+        // imageLink: HUH,
+        latitude: resolvedPosition.latitude,
+        longitude: resolvedPosition.longitude,
+        location: resolvedPosition.location,
+        // s3key: HUH,
+      } as Instance;
+
+      console.log(instance);
+    },
+  );
 };
 
 const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
@@ -76,7 +86,9 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
   const styles = useMemo(() => createStyles(theme), [theme]);
   // Passed from SnapScreen, contains image info.
   const { photo, path } = route.params;
-  const userData = useSelector((store: ReduxStore) => store.userData.userID as string);
+  const userData = useSelector(
+    (store: ReduxStore) => store.userData.userID as string,
+  );
   return (
     <View style={styles.container}>
       <SnapHeader
