@@ -1,18 +1,19 @@
 import { doGetUser } from "api/requests";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const useGetUsername = (userID: string) => {
   const [username, setUsername] = useState("");
   const [loading, setLoading] = useState(true);
 
-  doGetUser(userID).then((userResult) => {
-    if (userResult.status === 200) {
-      setUsername(userResult.data.user?.username);
-      setLoading(false);
-    } else {
-      // console.log(result);
-    }
-  });
+  useEffect(() => {
+    setLoading(true);
+    doGetUser(userID).then((result) => {
+      if (result.status === 200) {
+        setUsername(result.data.user?.username);
+        setLoading(false);
+      }
+    });
+  }, [userID]);
 
   return { loading, username };
 };
