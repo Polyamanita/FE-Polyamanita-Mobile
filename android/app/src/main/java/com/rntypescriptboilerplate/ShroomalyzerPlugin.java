@@ -39,18 +39,11 @@ public class ShroomalyzerPlugin extends ReactContextBaseJavaModule implements Im
   public void RunModel(String filePath, Callback success, Callback error) {
     try {
       Bitmap bitmap = loadImage(filePath);
-
-      Log.d("MARKER", "\n\n\nSTART OF IMAGECLASSIFIER\n\n\n");
       ImageClassifierHelper imageClassifier = ImageClassifierHelper.create(context, this);
-      Log.d("MARKER", "\n\n\n IMAGE CLASSIFIER DECLARED \n\n\n");
       imageClassifier.classify(bitmap);
-
-      Log.d("MARKER", "\n\n\n CLASSIFICATION COMPLETE. \n\n\n");
-
-      // success.invoke("Hello from java!!! " + filePath);
       success.invoke(resultData);
 
-      // Clean up
+      // clean up map for next run of modeal.
       resultData = new WritableNativeMap();
     } catch (IllegalViewOperationException e) {
       error.invoke(e.getMessage());

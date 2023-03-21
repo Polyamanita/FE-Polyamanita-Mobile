@@ -56,6 +56,7 @@ export const doSignin = (credentials: Session) =>
 
 export const doGetUser = (userID: string) => requests.get("/users/" + userID);
 
+// Updates the provided 2 color set for user avatars.
 export const doUpdateColor = (
   userID: string,
   colors: [color1: string, color2: string],
@@ -84,16 +85,22 @@ export const doGetCaptures = (userID: string) =>
 
 export const doGetAllCaptures = () => requests.get("/users/captures");
 
-export const doGetUploadLinkAndS3Key = (userID: string) =>
-  requests.post("/users/" + userID + "/images", {});
+export const doPostCaptures = (userID: string, captures: Captures) =>
+  requests.post("/users/" + userID + "/captures", { captures });
 
-export const doUploadToS3 = (image: any, uploadLink: string) => {
+// #region Image upload nonsense.
+
+export const doGetUploadLinkAndS3Key = (
+  userID: string,
+): Promise<AxiosResponse> => requests.post("/users/" + userID + "/images", {});
+
+export const doUploadToS3 = (imageURI: any, uploadLink: string) => {
   const s3instance = axios.create({
     baseURL: uploadLink,
     timeout: 7500,
   });
   return s3instance
-    .put("", image, { headers: { "content-type": "image/jpg" } })
+    .put("", imageURI, { headers: { "content-type": "image/jpeg" } })
     .then((res) => res)
     .catch(handleError);
 };
@@ -118,5 +125,4 @@ export const doUploadImage = (userID: string, image: any) =>
       .catch(handleError);
   });
 
-export const doPostCaptures = (userID: string, captures: Captures) =>
-  requests.post("/users/" + userID + "/captures", { captures });
+// #endregion

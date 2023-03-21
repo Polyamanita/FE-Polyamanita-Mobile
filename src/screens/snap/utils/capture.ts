@@ -1,6 +1,8 @@
 // FILE PURPOSE:
 // Set of functions that happens when user is capturing a mushroom.
+import { Location } from "api/constants/location";
 import { doGetLocationFromLatlng } from "api/gmaps-requests";
+import { doGetUploadLinkAndS3Key } from "api/requests";
 import { AxiosResponse } from "axios";
 import Geolocation from "react-native-geolocation-service";
 
@@ -23,8 +25,7 @@ export const getCurrentPosition = () =>
         };
         doGetLocationFromLatlng(latlng).then((response: AxiosResponse) => {
           if (response.status === 200) {
-            console.log(response.data);
-            const locationName = response.data.formatted_address;
+            const locationName = response.data.results[0].formatted_address;
             resolve({ ...latlng, location: locationName } as Location);
           } else {
             reject(response.data);
@@ -69,5 +70,10 @@ export const useGetLocation = (latitude: number, longitude: number) => {
 };
 
 // Make request to get S3 key for image upload.
-export const fetchS3Key = () =>
-  new Promise((resolve) => setTimeout(() => resolve(3), 3000));
+export const fetchS3Key = (userID: string) =>
+  new Promise((resolve, reject) => {
+    doGetUploadLinkAndS3Key(userID).then((response: AxiosResponse) => {
+      if (response.status === 200) resolve(response.data);
+      else reject(response.data);
+    });
+  });
