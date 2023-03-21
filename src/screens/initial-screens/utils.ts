@@ -71,7 +71,6 @@ export const handleSignin = (credentials: Session) => {
 };
 // #endregion
 
-
 // Decorator to handle set of signin actions to perform.
 export function setupUser(
   dispatch: Dispatch<AnyAction>,
