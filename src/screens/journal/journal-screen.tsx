@@ -14,7 +14,7 @@ import AuxButton from "@shared-components/button-aux/button-aux";
 import NavigationHeader from "@shared-components/header-tabnavigation/header-tabnavigation";
 import { SCREENS } from "shared/constants/navigation-routes";
 import { extractShroomID } from "utils";
-import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
+import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
 import { useGetCaptures } from "./utils";
 
 interface JournalScreenProps {
@@ -32,10 +32,7 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   // TODO: organize capture list?
   const entries =
     !loading &&
-    captures &&
-    captures.map((capture) => {
-      const shroomID = extractShroomID(capture.captureID);
-      const { common: shroomName } = MUSHROOM_NAMES[shroomID];
+      const { common: shroomName } = MUSHROOM_IDS[shroomID];
 
       return (
         <Pressable
