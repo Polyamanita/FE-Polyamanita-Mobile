@@ -33,8 +33,11 @@ export const getCurrentPosition = () =>
         };
         doGetLocationFromLatlng(latlng).then((response: AxiosResponse) => {
           if (response.status === 200) {
-            const locationCode = response.data.plus_code.compound_code as string;
-            const locationName = locationCode.substring(locationCode.indexOf(' ') + 1); // Funky Town, FL, USA
+            const locationCode = response.data.plus_code
+              .compound_code as string;
+            const locationName = locationCode.substring(
+              locationCode.indexOf(" ") + 1,
+            ); // Funky Town, FL, USA
             // const locationName = response.data.results[0].formatted_address;
             resolve({ ...latlng, location: locationName } as Location);
           } else {
@@ -84,7 +87,7 @@ export const handlePostCapture = (
 ) => {
   const imageUri = "file://" + photoPath;
 
-  doUploadToS3(uploadLink, imageUri).then((s3Response) => {
+  doUploadToS3(imageUri, uploadLink).then((s3Response) => {
     // console.log("s3 response status", s3Response.status);
     if (s3Response.status === 200) {
       // Post new capture to API, force refetch on journal
