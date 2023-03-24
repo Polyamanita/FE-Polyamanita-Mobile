@@ -105,7 +105,7 @@ export const doGetUploadLinkAndS3Key = (
 //     .catch(handleError);
 // };
 
-export const doUploadToS3 = async (uploadLink: string, imageUri: string) => {
+export const doUploadToS3 = async (imageUri: string, uploadLink: string) => {
   // Convert image to blob data
   const resp = await fetch(imageUri);
   const imageBody = await resp.blob();
