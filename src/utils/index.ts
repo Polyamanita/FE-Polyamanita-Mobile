@@ -14,6 +14,7 @@ export const generateRandomNumber = (min: number, max: number) => {
 
 // TODO: do this once shroom IDs are figured out-ish
 export const extractShroomID = (captureID: string): string => {
-  const extractedID = "idk" + captureID.substring(0, 0);
+  // const extractedID = "idk" + captureID.substring(0, 0);
+  const extractedID = captureID;
   return extractedID;
 };
