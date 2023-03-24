@@ -13,9 +13,10 @@ import { ParamListBase } from "@react-navigation/native";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import NavigationHeader from "@shared-components/header-tabnavigation/header-tabnavigation";
 import { SCREENS } from "shared/constants/navigation-routes";
-import { extractShroomID } from "utils";
-import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
+// import { extractShroomID } from "utils";
+import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
 import { useGetCaptures } from "./utils";
+import { CaptureInstance } from "api/constants/journal";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -28,25 +29,45 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   // const styles = useMemo(() => createStyles(theme), [theme]);
 
   const { loading, captures } = useGetCaptures();
+  const allShroomIDs = Object.keys(MUSHROOM_IDS);
 
   // TODO: organize capture list?
   const entries =
     !loading &&
-    captures &&
-    captures.map((capture) => {
-      const shroomID = extractShroomID(capture.captureID);
-      const { common: shroomName } = MUSHROOM_NAMES[shroomID];
+    allShroomIDs.map((shroomID, i) => {
+      const { common: shroomName } = MUSHROOM_IDS[shroomID];
 
-      return (
-        <Pressable
-          key={capture.captureID}
-          onPress={() => {
-            navigation.navigate(SCREENS.MUSHROOM, { capture });
-          }}
-        >
-          <ListItem label={shroomName} />
-        </Pressable>
-      );
+      if (shroomID in captures) {
+        const capture: CaptureInstance = captures[shroomID];
+        return (
+          <Pressable
+            key={capture.captureID}
+            onPress={() => {
+              navigation.navigate(SCREENS.MUSHROOM, { capture });
+            }}
+          >
+            <ListItem label={shroomName} />
+          </Pressable>
+        );
+      } else {
+        const a = {
+          captureID: "",
+          instances: [],
+          notes: "",
+          timesFound: 0,
+          userID: "",
+        } as CaptureInstance;
+        return (
+          <Pressable
+            key={i}
+            onPress={() => {
+              navigation.navigate(SCREENS.MUSHROOM, { a });
+            }}
+          >
+            <ListItem label={"???"} />
+          </Pressable>
+        );
+      }
     });
 
   return (
