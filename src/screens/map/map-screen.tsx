@@ -11,6 +11,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { SCREENS } from "shared/constants/navigation-routes";
 import { getAllCaptures } from "./utils";
 import { Captures } from "api/constants/journal";
+import AvatarMapIcon from "@shared-components/avatar/avatar-mapicon";
 
 interface MapScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -42,7 +43,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
   );
 
   const mapCaptures = [...capturePoints];
-
+  console.log(capturePoints);
   return (
     <View style={styles.container}>
       <MapView
@@ -74,7 +75,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
               navigation.push(SCREENS.IMAGE, capturePoint);
             }}
           >
-            <View style={{backgroundColor: "red", height: 25, width: 25}}></View>
+            <AvatarMapIcon userID={capturePoint.userID} wrapperSize={55} />
           </Marker>
         ))}
       </MapView>
