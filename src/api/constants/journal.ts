@@ -4,7 +4,7 @@ export interface Instance {
   latitude: number;
   location: string;
   longitude: number;
-  s3key: string;
+  s3Key: string;
 }
 
 export interface CaptureInstance {
