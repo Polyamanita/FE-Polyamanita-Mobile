@@ -20,7 +20,7 @@ export const captures = [
       latitude: 28.6016,
       longitude: -81.2005,
       location: "UCF",
-      s3key: "",
+      s3Key: "",
     },
   },
   {
@@ -33,7 +33,7 @@ export const captures = [
       latitude: 28.16,
       longitude: -81.1,
       location: "UCF",
-      s3key: "",
+      s3Key: "",
     },
   },
 ] as CapturePoint[];
