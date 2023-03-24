@@ -27,8 +27,6 @@ import { ReduxStore } from "redux/store";
 import { Location } from "api/constants/location";
 import { S3LinkResponse } from "api/constants/image";
 import { Dispatch } from "redux";
-import { doPostCaptures } from "api/requests";
-import { AxiosResponse } from "axios";
 
 interface CaptureScreenProps {
   route: any;
@@ -104,20 +102,12 @@ const handleCapture = async (
         userID: userID,
       } as CaptureInstance;
 
-      // doUploadImage(userID);
       handlePostCapture(
         userID,
         photo.path,
         captureInstance,
         uploadLink,
         dispatch,
-      );
-
-      // Now with the image uploaded, post the instance into database.
-      doPostCaptures(userID, [captureInstance]).then(
-        (postCaptureResponse: AxiosResponse) => {
-          console.log("POST capture resposne: ", postCaptureResponse);
-        },
       );
     },
   );
