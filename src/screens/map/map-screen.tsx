@@ -7,7 +7,6 @@ import MapView, { LatLng, Marker, PROVIDER_GOOGLE } from "react-native-maps";
  */
 import createStyles from "./map-screen.style";
 import { customMapStyle } from "./map-style";
-import { captures } from "api/mockMapData";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { SCREENS } from "shared/constants/navigation-routes";
 import { getAllCaptures } from "./utils";
@@ -42,7 +41,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
     }),
   );
 
-  const mapCaptures = [...captures, ...capturePoints];
+  const mapCaptures = [...capturePoints];
 
   return (
     <View style={styles.container}>
@@ -74,7 +73,9 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
               // Fake search API for now.
               navigation.push(SCREENS.IMAGE, capturePoint);
             }}
-          />
+          >
+            <View style={{backgroundColor: "red", height: 25, width: 25}}></View>
+          </Marker>
         ))}
       </MapView>
     </View>
