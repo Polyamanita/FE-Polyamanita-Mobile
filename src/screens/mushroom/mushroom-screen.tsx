@@ -7,7 +7,7 @@ import { TouchableHighlight } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import { ReduxStore } from "redux/store";
 import NavigationHeader from "shared/components/header-tabnavigation/header-tabnavigation";
-import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
+import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
 import { SCREENS } from "shared/constants/navigation-routes";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { extractShroomID } from "utils";
@@ -155,7 +155,7 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
 
   // Mushroom names
   const shroomID = extractShroomID(captureID);
-  const { common, scientific } = MUSHROOM_IDS[shroomID];
+  const { common, scientific } = MUSHROOM_NAMES[shroomID];
 
   return (
     <ScreenContainer>
