@@ -33,7 +33,9 @@ export const getCurrentPosition = () =>
         };
         doGetLocationFromLatlng(latlng).then((response: AxiosResponse) => {
           if (response.status === 200) {
-            const locationName = response.data.results[0].formatted_address;
+            const locationCode = response.data.plus_code.compound_code as string;
+            const locationName = locationCode.substring(locationCode.indexOf(' ') + 1); // Funky Town, FL, USA
+            // const locationName = response.data.results[0].formatted_address;
             resolve({ ...latlng, location: locationName } as Location);
           } else {
             reject(response.data);
