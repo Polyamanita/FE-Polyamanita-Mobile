@@ -82,8 +82,8 @@ export const handlePostCapture = (
 ) => {
   const imageUri = "file://" + photoPath;
 
-  doUploadToS3(uploadLink, imageUri).then((s3Response) => {
-    // console.log("s3 response status", s3Response.status);
+  doUploadToS3(imageUri, uploadLink).then((s3Response) => {
+    console.log("s3 response status", s3Response.status);
     if (s3Response.status === 200) {
       // Post new capture to API, force refetch on journal
       doPostCaptures(userID, [capture]).then(() => dispatch(queueRefetch()));
