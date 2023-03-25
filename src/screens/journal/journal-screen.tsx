@@ -31,7 +31,6 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   const { loading, captures } = useGetCaptures();
   const allShroomIDs = Object.keys(MUSHROOM_IDS);
 
-  // TODO: organize capture list?
   const entries =
     !loading &&
     allShroomIDs.map((shroomID, i) => {
@@ -50,6 +49,7 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
           </Pressable>
         );
       } else {
+        // Display shaded/unknown list item
         const a = {
           captureID: "",
           instances: [],
