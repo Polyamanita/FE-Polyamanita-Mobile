@@ -53,10 +53,10 @@ export const convertDateTime = (timestamp: string) => {
 
   let hours = datetime.getHours();
   const ampm = hours < 12 ? "AM" : "PM";
-  hours %= 12;
+
+  hours = hours > 12 ? hours - 12 : hours;
+
   const minutes = ("0" + datetime.getMinutes()).slice(-2);
 
-  return `${day}, ${month} ${date}, ${year} at ${
-    hours % 12
-  }:${minutes} ${ampm}`;
+  return `${day}, ${month} ${date}, ${year} at ${hours}:${minutes} ${ampm}`;
 };

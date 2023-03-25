@@ -94,35 +94,48 @@ export const doGetUploadLinkAndS3Key = (
   userID: string,
 ): Promise<AxiosResponse> => requests.post("/users/" + userID + "/images", {});
 
-export const doUploadToS3 = (imageURI: any, uploadLink: string) => {
-  const s3instance = axios.create({
-    baseURL: uploadLink,
-    timeout: 7500,
-  });
-  return s3instance
-    .put("", imageURI, { headers: { "content-type": "image/jpeg" } })
+// export const doUploadToS3 = (imageURI: any, uploadLink: string) => {
+//   const s3instance = axios.create({
+//     baseURL: uploadLink,
+//     timeout: 7500,
+//   });
+//   return s3instance
+//     .put("", imageURI, { headers: { "content-type": "image/jpeg" } })
+//     .then((res) => res)
+//     .catch(handleError);
+// };
+
+export const doUploadToS3 = async (imageUri: string, uploadLink: string) => {
+  // Convert image to blob data
+  const resp = await fetch(imageUri);
+  const imageBody = await resp.blob();
+
+  return fetch(uploadLink, {
+    method: "PUT",
+    body: imageBody,
+  })
     .then((res) => res)
     .catch(handleError);
 };
 
 // yeesh
-export const doUploadImage = (userID: string, image: any) =>
-  new Promise((resolve, reject) => {
-    doGetUploadLinkAndS3Key(userID)
-      .then((response) => {
-        if (response.status === 200) {
-          const link = response.data.links?.[0];
-          const { uploadLink } = link;
-          doUploadToS3(image, uploadLink)
-            .then((_) => {
-              resolve(response);
-            })
-            .catch(handleError);
-        } else {
-          reject(response);
-        }
-      })
-      .catch(handleError);
-  });
+// export const doUploadImage = (userID: string, image: any) =>
+//   new Promise((resolve, reject) => {
+//     doGetUploadLinkAndS3Key(userID)
+//       .then((response) => {
+//         if (response.status === 200) {
+//           const link = response.data.links?.[0];
+//           const { uploadLink } = link;
+//           doUploadToS3(image, uploadLink)
+//             .then((_) => {
+//               resolve(response);
+//             })
+//             .catch(handleError);
+//         } else {
+//           reject(response);
+//         }
+//       })
+//       .catch(handleError);
+//   });
 
 // #endregion

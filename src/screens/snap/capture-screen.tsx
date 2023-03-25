@@ -2,8 +2,14 @@ import React, { useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
 import RNFS from "react-native-fs";
-import { shroomalyze } from "./utils/shroomalyze";
-import { fetchS3Key, getCurrentPosition } from "./utils/capture";
+import { modelResults, shroomalyze } from "./utils/shroomalyze";
+import {
+  getS3Response,
+  getCurrentPosition,
+  buildCaptureIDFromShroomalysis,
+  stripParamsFromLink,
+  handlePostCapture,
+} from "./utils/capture";
 import { createFileName } from "./utils/save";
 import { CaptureInstance, Instance } from "api/constants/journal";
 /**
@@ -16,12 +22,11 @@ import Button from "@shared-components/button-primary/button-primary";
 import SnapHeader from "./wrappers/header-snap-stack-wrapper";
 import CancelButton from "./components/button-cancel";
 import { PhotoFile } from "react-native-vision-camera";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReduxStore } from "redux/store";
 import { Location } from "api/constants/location";
 import { S3LinkResponse } from "api/constants/image";
-import { doPostCaptures, doUploadImage } from "api/requests";
-import { AxiosResponse } from "axios";
+import { Dispatch } from "redux";
 
 interface CaptureScreenProps {
   route: any;
@@ -53,57 +58,63 @@ const handleCapture = async (
   photo: PhotoFile,
   userID: string,
   captureTime: string,
+  dispatch: Dispatch,
 ) => {
   // Promise Chain
   const position = getCurrentPosition() as Promise<Location>;
-  const modelData = shroomalyze(photoPath) as Promise<unknown>;
-  const s3Key = fetchS3Key(userID) as Promise<S3LinkResponse>;
+  const modelData = shroomalyze(photo.path);
+  const s3Response = getS3Response(userID) as Promise<S3LinkResponse>;
 
   // When all above promises are fulfilled, handle the combined data.
-  Promise.all([position, modelData, s3Key]).then(
-    (
-      captureResolve: [
-        resPos: Location,
-        resModel: unknown,
-        resS3: S3LinkResponse,
-      ],
-    ) => {
-      const [resolvedPosition, resolvedModelData, resolvedS3Key] =
-        captureResolve;
-      console.log("Position: ", resolvedPosition);
-      console.log("Mushroom: ", resolvedModelData);
-      console.log("Key: ", resolvedS3Key);
+  Promise.all([position, modelData, s3Response])
+    .then(
+      (
+        captureResolve: [
+          resPos: Location,
+          resModel: modelResults,
+          resS3: S3LinkResponse,
+        ],
+      ) => {
+        const [resolvedPosition, resolvedModelData, resolvedS3Response] =
+          captureResolve;
+        console.log("Position: ", resolvedPosition);
+        console.log("Mushroom: ", resolvedModelData);
+        console.log("Key: ", resolvedS3Response);
 
-      // Create new instance of capture.
-      const instance = {
-        dateFound: captureTime,
-        latitude: resolvedPosition.latitude,
-        longitude: resolvedPosition.longitude,
-        location: resolvedPosition.location,
-        s3key: resolvedS3Key.links[0].s3Key,
-        imageLink: resolvedS3Key.links[0].uploadLink,
-      } as Instance;
+        const [{ s3Key, uploadLink }] = resolvedS3Response.links;
 
-      const captureInstance = {
-        captureID: "some-other-id",
-        instances: [instance],
-        notes: "",
-        timesFound: 0,
-        userID: userID,
-      } as CaptureInstance;
+        // Create new instance of capture.
+        const instance = {
+          dateFound: captureTime,
+          latitude: resolvedPosition.latitude,
+          longitude: resolvedPosition.longitude,
+          location: resolvedPosition.location,
+          s3Key: s3Key,
+          imageLink: stripParamsFromLink(uploadLink),
+        } as Instance;
 
-      doPostCaptures(userID, [captureInstance]).then(
-        (postCaptureResponse: AxiosResponse) => {
-          console.log("POST capture resposne: ", postCaptureResponse);
-          doUploadImage(userID, `file://${photo.path}`).then(
-            (uploadResponse) => {
-              console.log("POST upload image response, ", uploadResponse);
-            },
-          );
-        },
-      );
-    },
-  );
+        const captureID = buildCaptureIDFromShroomalysis(resolvedModelData);
+        const captureInstance = {
+          captureID: captureID,
+          instances: [instance],
+          // none of these should overwrite, right?
+          notes: "",
+          timesFound: 0,
+          userID: userID,
+        } as CaptureInstance;
+
+        handlePostCapture(
+          userID,
+          photo.path,
+          captureInstance,
+          uploadLink,
+          dispatch,
+        );
+      },
+    )
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
@@ -115,6 +126,9 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
   const userData = useSelector(
     (store: ReduxStore) => store.userData.userID as string,
   );
+
+  const dispatch = useDispatch();
+
   return (
     <View style={styles.container}>
       <SnapHeader
@@ -136,7 +150,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
           title={"Capture"}
           onPress={() => {
             const time = new Date().toISOString();
-            handleCapture(path, photo, userData, time);
+            handleCapture(path, photo, userData, time, dispatch);
           }}
           varient={"primary"}
           size={"large"}
