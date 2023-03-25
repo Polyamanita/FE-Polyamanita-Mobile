@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
 import RNFS from "react-native-fs";
-import { shroomalyze } from "./utils/shroomalyze";
+import { modelResults, shroomalyze } from "./utils/shroomalyze";
 import {
   getS3Response,
   getCurrentPosition,
@@ -62,55 +62,59 @@ const handleCapture = async (
 ) => {
   // Promise Chain
   const position = getCurrentPosition() as Promise<Location>;
-  const modelData = shroomalyze(photo.path) as Promise<unknown>;
+  const modelData = shroomalyze(photo.path);
   const s3Response = getS3Response(userID) as Promise<S3LinkResponse>;
 
   // When all above promises are fulfilled, handle the combined data.
-  Promise.all([position, modelData, s3Response]).then(
-    (
-      captureResolve: [
-        resPos: Location,
-        resModel: unknown,
-        resS3: S3LinkResponse,
-      ],
-    ) => {
-      const [resolvedPosition, resolvedModelData, resolvedS3Response] =
-        captureResolve;
-      console.log("Position: ", resolvedPosition);
-      console.log("Mushroom: ", resolvedModelData);
-      console.log("Key: ", resolvedS3Response);
+  Promise.all([position, modelData, s3Response])
+    .then(
+      (
+        captureResolve: [
+          resPos: Location,
+          resModel: modelResults,
+          resS3: S3LinkResponse,
+        ],
+      ) => {
+        const [resolvedPosition, resolvedModelData, resolvedS3Response] =
+          captureResolve;
+        console.log("Position: ", resolvedPosition);
+        console.log("Mushroom: ", resolvedModelData);
+        console.log("Key: ", resolvedS3Response);
 
-      const [{ s3Key, uploadLink }] = resolvedS3Response.links;
+        const [{ s3Key, uploadLink }] = resolvedS3Response.links;
 
-      // Create new instance of capture.
-      const instance = {
-        dateFound: captureTime,
-        latitude: resolvedPosition.latitude,
-        longitude: resolvedPosition.longitude,
-        location: resolvedPosition.location,
-        s3Key: s3Key,
-        imageLink: stripParamsFromLink(uploadLink),
-      } as Instance;
+        // Create new instance of capture.
+        const instance = {
+          dateFound: captureTime,
+          latitude: resolvedPosition.latitude,
+          longitude: resolvedPosition.longitude,
+          location: resolvedPosition.location,
+          s3Key: s3Key,
+          imageLink: stripParamsFromLink(uploadLink),
+        } as Instance;
 
-      const captureID = buildCaptureIDFromShroomalysis(resolvedModelData);
-      const captureInstance = {
-        captureID: captureID,
-        instances: [instance],
-        // none of these should overwrite, right?
-        notes: "",
-        timesFound: 0,
-        userID: userID,
-      } as CaptureInstance;
+        const captureID = buildCaptureIDFromShroomalysis(resolvedModelData);
+        const captureInstance = {
+          captureID: captureID,
+          instances: [instance],
+          // none of these should overwrite, right?
+          notes: "",
+          timesFound: 0,
+          userID: userID,
+        } as CaptureInstance;
 
-      handlePostCapture(
-        userID,
-        photo.path,
-        captureInstance,
-        uploadLink,
-        dispatch,
-      );
-    },
-  );
+        handlePostCapture(
+          userID,
+          photo.path,
+          captureInstance,
+          uploadLink,
+          dispatch,
+        );
+      },
+    )
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
