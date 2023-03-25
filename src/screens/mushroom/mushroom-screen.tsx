@@ -7,7 +7,7 @@ import { TouchableHighlight } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import { ReduxStore } from "redux/store";
 import NavigationHeader from "shared/components/header-tabnavigation/header-tabnavigation";
-import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
+import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
 import { SCREENS } from "shared/constants/navigation-routes";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { extractShroomID } from "utils";
@@ -43,7 +43,7 @@ const mockInstances: Instance[] = [
     latitude: 28.600989,
     location: "circle 1",
     longitude: -81.203842,
-    s3Key: "lol1",
+    s3key: "lol1",
   },
   {
     dateFound: "10 seconds ago",
@@ -51,7 +51,7 @@ const mockInstances: Instance[] = [
     latitude: 28.600618,
     location: "circle 2",
     longitude: -81.202811,
-    s3Key: "lol2",
+    s3key: "lol2",
   },
   {
     dateFound: "15 seconds ago",
@@ -60,7 +60,7 @@ const mockInstances: Instance[] = [
     latitude: 28.599326,
     location: "circle 3",
     longitude: -81.203701,
-    s3Key: "lol3",
+    s3key: "lol3",
   },
   {
     dateFound: "20 seconds ago",
@@ -69,7 +69,7 @@ const mockInstances: Instance[] = [
     latitude: 28.598124,
     location: "not a circle",
     longitude: -81.20111,
-    s3Key: "lol3",
+    s3key: "lol3",
   },
 ];
 
@@ -155,7 +155,7 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
 
   // Mushroom names
   const shroomID = extractShroomID(captureID);
-  const { common, scientific } = MUSHROOM_NAMES[shroomID];
+  const { common, scientific } = MUSHROOM_IDS[shroomID];
 
   return (
     <ScreenContainer>
