@@ -36,13 +36,13 @@ const AvatarMapIcon: React.FC<AvatarProps> = ({ userID, wrapperSize }) => {
         response.data.user.color2,
       ] as Colors);
 
-      setIconVisability("flex")
+      setIconVisability("flex");
     });
   }, [userID]);
 
   const ratio = 0.75;
   return (
-    <View style={{display: iconVisability}}>
+    <View style={{ display: iconVisability }}>
       <LinearGradient
         colors={userColor}
         useAngle={true}
