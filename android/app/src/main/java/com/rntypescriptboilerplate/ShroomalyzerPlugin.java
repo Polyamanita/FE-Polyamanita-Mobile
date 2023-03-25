@@ -3,45 +3,34 @@ package com.rntypescriptboilerplate;
 import java.io.*;
 import java.lang.*;
 import java.net.*;
-import java.nio.ByteBuffer;
-import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
-import java.nio.file.Files;
+import java.nio.MappedByteBuffer;
 import java.util.*;
 
-import android.util.Log;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.Image;
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.core.content.ContextCompat;
-import org.jetbrains.annotations.NotNull;
+import android.util.Log;
 
 import com.facebook.react.bridge.*;
-import com.facebook.react.uimanager.IllegalViewOperationException;
 
-import org.tensorflow.lite.task.vision.classifier.Classifications;
 import org.tensorflow.lite.DataType;
 import org.tensorflow.lite.Interpreter;
-import org.tensorflow.lite.support.image.ImageProcessor;
-import org.tensorflow.lite.support.image.TensorImage;
-import org.tensorflow.lite.support.image.ops.ResizeOp;
-import org.tensorflow.lite.support.image.ops.ResizeWithCropOrPadOp;
-
-import org.tensorflow.lite.support.common.FileUtil;
-import org.tensorflow.lite.support.common.TensorProcessor;
-import org.tensorflow.lite.support.common.ops.NormalizeOp;
+import org.tensorflow.lite.support.common.*;
+import org.tensorflow.lite.support.image.*;
+import org.tensorflow.lite.support.image.ops.*;
 import org.tensorflow.lite.support.label.TensorLabel;
 import org.tensorflow.lite.support.tensorbuffer.TensorBuffer;
 
-public class ShroomalyzerPlugin extends ReactContextBaseJavaModule implements ImageClassifierHelper.ClassifierListener {
+public class ShroomalyzerPlugin extends ReactContextBaseJavaModule {
   private ReactApplicationContext context;
-  private WritableMap resultData = new WritableNativeMap();
   private static final String MODEL = "mushroom.tflite"; // location of tflite model
+  final String LABELS = "labels.txt";
+  private static final int INPUT_TENSOR_WIDTH = 256;
+  private static final int OUTPUT_TENSOR_WIDTH = 10;
 
   public ShroomalyzerPlugin(ReactApplicationContext reactContext) {
     super(reactContext); // required by React Native.
@@ -63,91 +52,119 @@ public class ShroomalyzerPlugin extends ReactContextBaseJavaModule implements Im
     return fileChannel.map(FileChannel.MapMode.READ_ONLY, startoffset, declaredLength);
   }
 
-  @ReactMethod
-  public void RunModel(String filePath, Callback success, Callback error)
-      throws Exception {
-    Bitmap bm = loadImage(filePath);
-
-    // Resize and pad image
-    int sq_size = bm.getHeight();
-    if (sq_size < bm.getWidth()) {
-      sq_size = bm.getWidth();
+  private TensorImage processImage(Bitmap image) {
+    int sq_size = image.getHeight();
+    if (sq_size < image.getWidth()) {
+      sq_size = image.getWidth();
     }
+
+    // Resize and pad
     ImageProcessor imageProcessor = new ImageProcessor.Builder()
         .add(new ResizeWithCropOrPadOp(sq_size, sq_size))
-        .add(new ResizeOp(256, 256, ResizeOp.ResizeMethod.BILINEAR))
+        .add(new ResizeOp(INPUT_TENSOR_WIDTH, INPUT_TENSOR_WIDTH, ResizeOp.ResizeMethod.BILINEAR))
         .build();
+
     TensorImage tensorImage = new TensorImage(DataType.FLOAT32);
-    tensorImage.load(bm);
+    tensorImage.load(image);
     tensorImage = imageProcessor.process(tensorImage);
 
-    // Create output buffer
-    TensorBuffer probabilityBuffer = TensorBuffer.createFixedSize(new int[] { 1, 10 }, DataType.FLOAT32);
+    return tensorImage;
+  }
 
-    Interpreter interpreter = new Interpreter(loadModelFile());
-    interpreter.run(tensorImage.getBuffer(), probabilityBuffer.getBuffer());
-    ByteBuffer tensorOutput = interpreter.getOutputTensor(0).asReadOnlyBuffer();
+  private TensorBuffer classifyImage(TensorImage image) {
+    // Create output buffer
+    TensorBuffer probabilityBuffer = TensorBuffer.createFixedSize(
+        new int[] { 1, OUTPUT_TENSOR_WIDTH },
+        DataType.FLOAT32);
+
+    // Load model
+    MappedByteBuffer model = null;
+    try {
+      model = loadModelFile();
+    } catch (IOException e) {
+      Log.e("tfliteSupport", "Error loading model file", e);
+      return null;
+    }
+
+    // run model
+    Interpreter interpreter = new Interpreter(model);
+    interpreter.run(image.getBuffer(), probabilityBuffer.getBuffer());
     interpreter.close();
 
+    // Apply softmax function
     SoftMax softmax = new SoftMax(probabilityBuffer.getFloatArray());
     probabilityBuffer.loadArray(softmax.getValue());
 
-    final String ASSOCIATED_AXIS_LABELS = "labels.txt";
+    return probabilityBuffer;
+  }
+
+  private Map<String, Float> addLabels(TensorBuffer results, String labelsPath) {
     List<String> associatedAxisLabels = null;
 
     try {
-      associatedAxisLabels = FileUtil.loadLabels(this.context, ASSOCIATED_AXIS_LABELS);
+      associatedAxisLabels = FileUtil.loadLabels(this.context, labelsPath);
     } catch (IOException e) {
       Log.e("tfliteSupport", "Error reading label file", e);
+      return null;
     }
 
     TensorProcessor probabilityProcessor = new TensorProcessor.Builder().build();
 
-    if (null != associatedAxisLabels) {
-      // Map of labels and their corresponding probability
-      TensorLabel labels = new TensorLabel(associatedAxisLabels,
-          probabilityProcessor.process(probabilityBuffer));
+    // Map of labels and their corresponding probability
+    TensorLabel labels = new TensorLabel(associatedAxisLabels,
+        probabilityProcessor.process(results));
 
-      // Create a map to access the result based on label
-      Map<String, Float> floatMap = labels.getMapWithFloatValue();
+    // Create a map to access the result based on label
+    Map<String, Float> resultsMap = labels.getMapWithFloatValue();
 
-      // This sucks
-      resultData.putString("floatMap", floatMap.toString());
-    }
-
-    success.invoke(resultData);
-    resultData = new WritableNativeMap();
+    return resultsMap;
   }
 
-  // @ReactMethod
-  // public void RunModel(String filePath, Callback success, Callback error)
-  // throws Exception {
-  // try {
-  // Bitmap bitmap = loadImage(filePath);
+  private void passResults(Callback cb, Map<String, Float> results) {
+    WritableNativeMap bridge = new WritableNativeMap();
+    for (Map.Entry<String, Float> entry : results.entrySet()) {
+      bridge.putDouble(entry.getKey(), entry.getValue());
+    }
+    cb.invoke(bridge);
+  }
 
-  // ImageClassifierHelper imageClassifier = ImageClassifierHelper.create(context,
-  // this);
-  // imageClassifier.classify(bitmap);
-  // success.invoke(resultData);
+  private void passError(Callback cb, String errorMessage) {
+    WritableNativeMap bridge = new WritableNativeMap();
+    bridge.putString("error", errorMessage);
+    cb.invoke(bridge);
+  }
 
-  // // clean up map for next run of modeal.
-  // resultData = new WritableNativeMap();
-  // } catch (IllegalViewOperationException e) {
-  // error.invoke(e.getMessage());
-  // }
-  // }
+  @ReactMethod
+  public void RunModel(String filePath, Callback success, Callback error) {
+    // Load image from file
+    Bitmap bm = loadImage(filePath);
+    if (bm == null) {
+      passError(error, "failed to load image");
+      return;
+    }
+
+    // Process image (resize + pad)
+    TensorImage tensorImage = processImage(bm);
+
+    // Perform classification, store results in probabilityBuffer
+    TensorBuffer results = classifyImage(tensorImage);
+    if (results == null) {
+      passError(error, "failed to load/run model");
+      return;
+    }
+
+    // Create map from results using class labels
+    Map<String, Float> resultsWithLabels = addLabels(results, LABELS);
+    if (resultsWithLabels == null) {
+      passError(error, "failed to add class labels");
+      return;
+    }
+
+    // Pass back to frontend
+    passResults(success, resultsWithLabels);
+  }
 
   private Bitmap loadImage(String filePath) {
     return BitmapFactory.decodeFile(filePath);
-  }
-
-  @Override
-  public void onError(String error) {
-    resultData.putString("err", "an error occurred with model :(");
-  }
-
-  @Override
-  public void onResults(List<Classifications> results, long inferenceTime) {
-    resultData.putString("results", results.toString());
   }
 }
