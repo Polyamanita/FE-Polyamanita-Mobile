@@ -51,18 +51,11 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
         );
       } else {
         // Display shaded/unknown list item
-        const a = {
-          captureID: "",
-          instances: [],
-          notes: "",
-          timesFound: 0,
-          userID: "",
-        } as CaptureInstance;
         return (
           <Pressable
             key={i}
             onPress={() => {
-              navigation.navigate(SCREENS.MUSHROOM, { a });
+              navigation.navigate(SCREENS.NOTFOUND);
             }}
           >
             <ListItem label={"???"} />
