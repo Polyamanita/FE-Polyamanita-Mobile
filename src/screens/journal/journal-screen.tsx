@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 // import { useTheme } from "@react-navigation/native";
 
 /**
@@ -13,9 +13,10 @@ import { ParamListBase } from "@react-navigation/native";
 import AuxButton from "@shared-components/button-aux/button-aux";
 import NavigationHeader from "@shared-components/header-tabnavigation/header-tabnavigation";
 import { SCREENS } from "shared/constants/navigation-routes";
-import { extractShroomID } from "utils";
-import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
+// import { extractShroomID } from "utils";
+import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
 import { useGetCaptures } from "./utils";
+import RNBounceable from "@freakycoder/react-native-bounceable";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -28,24 +29,30 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   // const styles = useMemo(() => createStyles(theme), [theme]);
 
   const { loading, captures } = useGetCaptures();
+  const allShroomIDs = Object.keys(MUSHROOM_IDS);
 
-  // TODO: organize capture list?
   const entries =
     !loading &&
     captures &&
-    captures.map((capture) => {
-      const shroomID = extractShroomID(capture.captureID);
-      const { common: shroomName } = MUSHROOM_NAMES[shroomID];
+    allShroomIDs.map((shroomID, i) => {
+      const { common: shroomName } = MUSHROOM_IDS[shroomID];
+
+      let onPress = () =>
+        navigation.navigate(SCREENS.NOTFOUND, { commonName: shroomName });
+      let label = shroomName;
+      let grayedOut = true;
+
+      if (shroomID in captures) {
+        const capture = captures[shroomID];
+        onPress = () => navigation.navigate(SCREENS.MUSHROOM, { capture });
+        label = shroomName;
+        grayedOut = false;
+      }
 
       return (
-        <Pressable
-          key={capture.captureID}
-          onPress={() => {
-            navigation.navigate(SCREENS.MUSHROOM, { capture });
-          }}
-        >
-          <ListItem label={shroomName} />
-        </Pressable>
+        <RNBounceable key={i} onPress={onPress}>
+          <ListItem label={label} grayedOut={grayedOut} />
+        </RNBounceable>
       );
     });
 
