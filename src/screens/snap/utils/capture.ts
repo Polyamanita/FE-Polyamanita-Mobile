@@ -1,8 +1,6 @@
 // FILE PURPOSE:
 // Set of functions that happens when user is capturing a mushroom.
 import { CaptureInstance } from "api/constants/journal";
-import { Location } from "api/constants/location";
-import { doGetLocationFromLatlng } from "api/gmaps-requests";
 import {
   doGetCapture,
   doGetUploadLinkAndS3Key,
@@ -10,48 +8,11 @@ import {
   doUploadToS3,
 } from "api/requests";
 import { AxiosResponse } from "axios";
-import Geolocation from "react-native-geolocation-service";
 import { Dispatch } from "redux";
 import { queueRefetch } from "redux/actions/journal-actions";
+import { getCurrentPosition } from "utils";
 
-// Get the current position of the user.
-// First by getting coords of user from Geolocator library,
-// Then do a reverse lookup of the coords to get name of town user is near.
-export const getCurrentPosition = () =>
-  new Promise((resolve, reject) => {
-    const positionOptions = {
-      enableHighAccuracy: true,
-      timeout: 15000,
-      maximumAge: 1000,
-    } as Geolocation.GeoOptions;
-
-    Geolocation.getCurrentPosition(
-      (pos) => {
-        const latlng = {
-          latitude: pos.coords.latitude,
-          longitude: pos.coords.longitude,
-        };
-        doGetLocationFromLatlng(latlng).then((response: AxiosResponse) => {
-          if (response.status === 200) {
-            const locationCode = response.data.plus_code
-              .compound_code as string;
-            const locationName = locationCode.substring(
-              locationCode.indexOf(" ") + 1,
-            ); // Funky Town, FL, USA
-            // const locationName = response.data.results[0].formatted_address;
-            resolve({ ...latlng, location: locationName } as Location);
-          } else {
-            reject(response.data);
-          }
-        });
-      },
-      // Error for Geolocation Library.
-      (error) => {
-        reject(error.message);
-      },
-      positionOptions,
-    );
-  });
+export const getPosition = () => getCurrentPosition();
 
 // Use Redux's user ID and modelData's shroom ID to make a capture ID
 export const buildCaptureIDFromShroomalysis = (modelData: unknown) => {

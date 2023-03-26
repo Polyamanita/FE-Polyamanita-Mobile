@@ -7,6 +7,7 @@ import { useTheme } from "@react-navigation/native";
 import createStyles from "./avatar.style";
 import LinearGradient from "react-native-linear-gradient";
 import { doGetUser } from "api/requests";
+import { View } from "react-native";
 
 // @params - onPress: when button is clicked what should be performed.
 // @params - iconName: provides an icon for the button.
@@ -25,6 +26,7 @@ const AvatarMapIcon: React.FC<AvatarProps> = ({ userID, wrapperSize }) => {
   const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
   const [userColor, setUserColor] = useState<Colors>(["#000000", "#000000"]);
+  const [iconVisability, setIconVisability] = useState<"flex" | "none">("none");
 
   useEffect(() => {
     doGetUser(userID).then((response) => {
@@ -33,24 +35,28 @@ const AvatarMapIcon: React.FC<AvatarProps> = ({ userID, wrapperSize }) => {
         response.data.user.color1,
         response.data.user.color2,
       ] as Colors);
+
+      setIconVisability("flex");
     });
   }, [userID]);
 
   const ratio = 0.75;
   return (
-    <LinearGradient
-      colors={userColor}
-      useAngle={true}
-      angle={0}
-      style={styles.wrapper}
-    >
-      <Icon
-        name={"mushroom"}
-        type="MaterialCommunityIcons"
-        size={Math.ceil(wrapperSize * ratio)}
-        color={colors.secondary100}
-      />
-    </LinearGradient>
+    <View style={{ display: iconVisability }}>
+      <LinearGradient
+        colors={userColor}
+        useAngle={true}
+        angle={0}
+        style={styles.wrapper}
+      >
+        <Icon
+          name={"mushroom"}
+          type="MaterialCommunityIcons"
+          size={Math.ceil(wrapperSize * ratio)}
+          color={colors.secondary100}
+        />
+      </LinearGradient>
+    </View>
   );
 };
 

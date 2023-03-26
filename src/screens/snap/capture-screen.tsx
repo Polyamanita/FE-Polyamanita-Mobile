@@ -5,7 +5,7 @@ import RNFS from "react-native-fs";
 import { modelResults, shroomalyze } from "./utils/shroomalyze";
 import {
   getS3Response,
-  getCurrentPosition,
+  getPosition,
   buildCaptureIDFromShroomalysis,
   stripParamsFromLink,
   handlePostCapture,
@@ -33,88 +33,55 @@ interface CaptureScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
 }
 
-// Handle capture should be a syncronous function that handles a set
-// of async tasks.
-
-/* PROTO: 
-        When the user hits capture. A couple actions need to take place.
-        ?. TODO: Display loading animation, these sets of actions will take a bit. :d
-
-        -- ASYNC TASKS
-        ?. TODO: Run tensorflow on imageframe through VisionCamera using frame processor.
-            * On sucess, assign variable for mushroom id.
-            * On failure -> modal popup failure and say sorry.
-        ?. TODO: When user settings are setup, check if user is already okay with providing
-           location data, and it's toggled on (don't ask me again).
-        ?. TODO: If it's their first time, show a modal that talks about why we want
-           their location data.
-        ?. TODO: If they accept, a couple things need to happen.
-            * Location is fetched and assingned to variable.
-           If they reject, location info is simply ignored. (undefined).
-    */
-
-const handleCapture = async (
-  photoPath: string,
-  photo: PhotoFile,
+// handelModel runs async task to run the shroomalyzer.
+const handleModel = async (photo: PhotoFile) => shroomalyze(photo.path);
+// When the shroomalyzer is done, if an instance is identified, handle an upplaod.
+const handleUpload = async (
   userID: string,
+  photo: PhotoFile,
   captureTime: string,
+  modelResults: modelResults,
   dispatch: Dispatch,
 ) => {
-  // Promise Chain
-  const position = getCurrentPosition() as Promise<Location>;
-  const modelData = shroomalyze(photo.path);
+  const position = getPosition() as Promise<Location>;
   const s3Response = getS3Response(userID) as Promise<S3LinkResponse>;
 
-  // When all above promises are fulfilled, handle the combined data.
-  Promise.all([position, modelData, s3Response])
-    .then(
-      (
-        captureResolve: [
-          resPos: Location,
-          resModel: modelResults,
-          resS3: S3LinkResponse,
-        ],
-      ) => {
-        const [resolvedPosition, resolvedModelData, resolvedS3Response] =
-          captureResolve;
-        console.log("Position: ", resolvedPosition);
-        console.log("Mushroom: ", resolvedModelData);
-        console.log("Key: ", resolvedS3Response);
+  Promise.all([position, s3Response]).then(
+    (uploadResolve: [resPos: Location, resS3: S3LinkResponse]) => {
+      const [resolvedPosition, resolvedS3Response] = uploadResolve;
+      console.log("Position: ", resolvedPosition);
+      console.log("Key: ", resolvedS3Response);
 
-        const [{ s3Key, uploadLink }] = resolvedS3Response.links;
+      const [{ s3Key, uploadLink }] = resolvedS3Response.links;
 
-        // Create new instance of capture.
-        const instance = {
-          dateFound: captureTime,
-          latitude: resolvedPosition.latitude,
-          longitude: resolvedPosition.longitude,
-          location: resolvedPosition.location,
-          s3Key: s3Key,
-          imageLink: stripParamsFromLink(uploadLink),
-        } as Instance;
+      const instance = {
+        dateFound: captureTime,
+        latitude: resolvedPosition.latitude,
+        longitude: resolvedPosition.longitude,
+        location: resolvedPosition.location,
+        s3Key: s3Key,
+        imageLink: stripParamsFromLink(uploadLink),
+      } as Instance;
 
-        const captureID = buildCaptureIDFromShroomalysis(resolvedModelData);
-        const captureInstance = {
-          captureID: captureID,
-          instances: [instance],
-          // none of these should overwrite, right?
-          notes: "",
-          timesFound: 0,
-          userID: userID,
-        } as CaptureInstance;
+      const captureID = buildCaptureIDFromShroomalysis(modelResults);
+      const captureInstance = {
+        captureID: captureID,
+        instances: [instance],
+        // none of these should overwrite, right?
+        notes: "",
+        timesFound: 0,
+        userID: userID,
+      } as CaptureInstance;
 
-        handlePostCapture(
-          userID,
-          photo.path,
-          captureInstance,
-          uploadLink,
-          dispatch,
-        );
-      },
-    )
-    .catch((err) => {
-      console.log(err);
-    });
+      handlePostCapture(
+        userID,
+        photo.path,
+        captureInstance,
+        uploadLink,
+        dispatch,
+      );
+    },
+  );
 };
 
 const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
@@ -123,7 +90,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
   const styles = useMemo(() => createStyles(theme), [theme]);
   // Passed from SnapScreen, contains image info.
   const { photo, path } = route.params;
-  const userData = useSelector(
+  const userID = useSelector(
     (store: ReduxStore) => store.userData.userID as string,
   );
 
@@ -150,12 +117,17 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
           title={"Capture"}
           onPress={() => {
             const time = new Date().toISOString();
-            handleCapture(path, photo, userData, time, dispatch);
+            handleModel(photo)
+              .then((modelResolve) => {
+                handleUpload(userID, photo, time, modelResolve, dispatch);
+              })
+              .catch((modelRejection) => {
+                console.log(modelRejection);
+              });
           }}
           varient={"primary"}
           size={"large"}
         />
-        <AuxButton onPress={() => console.log("EDIT")} iconName={"layers"} />
         <AuxButton
           onPress={async () => {
             const fileName = createFileName(path);
