@@ -4,7 +4,7 @@ import { useTheme } from "@react-navigation/native";
  * ? Local Imports
  */
 import createStyles from "./button-capture.style";
-import { Pressable, PressableProps } from "react-native";
+import { PressableProps } from "react-native";
 import {
   Camera,
   PhotoFile,
@@ -12,6 +12,7 @@ import {
   TakeSnapshotOptions,
 } from "react-native-vision-camera";
 import { SharedValue } from "react-native-reanimated";
+import RNBounceable from "@freakycoder/react-native-bounceable";
 
 interface CaptureButtonProps extends PressableProps {
   camera: React.RefObject<Camera>;
@@ -63,7 +64,7 @@ const CaptureButton: React.FC<CaptureButtonProps> = ({
   // #region Tap handler
   // #endregion
 
-  return <Pressable onPressOut={takePhoto} style={styles.button} />;
+  return <RNBounceable onPress={takePhoto} style={styles.button} />;
 };
 
 export default CaptureButton;

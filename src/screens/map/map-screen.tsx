@@ -12,6 +12,10 @@ import { SCREENS } from "shared/constants/navigation-routes";
 import { getAllCaptures } from "./utils";
 import { Captures } from "api/constants/journal";
 import AvatarMapIcon from "@shared-components/avatar/avatar-mapicon";
+import SnapHeader from "@screens/snap/wrappers/header-snap-stack-wrapper";
+import AvatarButton from "@shared-components/button-aux/button-aux-avatar";
+import { getCurrentPosition } from "utils";
+import { Location } from "api/constants/location";
 
 interface MapScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -22,6 +26,13 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
   const styles = useMemo(() => createStyles(theme), [theme]);
 
   const [allCaptures, setAllCaptures] = useState<Captures>([]);
+  const [position, setPosition] = useState<Location>({
+    latitude: 28.6016,
+    longitude: -81.2005,
+  } as Location);
+
+  // #region useEffects
+  // Get all captures from DB to show on map.
   useEffect(() => {
     getAllCaptures().then((result) => {
       if (result.status === 200) {
@@ -30,6 +41,15 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
       }
     });
   }, []);
+
+  // // Get user location when component mounts.
+  useEffect(() => {
+    getCurrentPosition(true).then((result) => {
+      setPosition(result as Location);
+    });
+  }, []);
+
+  // #endregion.
 
   // Create array of capture points from flattened instances
   const capturePoints = allCaptures.flatMap((capture) =>
@@ -43,21 +63,25 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
   );
 
   const mapCaptures = [...capturePoints];
-  console.log(capturePoints);
+  // console.log(capturePoints); // good for logging if the map is constantly pinging for markers.
   return (
     <View style={styles.container}>
+      <SnapHeader
+        leftContnet={<AvatarButton navigation={navigation} />}
+        rightContent={undefined}
+      />
       <MapView
         provider={PROVIDER_GOOGLE}
         style={styles.map}
         customMapStyle={customMapStyle}
         //specify our coordinates.
-        initialRegion={{
+        region={{
           // UCF coords!
-          latitude: 28.6016,
-          longitude: -81.2005,
+          ...position,
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
+        showsUserLocation={true}
       >
         {mapCaptures.map((capturePoint, i) => (
           <Marker

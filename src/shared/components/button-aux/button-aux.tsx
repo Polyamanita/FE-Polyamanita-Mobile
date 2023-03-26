@@ -5,8 +5,9 @@ import { useTheme } from "@react-navigation/native";
  * ? Local Imports
  */
 import createStyles from "./button-aux.style";
-import { Pressable, PressableProps, ViewStyle } from "react-native";
+import { PressableProps, ViewStyle } from "react-native";
 import Avatar from "@shared-components/avatar/avatar";
+import RNBounceable from "@freakycoder/react-native-bounceable";
 
 // @params - onPress: when button is clicked what should be performed.
 // @params - iconName: provides an icon for the button.
@@ -21,7 +22,6 @@ const AuxButton: React.FC<PolyButtonProps> = ({
   onPress,
   iconName,
   varient = "default",
-  ...rest
 }) => {
   const theme = useTheme();
   const { colors } = theme;
@@ -44,18 +44,18 @@ const AuxButton: React.FC<PolyButtonProps> = ({
   const iconSize = 40;
 
   return varient !== "avatar" ? (
-    <Pressable style={styling} {...rest} onPress={onPress}>
+    <RNBounceable style={styling} onPress={onPress}>
       <Icon
         name={iconName}
         type="MaterialCommunityIcons"
         size={iconSize}
         color={colors.secondary100}
       />
-    </Pressable>
+    </RNBounceable>
   ) : (
-    <Pressable style={styling} {...rest} onPress={onPress}>
+    <RNBounceable style={styling} onPress={onPress}>
       <Avatar wrapperSize={styling.height as number} />
-    </Pressable>
+    </RNBounceable>
   );
 };
 

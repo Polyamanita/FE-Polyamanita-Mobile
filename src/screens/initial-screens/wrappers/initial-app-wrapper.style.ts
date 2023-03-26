@@ -27,13 +27,14 @@ export default (theme: ExtendedTheme) => {
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      marginBottom: 35,
+      marginVertical: 35,
     },
 
     logo: {
       alignSelf: "center",
       width: logoSize,
       height: logoSize,
+      borderRadius: 25,
     },
 
     appName: {
