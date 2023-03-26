@@ -62,10 +62,12 @@ const PermissionModal: React.FC<PermissionModalProps> = ({
               }
             }}
           />
-          <RNBounceable onPress={() => {
-            // Alert the user that these are required.
-          }}>
-            <Text style={{...styles.rejectText}}>Reject</Text>
+          <RNBounceable
+            onPress={() => {
+              // Alert the user that these are required.
+            }}
+          >
+            <Text style={{ ...styles.rejectText }}>Reject</Text>
           </RNBounceable>
         </View>
       </InitialAppWrapper>

@@ -1,9 +1,6 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useColorScheme } from "react-native";
-import {
-  NavigationContainer,
-  NavigationContext,
-} from "@react-navigation/native";
+import { NavigationContainer } from "@react-navigation/native";
 import { isReadyRef, navigationRef } from "react-navigation-helpers";
 /**
  * ? Local & Shared Imports

@@ -23,7 +23,7 @@ export default (theme: ExtendedTheme) => {
       padding: 7,
       color: colors.secondary100,
       fontSize: 20,
-      textAlign: 'center',
+      textAlign: "center",
     },
   });
 };
