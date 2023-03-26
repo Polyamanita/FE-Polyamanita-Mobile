@@ -17,6 +17,7 @@ import { SCREENS } from "shared/constants/navigation-routes";
 import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
 import { useGetCaptures } from "./utils";
 import { CaptureInstance } from "api/constants/journal";
+import RNBounceable from "@freakycoder/react-native-bounceable";
 
 interface JournalScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -39,14 +40,14 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
       if (shroomID in captures) {
         const capture: CaptureInstance = captures[shroomID];
         return (
-          <Pressable
+          <RNBounceable
             key={capture.captureID}
             onPress={() => {
               navigation.navigate(SCREENS.MUSHROOM, { capture });
             }}
           >
             <ListItem label={shroomName} />
-          </Pressable>
+          </RNBounceable>
         );
       } else {
         // Display shaded/unknown list item
