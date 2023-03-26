@@ -155,7 +155,6 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
           varient={"primary"}
           size={"large"}
         />
-        <AuxButton onPress={() => console.log("EDIT")} iconName={"layers"} />
         <AuxButton
           onPress={async () => {
             const fileName = createFileName(path);
