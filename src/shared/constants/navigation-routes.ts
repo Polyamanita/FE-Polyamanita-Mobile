@@ -1,6 +1,7 @@
 // ? Screens
 export const SCREENS = {
   // INITIAL STACK
+  PERMISSION: "PermissionScreen",
   START: "StartScreen",
   SIGNIN: "SigninScreen",
   REGISTER: "RegisterScreen",
@@ -31,6 +32,7 @@ export const SCREENSTACK = {
 };
 
 export const APPSECTIONS = {
+  PERMISSIONS: "Permissions",
   INITIAL: "Initial",
   APP: "App",
   EXTRA: "Extra",

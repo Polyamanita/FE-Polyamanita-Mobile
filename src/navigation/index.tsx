@@ -1,6 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { useColorScheme } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import {
+  NavigationContainer,
+  NavigationContext,
+} from "@react-navigation/native";
 import { isReadyRef, navigationRef } from "react-navigation-helpers";
 /**
  * ? Local & Shared Imports
@@ -11,7 +14,7 @@ import {
   createStackNavigator,
   StackNavigationOptions,
 } from "@react-navigation/stack";
-import { InitialStack } from "./stack-navigations";
+import { InitialStack, PermissionStack } from "./stack-navigations";
 import { TabNavigation } from "./tab-navigation";
 import ProfileModal from "@screens/profile/profile-modal";
 
@@ -37,6 +40,10 @@ const Navigation = () => {
       theme={isDarkMode ? DarkTheme : LightTheme}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen
+          name={APPSECTIONS.PERMISSIONS}
+          component={() => <PermissionStack navigationRef={navigationRef} />}
+        />
         <Stack.Screen name={APPSECTIONS.INITIAL} component={InitialStack} />
         <Stack.Screen name={APPSECTIONS.APP} component={TabNavigation} />
         <Stack.Screen
