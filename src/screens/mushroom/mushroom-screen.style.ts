@@ -89,7 +89,7 @@ export default (theme: ExtendedTheme) => {
     galleryImages: {
       borderWidth: 1,
       backgroundColor: colors.primary12,
-      borderColor: colors.primary12,
+      borderColor: colors.primary38,
       borderRadius: 15,
       height: 120,
       overflow: "hidden",
