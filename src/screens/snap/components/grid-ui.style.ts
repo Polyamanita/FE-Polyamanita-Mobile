@@ -18,6 +18,7 @@ export default (theme: ExtendedTheme) => {
       width: windowWidth,
       height: windowHeight,
       flexDirection: "row",
+      opacity: 0.45
     },
     grid: {
       width: windowWidth / 3,
