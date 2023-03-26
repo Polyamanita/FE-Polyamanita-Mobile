@@ -7,9 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReduxStore } from "redux/store";
 import { extractShroomID } from "utils";
 
+export type CaptureMap = {
+  [shroomID: string]: CaptureInstance;
+};
+
 export const useGetCaptures = () => {
   // const [captures, setCaptures] = useState<Captures>();
-  const [captures, setCaptures] = useState<any>();
+  const [captures, setCaptures] = useState<CaptureMap>();
   const [loading, setLoading] = useState<boolean>(true);
 
   const userID: string = useSelector(

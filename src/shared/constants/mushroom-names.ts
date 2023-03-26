@@ -6,6 +6,11 @@ const handler = {
   },
 };
 
+export interface MushroomNames {
+  scientific: string;
+  common: string;
+}
+
 // MUSHROOM CLASSES FROM SHROOMALYZER
 const IDS = {
   "some-capture-id": { scientific: "scientific", common: "common" },
@@ -51,4 +56,7 @@ const IDS = {
   },
 };
 
-export const MUSHROOM_IDS = new Proxy(IDS, handler);
+export const MUSHROOM_IDS: { [shroomID: string]: MushroomNames } = new Proxy(
+  IDS,
+  handler,
+);
