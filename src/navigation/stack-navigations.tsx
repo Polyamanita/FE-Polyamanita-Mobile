@@ -17,6 +17,7 @@ import CommunityScreen from "@screens/community/community-screen";
 import ProfileScreen from "@screens/profile/profile-modal";
 import MushroomScreen from "@screens/mushroom/mushroom-screen";
 import ImageScreen from "@screens/image/image-screen";
+import NotFoundScreen from "@screens/journal/notfound-screen";
 
 const Stack = createStackNavigator();
 // Function creates a Stack Navigator, that will later be nested inside a
@@ -98,6 +99,14 @@ export const JournalStack = () =>
       name={SCREENS.IMAGE}
       component={ImageScreen}
       key={SCREENS.IMAGE}
+    />,
+    <Stack.Screen
+      name={SCREENS.NOTFOUND}
+      component={NotFoundScreen}
+      key={SCREENS.NOTFOUND}
+      options={{
+        presentation: "modal",
+      }}
     />,
   ]);
 

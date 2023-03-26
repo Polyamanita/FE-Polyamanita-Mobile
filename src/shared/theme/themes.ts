@@ -14,6 +14,7 @@ export const palette = {
   positive: "rgba(29, 224, 175, 1.00)",
   alert: "rgba(250, 165, 75, 1.00)",
   warning: "rgba(251, 70, 115, 1.00)",
+  grayedOut: "rgba(128, 128, 128, 0.5)",
 
   // Dark font.
   primary100: "rgba(" + primaryInk + ", 1.00)",

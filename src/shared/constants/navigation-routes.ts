@@ -13,6 +13,7 @@ export const SCREENS = {
 
   JOURNAL: "JournalScreen",
   MUSHROOM: "MushroomScreen",
+  NOTFOUND: "NotFoundScreen",
 
   COMMUNITY: "CommunityScreen",
 
