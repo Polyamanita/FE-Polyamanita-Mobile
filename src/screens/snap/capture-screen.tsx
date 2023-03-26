@@ -5,7 +5,7 @@ import RNFS from "react-native-fs";
 import { modelResults, shroomalyze } from "./utils/shroomalyze";
 import {
   getS3Response,
-  getCurrentPosition,
+  getPosition,
   buildCaptureIDFromShroomalysis,
   stripParamsFromLink,
   handlePostCapture,
@@ -43,7 +43,7 @@ const handleUpload = async (
   modelResults: modelResults,
   dispatch: Dispatch,
 ) => {
-  const position = getCurrentPosition() as Promise<Location>;
+  const position = getPosition() as Promise<Location>;
   const s3Response = getS3Response(userID) as Promise<S3LinkResponse>;
 
   Promise.all([position, s3Response]).then(
