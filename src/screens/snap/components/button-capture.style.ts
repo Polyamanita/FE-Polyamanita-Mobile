@@ -11,10 +11,11 @@ export default (theme: ExtendedTheme) => {
   return StyleSheet.create<VariationStyle>({
     button: {
       borderRadius: 50,
-      borderWidth: 2,
+      borderWidth: 3,
       width: 90,
       height: 90,
-      backgroundColor: colors.warning,
+      backgroundColor: colors.primary38,
+      borderColor: colors.secondary78,
     },
   });
 };

@@ -68,5 +68,12 @@ export const localString = new LocalizedStrings({
       journal: "Journal",
       community: "Community",
     },
+
+    mapScreen: {},
+    snapScreen: {
+      analyze: "Analyze",
+      capture: "Capture",
+    },
+    journalScreen: {},
   },
 });

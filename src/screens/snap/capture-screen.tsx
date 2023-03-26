@@ -128,10 +128,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
           varient={"primary"}
           size={"large"}
         />
-        <AuxButton
-          onPress={() => saveImage(path)}
-          iconName={"content-save"}
-        />
+        <AuxButton onPress={() => saveImage(path)} iconName={"content-save"} />
       </View>
     </View>
   );
