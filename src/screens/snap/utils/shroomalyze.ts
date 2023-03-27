@@ -3,7 +3,7 @@ import { REJECT_CODE } from "../constants";
 // Function written from Native Java.
 const ShroomalyzePlugin = NativeModules.Shroomalyze;
 
-const MODEL_ACC_THRESHOLD = 60;
+const MODEL_ACC_THRESHOLD = 0.6;
 
 export type modelResults = {
   [shroomID: string]: number;
@@ -22,6 +22,7 @@ export async function shroomalyze(photoPath: string): Promise<modelResults> {
         const category = Object.keys(modelMessage).reduce((a, b) =>
           modelMessage[a] > modelMessage[b] ? a : b,
         );
+        console.log("category", modelMessage[category]);
         if (modelMessage[category] > MODEL_ACC_THRESHOLD) {
           resolve({ [category]: modelMessage[category] });
         } else {
