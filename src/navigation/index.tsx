@@ -48,10 +48,9 @@ const Navigation = () => {
       theme={isDarkMode ? DarkTheme : LightTheme}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
-        <Stack.Screen
-          name={APPSECTIONS.PERMISSIONS}>
-            {() => <PermissionStack navigationRef={navigationRef} />}
-          </Stack.Screen>
+        <Stack.Screen name={APPSECTIONS.PERMISSIONS}>
+          {() => <PermissionStack navigationRef={navigationRef} />}
+        </Stack.Screen>
         <Stack.Screen name={APPSECTIONS.INITIAL} component={InitialStack} />
         <Stack.Screen name={APPSECTIONS.APP} component={TabNavigation} />
         <Stack.Screen
