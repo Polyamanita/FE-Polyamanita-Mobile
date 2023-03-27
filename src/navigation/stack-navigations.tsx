@@ -21,6 +21,7 @@ import PermissionModal from "@screens/initial-screens/permissions/permission-mod
 import { localString } from "shared/localization";
 import { Permission } from "react-native";
 import { permissionsToPass } from "./constants";
+import NotFoundScreen from "@screens/journal/notfound-screen";
 
 const Stack = createStackNavigator();
 // Function creates a Stack Navigator, that will later be nested inside a
@@ -152,6 +153,14 @@ export const JournalStack = () =>
       name={SCREENS.IMAGE}
       component={ImageScreen}
       key={SCREENS.IMAGE}
+    />,
+    <Stack.Screen
+      name={SCREENS.NOTFOUND}
+      component={NotFoundScreen}
+      key={SCREENS.NOTFOUND}
+      options={{
+        presentation: "modal",
+      }}
     />,
   ]);
 

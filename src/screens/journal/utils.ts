@@ -1,5 +1,4 @@
 import { CaptureInstance, JournalCache } from "api/constants/journal";
-// import { CaptureInstance, Captures, JournalCache } from "api/constants/journal";
 import { doGetCaptures } from "api/requests";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,9 +6,14 @@ import { useDispatch, useSelector } from "react-redux";
 import { ReduxStore } from "redux/store";
 import { extractShroomID } from "utils";
 
+export type CaptureMap = {
+  [shroomID: string]: CaptureInstance;
+};
+
 export const useGetCaptures = () => {
-  // const [captures, setCaptures] = useState<Captures>();
-  const [captures, setCaptures] = useState<any>();
+  const [captures, setCaptures] = useState<{
+    [shroomID: string]: CaptureInstance;
+  }>();
   const [loading, setLoading] = useState<boolean>(true);
 
   const userID: string = useSelector(
@@ -34,7 +38,6 @@ export const useGetCaptures = () => {
     console.log("making getCaptures call");
     doGetCaptures(userID).then((result) => {
       if (result.status === 200) {
-        // setCaptures(result.data.captures);
         // dispatch(storeCaptures(result.data.captures));
 
         // Create dict of captures

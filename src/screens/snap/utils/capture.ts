@@ -11,13 +11,15 @@ import { AxiosResponse } from "axios";
 import { Dispatch } from "redux";
 import { queueRefetch } from "redux/actions/journal-actions";
 import { getCurrentPosition } from "utils";
+import { modelResults } from "./shroomalyze";
 
 export const getPosition = () => getCurrentPosition();
 
 // Use Redux's user ID and modelData's shroom ID to make a capture ID
-export const buildCaptureIDFromShroomalysis = (modelData: unknown) => {
-  modelData;
-  return "some-other-id";
+export const buildCaptureIDFromShroomalysis = (modelData: modelResults) => {
+  const [shroomID] = Object.keys(modelData);
+  // Just use shroomID as captureID
+  return shroomID;
 };
 
 export const getCaptureData = (

@@ -43,7 +43,7 @@ const mockInstances: Instance[] = [
     latitude: 28.600989,
     location: "circle 1",
     longitude: -81.203842,
-    s3key: "lol1",
+    s3Key: "lol1",
   },
   {
     dateFound: "10 seconds ago",
@@ -51,7 +51,7 @@ const mockInstances: Instance[] = [
     latitude: 28.600618,
     location: "circle 2",
     longitude: -81.202811,
-    s3key: "lol2",
+    s3Key: "lol2",
   },
   {
     dateFound: "15 seconds ago",
@@ -60,7 +60,7 @@ const mockInstances: Instance[] = [
     latitude: 28.599326,
     location: "circle 3",
     longitude: -81.203701,
-    s3key: "lol3",
+    s3Key: "lol3",
   },
   {
     dateFound: "20 seconds ago",
@@ -69,7 +69,7 @@ const mockInstances: Instance[] = [
     latitude: 28.598124,
     location: "not a circle",
     longitude: -81.20111,
-    s3key: "lol3",
+    s3Key: "lol3",
   },
 ];
 
@@ -105,9 +105,9 @@ const Gallery: React.FC<GalleryProps> = ({
     <View style={styles.galleryContainer}>
       <View style={styles.galleryHeader}>
         <Text style={[styles.text, styles.galleryText]}>Gallery</Text>
-        <View style={[styles.box, styles.galleryViewBox]}>
+        {/* <View style={[styles.box, styles.galleryViewBox]}>
           <Text style={[styles.text, styles.galleryViewText]}>View</Text>
-        </View>
+        </View> */}
       </View>
       <View style={styles.galleryImages}>
         <ScrollView horizontal={true}>
@@ -172,9 +172,10 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           <Text style={[styles.text, styles.sciNameText]}>{scientific}</Text>
         </View>
         <View style={styles.countBoxContainer}>
-          <CountBox count={timesFound} text="Personal" />
+          {/* <CountBox count={timesFound} text="Personal" />
           <CountBox count={0} text="Total" isLarge={true} />
-          <CountBox count={0} text="Region" />
+          <CountBox count={0} text="Region" /> */}
+          <CountBox isLarge count={timesFound} text="Personal" />
         </View>
         {!loading && (
           <Gallery

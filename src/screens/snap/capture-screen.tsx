@@ -40,7 +40,7 @@ const handleUpload = async (
   userID: string,
   photo: PhotoFile,
   captureTime: string,
-  modelResults: modelResults,
+  modelData: modelResults,
   dispatch: Dispatch,
 ) => {
   const position = getPosition() as Promise<Location>;
@@ -63,7 +63,7 @@ const handleUpload = async (
         imageLink: stripParamsFromLink(uploadLink),
       } as Instance;
 
-      const captureID = buildCaptureIDFromShroomalysis(modelResults);
+      const captureID = buildCaptureIDFromShroomalysis(modelData);
       const captureInstance = {
         captureID: captureID,
         instances: [instance],

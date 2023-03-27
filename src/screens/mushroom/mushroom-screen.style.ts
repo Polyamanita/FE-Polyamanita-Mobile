@@ -37,9 +37,9 @@ export default (theme: ExtendedTheme) => {
     countBox: {
       alignItems: "center",
       borderRadius: 15,
-      height: "86%", // Ratio from Figma
+      height: 80,
       marginHorizontal: 6,
-      // justifyContent: "center",
+      justifyContent: "center",
       opacity: 0.75,
       width: "18%", // Ratio from Figma
     },
@@ -58,6 +58,7 @@ export default (theme: ExtendedTheme) => {
       width: "20%", // Ratio from Figma
     },
     countBoxNumber: {
+      lineHeight: 24,
       fontSize: 24,
       fontWeight: "700",
     },
@@ -89,7 +90,7 @@ export default (theme: ExtendedTheme) => {
     galleryImages: {
       borderWidth: 1,
       backgroundColor: colors.primary12,
-      borderColor: colors.primary12,
+      borderColor: colors.primary38,
       borderRadius: 15,
       height: 120,
       overflow: "hidden",

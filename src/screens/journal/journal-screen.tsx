@@ -1,5 +1,5 @@
 import React from "react";
-import { Pressable, ScrollView } from "react-native";
+import { ScrollView } from "react-native";
 // import { useTheme } from "@react-navigation/native";
 
 /**
@@ -16,7 +16,6 @@ import { SCREENS } from "shared/constants/navigation-routes";
 // import { extractShroomID } from "utils";
 import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
 import { useGetCaptures } from "./utils";
-import { CaptureInstance } from "api/constants/journal";
 import RNBounceable from "@freakycoder/react-native-bounceable";
 
 interface JournalScreenProps {
@@ -34,41 +33,27 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
 
   const entries =
     !loading &&
+    captures &&
     allShroomIDs.map((shroomID, i) => {
       const { common: shroomName } = MUSHROOM_IDS[shroomID];
 
+      let onPress = () =>
+        navigation.navigate(SCREENS.NOTFOUND, { commonName: shroomName });
+      let label = shroomName;
+      let grayedOut = true;
+
       if (shroomID in captures) {
-        const capture: CaptureInstance = captures[shroomID];
-        return (
-          <RNBounceable
-            key={capture.captureID}
-            onPress={() => {
-              navigation.navigate(SCREENS.MUSHROOM, { capture });
-            }}
-          >
-            <ListItem label={shroomName} />
-          </RNBounceable>
-        );
-      } else {
-        // Display shaded/unknown list item
-        const a = {
-          captureID: "",
-          instances: [],
-          notes: "",
-          timesFound: 0,
-          userID: "",
-        } as CaptureInstance;
-        return (
-          <Pressable
-            key={i}
-            onPress={() => {
-              navigation.navigate(SCREENS.MUSHROOM, { a });
-            }}
-          >
-            <ListItem label={"???"} />
-          </Pressable>
-        );
+        const capture = captures[shroomID];
+        onPress = () => navigation.navigate(SCREENS.MUSHROOM, { capture });
+        label = shroomName;
+        grayedOut = false;
       }
+
+      return (
+        <RNBounceable key={i} onPress={onPress}>
+          <ListItem label={label} grayedOut={grayedOut} />
+        </RNBounceable>
+      );
     });
 
   return (
