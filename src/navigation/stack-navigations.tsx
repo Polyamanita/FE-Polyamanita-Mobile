@@ -19,6 +19,8 @@ import MushroomScreen from "@screens/mushroom/mushroom-screen";
 import ImageScreen from "@screens/image/image-screen";
 import PermissionModal from "@screens/initial-screens/permissions/permission-modal";
 import { localString } from "shared/localization";
+import { Permission } from "react-native";
+import { permissionsToPass } from "./constants";
 
 const Stack = createStackNavigator();
 // Function creates a Stack Navigator, that will later be nested inside a
@@ -59,7 +61,7 @@ export const PermissionStack = (navigationRef: unknown) => {
       <Stack.Screen name={permissionCycle.cycle[0]}>
         {() => (
           <PermissionModal
-            permissionType={localString.permissions.camera}
+            permissionHeader={localString.permissions.camera}
             permissionCycle={permissionCycle}
             navigation={navigationRef}
           />
@@ -68,7 +70,7 @@ export const PermissionStack = (navigationRef: unknown) => {
       <Stack.Screen name={permissionCycle.cycle[1]}>
         {() => (
           <PermissionModal
-            permissionType={localString.permissions.location}
+            permissionHeader={localString.permissions.location}
             permissionCycle={permissionCycle}
             navigation={navigationRef}
           />
@@ -77,7 +79,8 @@ export const PermissionStack = (navigationRef: unknown) => {
       <Stack.Screen name={permissionCycle.cycle[2]}>
         {() => (
           <PermissionModal
-            permissionType={localString.permissions.files}
+            permissionFinalizer={permissionsToPass as Permission[]}
+            permissionHeader={localString.permissions.files}
             permissionCycle={permissionCycle}
             navigation={navigationRef}
           />

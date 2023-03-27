@@ -4,7 +4,13 @@ import createStyles from "./permission-modal-style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
 import InitialAppWrapper from "../wrappers/initial-app-wrapper";
 import ScreenWrapper from "shared/wrappers/screen-wrapper/screen-wrapper";
-import { View } from "react-native";
+import {
+  Alert,
+  BackHandler,
+  Permission,
+  PermissionsAndroid,
+  View,
+} from "react-native";
 import { localString } from "shared/localization";
 import CTAButton from "../components/button-cta";
 import { APPSECTIONS } from "shared/constants/navigation-routes";
@@ -18,30 +24,25 @@ interface PermissionCycle {
 
 interface PermissionModalProps {
   permissionCycle: PermissionCycle;
-  permissionType: string;
+  permissionFinalizer?: Permission[]; // Last element in the stack will receive the finalizer.
+  permissionHeader: string;
   navigation: unknown;
 }
 
 const PermissionModal: React.FC<PermissionModalProps> = ({
+  permissionFinalizer,
   permissionCycle,
-  permissionType,
+  permissionHeader,
 }: PermissionModalProps) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
-
-  // #region useState
-  // const [permissionType, setPermissionType] = useState<string>("");
-  // const [permissionProgress, setPermissionProgress] = useState<number>(1);
-
   const navigation = useNavigation();
-  console.log(permissionCycle.position);
-
   return (
     <ScreenWrapper>
       <InitialAppWrapper>
         <View style={styles.permissionTextWrapper}>
           <Text h2 bold style={{ ...styles.text, paddingBottom: 5 }}>
-            {permissionType}
+            {permissionHeader}
           </Text>
           <Text h3 style={styles.text}>
             {localString.initialStackHeaderMessages.permissions}
@@ -53,7 +54,19 @@ const PermissionModal: React.FC<PermissionModalProps> = ({
             onPress={() => {
               // WHen all permissions are fulfilled.
               if (permissionCycle.position === permissionCycle.cycle.length) {
-                navigation.navigate(APPSECTIONS.INITIAL as never);
+                // When the user is done accepting, set the following permissions.
+                PermissionsAndroid.requestMultiple(
+                  permissionFinalizer as Permission[],
+                )
+                  .then((_) => {
+                    navigation.navigate(APPSECTIONS.INITIAL as never); // typescript unhappy w/o as never.
+                  })
+                  .catch((rejectOnGivingPermissions) => {
+                    console.error(
+                      "Something really went wrong giving permissions.",
+                      rejectOnGivingPermissions,
+                    );
+                  });
               } else {
                 permissionCycle.setPosition(permissionCycle.position + 1);
                 navigation.navigate(
@@ -64,7 +77,20 @@ const PermissionModal: React.FC<PermissionModalProps> = ({
           />
           <RNBounceable
             onPress={() => {
-              // Alert the user that these are required.
+              Alert.alert(
+                "Are you sure you want to reject?",
+                "Polyamanita requires all permissions to be accepted for the best possible user experience within the app. Are you sure you wish to reject?",
+                [
+                  {
+                    text: "Reject",
+                    onPress: () => BackHandler.exitApp(),
+                    style: "cancel",
+                  },
+                  {
+                    text: "Continue",
+                  },
+                ],
+              );
             }}
           >
             <Text style={{ ...styles.rejectText }}>Reject</Text>
