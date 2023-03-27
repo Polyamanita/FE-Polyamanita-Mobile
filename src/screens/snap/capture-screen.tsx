@@ -1,7 +1,6 @@
 import React, { useMemo } from "react";
 import { Image, StyleSheet, View } from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
-import RNFS from "react-native-fs";
 import { modelResults, shroomalyze } from "./utils/shroomalyze";
 import {
   getS3Response,
@@ -10,7 +9,6 @@ import {
   stripParamsFromLink,
   handlePostCapture,
 } from "./utils/capture";
-import { createFileName } from "./utils/save";
 import { CaptureInstance, Instance } from "api/constants/journal";
 /**
  * ? Local Imports
@@ -27,6 +25,8 @@ import { ReduxStore } from "redux/store";
 import { Location } from "api/constants/location";
 import { S3LinkResponse } from "api/constants/image";
 import { Dispatch } from "redux";
+import { localString } from "shared/localization";
+import { saveImage } from "storage/imageSave";
 
 interface CaptureScreenProps {
   route: any;
@@ -114,7 +114,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
         }}
       >
         <Button
-          title={"Capture"}
+          title={localString.snapScreen.analyze}
           onPress={() => {
             const time = new Date().toISOString();
             handleModel(photo)
@@ -128,17 +128,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
           varient={"primary"}
           size={"large"}
         />
-        <AuxButton
-          onPress={async () => {
-            const fileName = createFileName(path);
-            console.log(fileName);
-            await RNFS.moveFile(
-              `${path}`,
-              `${RNFS.ExternalDirectoryPath}/${fileName}`,
-            );
-          }}
-          iconName={"content-save"}
-        />
+        <AuxButton onPress={() => saveImage(path)} iconName={"content-save"} />
       </View>
     </View>
   );

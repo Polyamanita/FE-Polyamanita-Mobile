@@ -11,9 +11,11 @@ import {
   createStackNavigator,
   StackNavigationOptions,
 } from "@react-navigation/stack";
-import { InitialStack } from "./stack-navigations";
+import { InitialStack, PermissionStack } from "./stack-navigations";
 import { TabNavigation } from "./tab-navigation";
 import ProfileModal from "@screens/profile/profile-modal";
+import { checkAllPermissions } from "./utils";
+import { permissionsToPass } from "./constants";
 
 const Stack = createStackNavigator();
 
@@ -28,6 +30,15 @@ const Navigation = () => {
     return () => (isReadyRef.current = false);
   }, []);
 
+  // When the app loads, we want to check if permissions have been granted.
+  checkAllPermissions(permissionsToPass)
+    .then((response) => {
+      console.log("ALl permission resposne", response);
+      if (response === true) console.log("wow congrats");
+      else console.log("loser");
+    })
+    .catch((reject) => console.log(reject));
+
   return (
     <NavigationContainer
       ref={navigationRef}
@@ -37,6 +48,10 @@ const Navigation = () => {
       theme={isDarkMode ? DarkTheme : LightTheme}
     >
       <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Screen
+          name={APPSECTIONS.PERMISSIONS}>
+            {() => <PermissionStack navigationRef={navigationRef} />}
+          </Stack.Screen>
         <Stack.Screen name={APPSECTIONS.INITIAL} component={InitialStack} />
         <Stack.Screen name={APPSECTIONS.APP} component={TabNavigation} />
         <Stack.Screen
