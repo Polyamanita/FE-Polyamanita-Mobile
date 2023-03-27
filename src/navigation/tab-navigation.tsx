@@ -53,7 +53,7 @@ const renderTabIcon = (
 
 export const TabNavigation = () => {
   const scheme = useColorScheme();
-  const isDarkMode = scheme === "light";
+  const isDarkMode = scheme === "dark";
 
   const tabBarStyle = {
     backgroundColor: isDarkMode ? palette.primary100 : palette.white,
