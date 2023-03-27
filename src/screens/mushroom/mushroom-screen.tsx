@@ -172,9 +172,10 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           <Text style={[styles.text, styles.sciNameText]}>{scientific}</Text>
         </View>
         <View style={styles.countBoxContainer}>
-          <CountBox count={timesFound} text="Personal" />
+          {/* <CountBox count={timesFound} text="Personal" />
           <CountBox count={0} text="Total" isLarge={true} />
-          <CountBox count={0} text="Region" />
+          <CountBox count={0} text="Region" /> */}
+          <CountBox isLarge count={timesFound} text="Personal" />
         </View>
         {!loading && (
           <Gallery
