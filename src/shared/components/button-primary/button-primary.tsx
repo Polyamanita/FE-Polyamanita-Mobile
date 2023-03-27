@@ -5,9 +5,10 @@ import { useTheme } from "@react-navigation/native";
  */
 import createStyles from "./button-primary.style";
 import Text from "@shared-components/text-wrapper/TextWrapper";
-import { Pressable, PressableProps, ViewStyle } from "react-native";
+import { PressableProps, ViewStyle } from "react-native";
 import LinearGradient from "react-native-linear-gradient";
 import { capitalizeWords } from "utils";
+import RNBounceable from "@freakycoder/react-native-bounceable";
 
 // @params - action: when button is clicked what should be performed.
 // @params - varient: Style choice of the button.
@@ -24,7 +25,6 @@ const ButtonWrapper: React.FC<PolyButtonProps> = ({
   onPress,
   varient = "default",
   size = "large",
-  ...rest
 }) => {
   const theme = useTheme();
   const { colors } = theme;
@@ -69,13 +69,13 @@ const ButtonWrapper: React.FC<PolyButtonProps> = ({
   // Precaution incase the string provided is not capitalized.
   const capitalizedTitle = capitalizeWords(title);
   return (
-    <LinearGradient colors={gradient} style={styling}>
-      <Pressable {...rest} onPress={onPress} style={{ width: "100%" }}>
+    <RNBounceable style={[{ backfaceVisibility: "hidden" }]} onPress={onPress}>
+      <LinearGradient colors={gradient} style={styling}>
         <Text bold style={styles.text[varient]}>
           {capitalizedTitle}
         </Text>
-      </Pressable>
-    </LinearGradient>
+      </LinearGradient>
+    </RNBounceable>
   );
 };
 

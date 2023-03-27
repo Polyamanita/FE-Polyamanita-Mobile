@@ -71,100 +71,14 @@ export const handleSignin = (credentials: Session) => {
 };
 // #endregion
 
-// #region Random Color assignment.
-
-// Starts as HSL -> RGB -> HEX.
-// https://css-tricks.com/converting-color-spaces-in-javascript/
-const hsl2hex = (h: number, s: number, l: number): string => {
-  s /= 100;
-  l /= 100;
-
-  const c = (1 - Math.abs(2 * l - 1)) * s,
-    x = c * (1 - Math.abs(((h / 60) % 2) - 1)),
-    m = l - c / 2;
-
-  let r = 0,
-    g = 0,
-    b = 0;
-
-  if (0 <= h && h < 60) {
-    r = c;
-    g = x;
-    b = 0;
-  } else if (60 <= h && h < 120) {
-    r = x;
-    g = c;
-    b = 0;
-  } else if (120 <= h && h < 180) {
-    r = 0;
-    g = c;
-    b = x;
-  } else if (180 <= h && h < 240) {
-    r = 0;
-    g = x;
-    b = c;
-  } else if (240 <= h && h < 300) {
-    r = x;
-    g = 0;
-    b = c;
-  } else if (300 <= h && h < 360) {
-    r = c;
-    g = 0;
-    b = x;
-  }
-  // Having obtained RGB, convert channels to hex
-  let rStr = Math.round((r + m) * 255).toString(16);
-  let gStr = Math.round((g + m) * 255).toString(16);
-  let bStr = Math.round((b + m) * 255).toString(16);
-
-  // Prepend 0s, if necessary
-  if (rStr.length == 1) rStr = "0" + r.toString();
-  if (gStr.length == 1) gStr = "0" + g.toString();
-  if (bStr.length == 1) bStr = "0" + b.toString();
-
-  return "#" + rStr + gStr + bStr;
-};
-// Private method to create 2 random HSL colors, and convert them to HEX for new user avatars.
-const createColors = (): [color1: string, color2: string] => {
-  const H_MIN = 0;
-  const H_MAX = 360;
-  const S_MIN = 40;
-  const L_MIN = 40;
-  const S_MAX = 60;
-  const L_MAX = 60;
-
-  const randomNumberInRange = (min: number, max: number) =>
-    Math.random() * (max - min) + min;
-
-  const color1 = [
-    randomNumberInRange(H_MIN, H_MAX),
-    randomNumberInRange(S_MIN, S_MAX),
-    randomNumberInRange(L_MIN, L_MAX),
-  ];
-
-  const color2 = [
-    randomNumberInRange(H_MIN, H_MAX),
-    randomNumberInRange(S_MIN, S_MAX),
-    randomNumberInRange(L_MIN, L_MAX),
-  ];
-
-  return [
-    hsl2hex(color1[0], color1[1], color1[2]),
-    hsl2hex(color2[0], color2[1], color2[2]),
-  ];
-};
-
-// #endregion
-
 // Decorator to handle set of signin actions to perform.
 export function setupUser(
   dispatch: Dispatch<AnyAction>,
   response: AxiosResponse,
   navigation: StackNavigationProp<ParamListBase, string>,
-  newUser = false,
 ) {
-  let newColors: [color1: string, color2: string];
-  if (newUser) newColors = createColors();
+  // let newColors: [color1: string, color2: string];
+  // if (newUser) newColors = createColors();
 
   // Now that we have the ID. We can also update; Redux store to contain user info/settings.
   doGetUser(response.data.userID).then((userResponse: AxiosResponse) => {
@@ -175,12 +89,8 @@ export function setupUser(
     dispatch(updateUserID(response.data.userID));
     dispatch(updateUserName(userData.username));
     dispatch(updateUserIcon()); // default.
-    dispatch(
-      updateUserColors(
-        !newUser ? [userData.color1, userData.color2] : newColors,
-      ),
-    );
-    dispatch(updateUserTotalCaptures(userData.TotalCaptures));
+    dispatch(updateUserColors([userData.color1, userData.color2]));
+    dispatch(updateUserTotalCaptures(userData.TotalCaptures ?? 0)); // incase they are undefiend?
   });
 
   // Then navigate user to main app.

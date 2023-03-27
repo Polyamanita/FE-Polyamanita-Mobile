@@ -1,15 +1,15 @@
 import React, { useMemo } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Alert, Image, StyleSheet, View } from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
-import RNFS from "react-native-fs";
-import { shroomalyze } from "./utils/shroomalyze";
+import { modelResults, shroomalyze } from "./utils/shroomalyze";
 import {
-  fetchS3Key,
-  getCurrentPosition,
-  getUserInfo,
-  photoFileTimeToDateTime,
+  getS3Response,
+  getPosition,
+  buildCaptureIDFromShroomalysis,
+  stripParamsFromLink,
+  handlePostCapture,
 } from "./utils/capture";
-import { createFileName } from "./utils/save";
+import { CaptureInstance, Instance } from "api/constants/journal";
 /**
  * ? Local Imports
  */
@@ -20,58 +20,82 @@ import Button from "@shared-components/button-primary/button-primary";
 import SnapHeader from "./wrappers/header-snap-stack-wrapper";
 import CancelButton from "./components/button-cancel";
 import { PhotoFile } from "react-native-vision-camera";
+import { useDispatch, useSelector } from "react-redux";
+import { ReduxStore } from "redux/store";
+import { Location } from "api/constants/location";
+import { S3LinkResponse } from "api/constants/image";
+import { Dispatch } from "redux";
+import { localString } from "shared/localization";
+import { saveImage } from "storage/imageSave";
+import { SCREENS } from "shared/constants/navigation-routes";
+import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
 
 interface CaptureScreenProps {
   route: any;
   navigation: StackNavigationProp<ParamListBase, string>;
 }
 
-// Handle capture should be a syncronous function that handles a set
-// of async tasks.
-
-/* PROTO: 
-        When the user hits capture. A couple actions need to take place.
-        ?. TODO: Display loading animation, these sets of actions will take a bit. :d
-
-        -- ASYNC TASKS
-        ?. TODO: Run tensorflow on imageframe through VisionCamera using frame processor.
-            * On sucess, assign variable for mushroom id.
-            * On failure -> modal popup failure and say sorry.
-        ?. TODO: When user settings are setup, check if user is already okay with providing
-           location data, and it's toggled on (don't ask me again).
-        ?. TODO: If it's their first time, show a modal that talks about why we want
-           their location data.
-        ?. TODO: If they accept, a couple things need to happen.
-            * Location is fetched and assingned to variable.
-           If they reject, location info is simply ignored. (undefined).
-    */
-
-const handleCapture = async (
-  photoPath: string,
+// handelModel runs async task to run the shroomalyzer.
+const handleModel = async (photo: PhotoFile) => shroomalyze(photo.path);
+// When the shroomalyzer is done, if an instance is identified, handle an upplaod.
+const handleUpload = async (
+  userID: string,
   photo: PhotoFile,
   captureTime: string,
-) => {
-  // Promise Chain
-  const position = getCurrentPosition();
-  const modelData = shroomalyze(photoPath);
-  const userInfo = getUserInfo();
-  const s3Key = fetchS3Key();
+  modelData: modelResults,
+  dispatch: Dispatch,
+): Promise<{ captureID: string; instance: Instance; photoPath: string }> => {
+  return new Promise((resolve, reject) => {
+    const position = getPosition() as Promise<Location>;
+    const s3Response = getS3Response(userID) as Promise<S3LinkResponse>;
 
-  // When all above promises are fulfilled, handle the combined data.
-  Promise.all([position, modelData, userInfo, s3Key]).then((responses) => {
-    const [
-      resolvedPosition,
-      resolvedModelData,
-      resolvedUserInfo,
-      resolvedS3Key,
-    ] = responses;
-    console.log("Position: ", resolvedPosition);
-    console.log("Mushroom: ", resolvedModelData);
-    console.log("User: ", resolvedUserInfo);
-    console.log("Key: ", resolvedS3Key);
+    Promise.all([position, s3Response])
+      .then((uploadResolve: [resPos: Location, resS3: S3LinkResponse]) => {
+        const [resolvedPosition, resolvedS3Response] = uploadResolve;
+        console.log("Position: ", resolvedPosition);
+        console.log("Key: ", resolvedS3Response);
+
+        const [{ s3Key, uploadLink }] = resolvedS3Response.links;
+
+        const instance = {
+          dateFound: captureTime,
+          latitude: resolvedPosition.latitude,
+          longitude: resolvedPosition.longitude,
+          location: resolvedPosition.location,
+          s3Key: s3Key,
+          imageLink: stripParamsFromLink(uploadLink),
+        } as Instance;
+
+        console.log(instance.dateFound);
+
+        const captureID = buildCaptureIDFromShroomalysis(modelData);
+        const captureInstance = {
+          captureID: captureID,
+          instances: [instance],
+          // none of these should overwrite, right?
+          notes: "",
+          timesFound: 0,
+          userID: userID,
+        } as CaptureInstance;
+
+        handlePostCapture(
+          userID,
+          photo.path,
+          captureInstance,
+          uploadLink,
+          dispatch,
+        );
+
+        resolve({
+          captureID: captureID,
+          instance: instance,
+          photoPath: photo.path,
+        });
+      })
+      .catch((uploadError) => {
+        reject(uploadError);
+      });
   });
-
-  console.log(captureTime);
 };
 
 const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
@@ -80,6 +104,11 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
   const styles = useMemo(() => createStyles(theme), [theme]);
   // Passed from SnapScreen, contains image info.
   const { photo, path } = route.params;
+  const userID = useSelector(
+    (store: ReduxStore) => store.userData.userID as string,
+  );
+
+  const dispatch = useDispatch();
 
   return (
     <View style={styles.container}>
@@ -99,29 +128,32 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
         }}
       >
         <Button
-          title={"Capture"}
+          title={localString.snapScreen.analyze}
           onPress={() => {
-            const time = photoFileTimeToDateTime(
-              photo.metadata["{Exif}"].DateTimeOriginal,
-            );
-            console.log("CAPTURED!");
-            handleCapture(path, photo, time);
+            const time = new Date().toISOString();
+            handleModel(photo)
+              .then((modelResolve: modelResults) => {
+                handleUpload(userID, photo, time, modelResolve, dispatch).then(
+                  (resolve) => {
+                    navigation.navigate(SCREENS.POSTCAPTURE, resolve);
+                    Alert.alert(
+                      "Congrendulations",
+                      `You got a ${MUSHROOM_IDS[resolve.captureID].common}`,
+                    );
+                  },
+                );
+              })
+              .catch(() => {
+                Alert.alert(
+                  "Sorry,",
+                  "The Shroomalyzer couldn't identify anything :(",
+                );
+              });
           }}
           varient={"primary"}
           size={"large"}
         />
-        <AuxButton onPress={() => console.log("EDIT")} iconName={"layers"} />
-        <AuxButton
-          onPress={async () => {
-            const fileName = createFileName(path);
-            console.log(fileName);
-            await RNFS.moveFile(
-              `${path}`,
-              `${RNFS.ExternalDirectoryPath}/${fileName}`,
-            );
-          }}
-          iconName={"content-save"}
-        />
+        <AuxButton onPress={() => saveImage(path)} iconName={"content-save"} />
       </View>
     </View>
   );

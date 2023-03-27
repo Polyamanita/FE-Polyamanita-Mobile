@@ -45,6 +45,11 @@ export default (state = initialUserData, action: { [key: string]: string }) => {
         ...state,
         TotalCaptures: action.TotalCaptures,
       };
+    case channelNames.incrementUserTotalCaptures:
+      return {
+        ...state,
+        TotalCaptures: state.TotalCaptures + 1,
+      };
     default:
       return state;
   }

@@ -1,84 +1,73 @@
 // FILE PURPOSE:
 // Set of functions that happens when user is capturing a mushroom.
-import { doGetLocationFromLatlng } from "api/gmaps-requests";
-import { useState } from "react";
-import Geolocation from "react-native-geolocation-service";
+import { CaptureInstance } from "api/constants/journal";
+import {
+  doGetCapture,
+  doGetUploadLinkAndS3Key,
+  doPostCaptures,
+  doUploadToS3,
+} from "api/requests";
+import { AxiosResponse } from "axios";
+import { Dispatch } from "redux";
+import { incrementUserTotalCaptures } from "redux/actions/account-actions";
+import { queueRefetch } from "redux/actions/journal-actions";
+import { getCurrentPosition } from "utils";
+import { modelResults } from "./shroomalyze";
 
-// Get the current position of the user.
-export const getCurrentPosition = () =>
-  new Promise((resolve, reject) => {
-    const positionOptions = {
-      enableHighAccuracy: true,
-      timeout: 15000,
-      maximumAge: 1000,
-    } as Geolocation.GeoOptions;
+export const getPosition = () => getCurrentPosition();
 
-    Geolocation.getCurrentPosition(
-      (pos) => {
-        // console.log(pos);
-        resolve(pos);
-      },
-      (error) => {
-        reject(error.message);
-      },
-      positionOptions,
-    );
+// Use Redux's user ID and modelData's shroom ID to make a capture ID
+export const buildCaptureIDFromShroomalysis = (modelData: modelResults) => {
+  const [shroomID] = Object.keys(modelData);
+  // Just use shroomID as captureID
+  return shroomID;
+};
+
+export const getCaptureData = (
+  userID: string,
+  captureID: string,
+): Promise<any> => {
+  return new Promise((resolve, reject) => {
+    doGetCapture(userID, captureID).then((result) => {
+      if (result.status === 200) {
+        resolve(result.data.capture);
+      } else {
+        reject(result.data);
+      }
+    });
   });
+};
 
-export const useGetLocation = (latitude: number, longitude: number) => {
-  const [location, setLocation] = useState("hiii");
-  const latlng = { latitude, longitude };
+export const stripParamsFromLink = (url: string) => {
+  return url.split("?")[0];
+};
 
-  doGetLocationFromLatlng(latlng).then((response) => {
-    console.log(response);
-    if (response.status === 200) {
-      // setLocation to something
-      // CHANGE THIS BEFORE USING !!!!!!!!!!!!!
-      setLocation("lol");
+export const handlePostCapture = (
+  userID: string,
+  photoPath: string,
+  capture: CaptureInstance,
+  uploadLink: string,
+  dispatch: Dispatch,
+) => {
+  const imageUri = "file://" + photoPath;
+
+  doUploadToS3(imageUri, uploadLink).then((s3Response) => {
+    // console.log("s3 response status", s3Response.status);
+    if (s3Response.status === 200) {
+      // Post new capture to API, force refetch on journal
+      doPostCaptures(userID, [capture]).then(() => {
+        dispatch(queueRefetch());
+        dispatch(incrementUserTotalCaptures());
+      });
     }
   });
-
-  return location;
 };
-
-// Grab info from redux. (dont think this needs to be a promise as we can
-// get this info from redux )
-export const getUserInfo = () =>
-  new Promise((resolve) => setTimeout(() => resolve(2), 7500));
 
 // Make request to get S3 key for image upload.
-export const fetchS3Key = () =>
-  new Promise((resolve) => setTimeout(() => resolve(3), 3000));
-
-export const photoFileTimeToDateTime = (photoTime: string) => {
-  // Some odd reason, the PhotoFile metadata has a saved string of:
-  // 20XX:12:31 23:59:59
-  // Lets convert it to a readable Date object.
-  const monthsMap = new Map([
-    ["01", "January"],
-    ["02", "February"],
-    ["03", "March"],
-    ["04", "April"],
-    ["05", "May"],
-    ["06", "June"],
-    ["07", "July"],
-    ["08", "August"],
-    ["09", "September"],
-    ["10", "October"],
-    ["11", "November"],
-    ["12", "December"],
-  ]);
-
-  const dateTimeString = photoTime.split(" ");
-  const date = dateTimeString[0].split(":");
-
-  // Now that it's split, lets manipulate to set up UTC string; that works.
-  // Convert month number into string.
-  date[1] = monthsMap.get(date[1]) as string;
-
-  // <Month> <Day>, <Year> <H:MM:SS>
-  const dateString = `${date[1]} ${date[2]}, ${date[0]} ${dateTimeString[1]}`;
-  const dateUTC = new Date(dateString).toISOString();
-
-  return dateUTC;
-};
+export const getS3Response = (userID: string) =>
+  new Promise((resolve, reject) => {
+    doGetUploadLinkAndS3Key(userID).then((response: AxiosResponse) => {
+      if (response.status === 200) resolve(response.data);
+      else reject(response.data);
+    });
+  });

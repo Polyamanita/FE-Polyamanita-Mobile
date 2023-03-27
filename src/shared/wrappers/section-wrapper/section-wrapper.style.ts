@@ -14,8 +14,9 @@ export default (theme: ExtendedTheme) => {
 
   return StyleSheet.create<Style>({
     container: {
-      borderColor: colors.warning,
+      borderColor: colors.secondary24,
       borderWidth: 1,
+      borderRadius: 5,
       marginVertical: spacingSize,
     },
     header: {

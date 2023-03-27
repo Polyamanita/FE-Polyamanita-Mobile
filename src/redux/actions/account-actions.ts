@@ -42,3 +42,9 @@ export const updateUserTotalCaptures = (TotalCaptures: number) => {
     TotalCaptures,
   };
 };
+
+export const incrementUserTotalCaptures = () => {
+  return {
+    type: channelNames.incrementUserTotalCaptures,
+  };
+};

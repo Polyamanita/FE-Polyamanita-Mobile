@@ -1,6 +1,7 @@
 // ? Screens
 export const SCREENS = {
   // INITIAL STACK
+  PERMISSION: "PermissionScreen",
   START: "StartScreen",
   SIGNIN: "SigninScreen",
   REGISTER: "RegisterScreen",
@@ -10,9 +11,11 @@ export const SCREENS = {
 
   SNAP: "SnapScreen",
   CAPTURE: "CaptureScreen",
+  POSTCAPTURE: "PostCaptureScreen",
 
   JOURNAL: "JournalScreen",
   MUSHROOM: "MushroomScreen",
+  NOTFOUND: "NotFoundScreen",
 
   COMMUNITY: "CommunityScreen",
 
@@ -31,6 +34,7 @@ export const SCREENSTACK = {
 };
 
 export const APPSECTIONS = {
+  PERMISSIONS: "Permissions",
   INITIAL: "Initial",
   APP: "App",
   EXTRA: "Extra",

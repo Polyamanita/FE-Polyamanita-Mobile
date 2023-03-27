@@ -11,7 +11,7 @@ import Text from "@shared-components/text-wrapper/TextWrapper";
 import SnapHeader from "@screens/snap/wrappers/header-snap-stack-wrapper";
 import CancelButton from "@screens/snap/components/button-cancel";
 import { extractShroomID } from "utils";
-import { MUSHROOM_NAMES } from "shared/constants/mushroom-names";
+import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
 import { Instance } from "api/constants/journal";
 import { convertDateTime, useGetUsername } from "./utils";
 
@@ -35,7 +35,7 @@ const ImageScreen: React.FC<ImageScreenProps> = ({ route, navigation }) => {
   const { dateFound, imageLink, location } = instance;
 
   const shroomID = extractShroomID(captureID);
-  const { common, scientific } = MUSHROOM_NAMES[shroomID];
+  const { common, scientific } = MUSHROOM_IDS[shroomID];
 
   const { loading, username } = useGetUsername(userID);
 
@@ -61,7 +61,7 @@ const ImageScreen: React.FC<ImageScreenProps> = ({ route, navigation }) => {
                 {common}
               </Text>
               <Text
-                h2
+                h3
                 style={{ marginTop: -5, fontStyle: "italic" }}
                 color={colors.secondary100}
               >
@@ -69,14 +69,14 @@ const ImageScreen: React.FC<ImageScreenProps> = ({ route, navigation }) => {
               </Text>
             </View>
 
-            <View style={{ paddingTop: 1 }}>
+            <View style={{ paddingTop: 16 }}>
               <Text h3 color={colors.secondary100}>
                 {username}
               </Text>
-              <Text h3 color={colors.secondary100}>
+              <Text h4 color={colors.secondary100}>
                 {location}
               </Text>
-              <Text h3 color={colors.secondary100}>
+              <Text h4 color={colors.secondary100}>
                 {convertDateTime(dateFound)}
               </Text>
             </View>

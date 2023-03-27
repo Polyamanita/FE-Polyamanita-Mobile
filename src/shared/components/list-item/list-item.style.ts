@@ -3,6 +3,7 @@ import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from "react-native";
 
 interface Style {
   wrapper: ViewStyle;
+  wrapperGrayed: ViewStyle;
   text: TextStyle;
   icon: ImageStyle;
 }
@@ -20,6 +21,10 @@ export default (theme: ExtendedTheme) => {
       height: 50,
       backgroundColor: "gray",
       marginVertical: 3,
+    },
+
+    wrapperGrayed: {
+      backgroundColor: colors.grayedOut,
     },
 
     text: {
