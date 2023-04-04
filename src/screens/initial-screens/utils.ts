@@ -12,6 +12,7 @@ import {
   updateUserName,
   updateUserTotalCaptures,
 } from "redux/actions/account-actions";
+import { queueRefetch } from "redux/actions/journal-actions";
 import { Check, InputHandler } from "shared/constants/interfaces";
 import { APPSECTIONS } from "shared/constants/navigation-routes";
 
@@ -91,6 +92,8 @@ export function setupUser(
     dispatch(updateUserIcon()); // default.
     dispatch(updateUserColors([userData.color1, userData.color2]));
     dispatch(updateUserTotalCaptures(userData.TotalCaptures ?? 0)); // incase they are undefiend?
+
+    dispatch(queueRefetch());
   });
 
   // Then navigate user to main app.
