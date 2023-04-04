@@ -60,10 +60,10 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
       allShroomIDs.map((shroomID, i) => {
         const { common: shroomName } = MUSHROOM_IDS[shroomID];
 
-        let onPress = () =>
+        const onPress = () =>
           navigation.navigate(SCREENS.NOTFOUND, { commonName: shroomName });
-        let label = shroomName;
-        let grayedOut = true;
+        const label = shroomName;
+        const grayedOut = true;
 
         return (
           <RNBounceable key={i} onPress={onPress}>
