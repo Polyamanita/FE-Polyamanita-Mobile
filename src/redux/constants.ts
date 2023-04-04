@@ -6,6 +6,7 @@ export const channelNames = {
   updateUserColors: "UPDATE_USERCOLORS",
   updateUserIcon: "UPDATE_USERICON",
   updateUserTotalCaptures: "UPDATE_USERCAPTURES",
+  incrementUserTotalCaptures: "INCREMENT_USERCAPTURES",
 
   cacheCaptures: "CACHE_USERCAPTURES",
   queueRefetch: "QUEUE_REFETCH",

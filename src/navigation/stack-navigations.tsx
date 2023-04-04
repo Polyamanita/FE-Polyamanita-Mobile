@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 /**
  * ? Local & Shared Imports
@@ -17,7 +17,12 @@ import CommunityScreen from "@screens/community/community-screen";
 import ProfileScreen from "@screens/profile/profile-modal";
 import MushroomScreen from "@screens/mushroom/mushroom-screen";
 import ImageScreen from "@screens/image/image-screen";
+import PermissionModal from "@screens/initial-screens/permissions/permission-modal";
+import { localString } from "shared/localization";
+import { Permission } from "react-native";
+import { permissionsToPass } from "./constants";
 import NotFoundScreen from "@screens/journal/notfound-screen";
+import PostCaptureScreen from "@screens/post-capture/post-capture";
 
 const Stack = createStackNavigator();
 // Function creates a Stack Navigator, that will later be nested inside a
@@ -36,6 +41,56 @@ const createTabStackNavigator = (
 
 // Below are a set of stacks that control flow of navigation within a screen.
 ////////////////////////////////////////////////////////////////////////////
+
+export const PermissionStack = (navigationRef: unknown) => {
+  // an array of screen names for user to cycle through before getting into intial app.
+  const cycle = [
+    `${SCREENS.PERMISSION}_CAMERA`,
+    `${SCREENS.PERMISSION}_LOCATION`,
+    `${SCREENS.PERMISSION}_FILES`,
+  ];
+
+  const [cyclePosition, setCyclePosition] = useState(1);
+
+  const permissionCycle = {
+    cycle: cycle,
+    position: cyclePosition,
+    setPosition: setCyclePosition,
+  };
+
+  return (
+    <Stack.Navigator screenOptions={{ headerShown: false }}>
+      <Stack.Screen name={permissionCycle.cycle[0]}>
+        {() => (
+          <PermissionModal
+            permissionHeader={localString.permissions.camera}
+            permissionCycle={permissionCycle}
+            navigation={navigationRef}
+          />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name={permissionCycle.cycle[1]}>
+        {() => (
+          <PermissionModal
+            permissionHeader={localString.permissions.location}
+            permissionCycle={permissionCycle}
+            navigation={navigationRef}
+          />
+        )}
+      </Stack.Screen>
+      <Stack.Screen name={permissionCycle.cycle[2]}>
+        {() => (
+          <PermissionModal
+            permissionFinalizer={permissionsToPass as Permission[]}
+            permissionHeader={localString.permissions.files}
+            permissionCycle={permissionCycle}
+            navigation={navigationRef}
+          />
+        )}
+      </Stack.Screen>
+    </Stack.Navigator>
+  );
+};
 
 // This navigation stack contains signing in and registering related screens.
 export const InitialStack = () => {
@@ -77,6 +132,11 @@ export const SnapStack = () =>
           // animationEnabled: false,
         }
       }
+    />,
+    <Stack.Screen
+      name={SCREENS.POSTCAPTURE}
+      component={PostCaptureScreen}
+      key={SCREENS.POSTCAPTURE}
     />,
   ]);
 

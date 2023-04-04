@@ -44,8 +44,17 @@ export const localString = new LocalizedStrings({
     password: "password",
     confirmation: "confirmation",
     profile: "profile",
+    accept: "accept",
+
+    permissions: {
+      camera: "Access to camera",
+      location: "Access to your current location",
+      files: "Access to your files",
+    },
 
     initialStackHeaderMessages: {
+      permissions:
+        "We will need these permissions to give you a better user experience.",
       initial: "Welcome to Polyamanita, the mushroom foraging app.",
       register: "Join the mushroom crew.",
       signin: "Continue your trek.",
@@ -68,5 +77,12 @@ export const localString = new LocalizedStrings({
       journal: "Journal",
       community: "Community",
     },
+
+    mapScreen: {},
+    snapScreen: {
+      analyze: "Analyze",
+      capture: "Capture",
+    },
+    journalScreen: {},
   },
 });
