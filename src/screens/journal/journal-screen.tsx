@@ -31,15 +31,22 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   const { loading, captures } = useGetCaptures();
   const allShroomIDs = Object.keys(MUSHROOM_IDS);
 
+  // Define outside if-statement to make typescript happy.
+  let onPress = () => {
+    console.error("Not set");
+  };
+  let label = "";
+  let grayedOut = false;
+
   let entries;
   if (captures) {
     entries = allShroomIDs.map((shroomID, i) => {
       const { common: shroomName } = MUSHROOM_IDS[shroomID];
 
-      let onPress = () =>
+      onPress = () =>
         navigation.navigate(SCREENS.NOTFOUND, { commonName: shroomName });
-      let label = shroomName;
-      let grayedOut = true;
+      label = shroomName;
+      grayedOut = true;
 
       if (shroomID in captures) {
         const capture = captures[shroomID];
@@ -60,10 +67,10 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
       allShroomIDs.map((shroomID, i) => {
         const { common: shroomName } = MUSHROOM_IDS[shroomID];
 
-        let onPress = () =>
+        onPress = () =>
           navigation.navigate(SCREENS.NOTFOUND, { commonName: shroomName });
-        let label = shroomName;
-        let grayedOut = true;
+        label = shroomName;
+        grayedOut = true;
 
         return (
           <RNBounceable key={i} onPress={onPress}>
