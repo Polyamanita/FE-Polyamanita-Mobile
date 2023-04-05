@@ -1,7 +1,7 @@
 import React from "react";
 import { useColorScheme } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { isReadyRef, navigationRef } from "react-navigation-helpers";
+import { isReadyRef, navigate, navigationRef } from "react-navigation-helpers";
 /**
  * ? Local & Shared Imports
  */
@@ -33,9 +33,9 @@ const Navigation = () => {
   // When the app loads, we want to check if permissions have been granted.
   checkAllPermissions(permissionsToPass)
     .then((response) => {
-      console.log("ALl permission resposne", response);
-      if (response === true) console.log("wow congrats");
-      else console.log("loser");
+      if (response === true) {
+        navigate(APPSECTIONS.INITIAL)
+      }
     })
     .catch((reject) => console.log(reject));
 
