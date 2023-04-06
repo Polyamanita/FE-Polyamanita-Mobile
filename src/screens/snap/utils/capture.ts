@@ -14,7 +14,8 @@ import { queueRefetch } from "redux/actions/journal-actions";
 import { getCurrentPosition } from "utils";
 import { modelResults } from "./shroomalyze";
 
-export const getPosition = () => getCurrentPosition();
+export const getPosition = (saveLatLong: boolean) =>
+  getCurrentPosition(false, saveLatLong);
 
 // Use Redux's user ID and modelData's shroom ID to make a capture ID
 export const buildCaptureIDFromShroomalysis = (modelData: modelResults) => {

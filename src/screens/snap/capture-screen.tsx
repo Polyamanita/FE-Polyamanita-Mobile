@@ -36,6 +36,7 @@ import { saveImage } from "storage/imageSave";
 import { SCREENS } from "shared/constants/navigation-routes";
 import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
 import Text from "@shared-components/text-wrapper/TextWrapper";
+import LocationButton from "./components/button-capture-location-share";
 
 interface CaptureScreenProps {
   route: any;
@@ -50,20 +51,21 @@ const handleUpload = async (
   photo: PhotoFile,
   captureTime: string,
   modelData: modelResults,
+  saveLatLong: boolean,
   dispatch: Dispatch,
 ): Promise<{ captureID: string; instance: Instance; photoPath: string }> => {
   return new Promise((resolve, reject) => {
-    const position = getPosition() as Promise<Location>;
+    const position: Promise<Location> = getPosition(
+      saveLatLong,
+    ) as Promise<Location>;
     const s3Response = getS3Response(userID) as Promise<S3LinkResponse>;
 
     Promise.all([position, s3Response])
       .then((uploadResolve: [resPos: Location, resS3: S3LinkResponse]) => {
+        // console.log("Key: ", resolvedS3Response);
+        // console.log("Position: ", resolvedPosition);
         const [resolvedPosition, resolvedS3Response] = uploadResolve;
-        console.log("Position: ", resolvedPosition);
-        console.log("Key: ", resolvedS3Response);
-
         const [{ s3Key, uploadLink }] = resolvedS3Response.links;
-
         const instance = {
           dateFound: captureTime,
           latitude: resolvedPosition.latitude,
@@ -117,6 +119,10 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
 
   const dispatch = useDispatch();
 
+  // #region locationsharing on/off
+  const [location, setLocation] = useState<boolean>(true);
+  // #endregion
+
   // #region analyze button hit handeling.
   const [loading, setLoading] = useState<"flex" | "none">("none");
   const [pressable, setPressable] = useState(true);
@@ -168,6 +174,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
                     photo,
                     time,
                     modelResolve,
+                    location,
                     dispatch,
                   ).then((resolve) => {
                     navigation.navigate(SCREENS.POSTCAPTURE, resolve);
@@ -193,6 +200,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
             onPress={() => saveImage(path)}
             iconName={"content-save"}
           />
+          <LocationButton location={location} setLocation={setLocation} />
         </View>
       </View>
     </>
