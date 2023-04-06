@@ -1,5 +1,4 @@
-import { JournalCache } from "api/constants/journal";
-import { channelNames } from "redux/constants";
+import { JournalCache, channelNames } from "redux/constants";
 
 const initialJournalData = {
   captures: undefined,

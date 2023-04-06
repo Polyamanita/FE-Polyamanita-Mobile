@@ -1,3 +1,5 @@
+import { CaptureMap } from "@screens/journal/utils";
+
 export const channelNames = {
   loadUserData: "LOAD_USERDATA",
 
@@ -11,3 +13,8 @@ export const channelNames = {
   cacheCaptures: "CACHE_USERCAPTURES",
   queueRefetch: "QUEUE_REFETCH",
 };
+
+export interface JournalCache {
+  captures: CaptureMap | undefined;
+  refetch: boolean;
+}
