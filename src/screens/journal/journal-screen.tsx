@@ -31,10 +31,9 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   const { loading, captures } = useGetCaptures();
   const allShroomIDs = Object.keys(MUSHROOM_IDS);
 
-  const entries =
-    !loading &&
-    captures &&
-    allShroomIDs.map((shroomID, i) => {
+  let entries;
+  if (captures) {
+    entries = allShroomIDs.map((shroomID, i) => {
       const { common: shroomName } = MUSHROOM_IDS[shroomID];
 
       let onPress = () =>
@@ -55,6 +54,24 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
         </RNBounceable>
       );
     });
+  } else {
+    entries =
+      !loading &&
+      allShroomIDs.map((shroomID, i) => {
+        const { common: shroomName } = MUSHROOM_IDS[shroomID];
+
+        let onPress = () =>
+          navigation.navigate(SCREENS.NOTFOUND, { commonName: shroomName });
+        let label = shroomName;
+        let grayedOut = true;
+
+        return (
+          <RNBounceable key={i} onPress={onPress}>
+            <ListItem label={label} grayedOut={grayedOut} />
+          </RNBounceable>
+        );
+      });
+  }
 
   return (
     <ScreenContainer>

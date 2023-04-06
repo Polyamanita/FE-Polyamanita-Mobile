@@ -14,7 +14,7 @@ export const useGetCaptures = () => {
   const [captures, setCaptures] = useState<{
     [shroomID: string]: CaptureInstance;
   }>();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loading, setLoading] = useState<boolean>(false);
 
   const userID: string = useSelector(
     (store: ReduxStore) => store.userData.userID,
@@ -26,7 +26,7 @@ export const useGetCaptures = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setLoading(true);
+    // setLoading(true);
 
     // Load from Redux cache, if available
     // if (!refetch && cachedCaptures) {

@@ -73,6 +73,7 @@ export const TabNavigation = () => {
         tabBarInactiveTintColor: palette.secondary50,
         tabBarStyle: tabBarStyle,
         tabBarShowLabel: false,
+        tabBarHideOnKeyboard: true,
       })}
     >
       <Tab.Screen

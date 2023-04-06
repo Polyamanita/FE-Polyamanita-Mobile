@@ -35,6 +35,7 @@ export const convertDateTime = (timestamp: string) => {
   const ampm = hours < 12 ? "AM" : "PM";
 
   hours = hours > 12 ? hours - 12 : hours;
+  if (hours === 0) hours = 12;
 
   const minutes = ("0" + datetime.getMinutes()).slice(-2);
 
