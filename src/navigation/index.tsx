@@ -34,7 +34,7 @@ const Navigation = () => {
   checkAllPermissions(permissionsToPass)
     .then((response) => {
       if (response === true) {
-        navigate(APPSECTIONS.INITIAL)
+        navigate(APPSECTIONS.INITIAL);
       }
     })
     .catch((reject) => console.log(reject));

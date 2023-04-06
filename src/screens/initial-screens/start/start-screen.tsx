@@ -16,7 +16,6 @@ interface StartScreenProps {
 }
 
 const StartScreen: React.FC<StartScreenProps> = ({ navigation }) => {
-
   // Close the app on this screen.
   // Exit app effect.
   useFocusEffect(() => {
@@ -32,7 +31,6 @@ const StartScreen: React.FC<StartScreenProps> = ({ navigation }) => {
 
     return () => backHandler.remove();
   });
-
 
   return (
     <ScreenWrapper>
