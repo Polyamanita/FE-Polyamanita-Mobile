@@ -54,6 +54,8 @@ export const doAuthorize = (registrationDetails: AuthUser) =>
 export const doSignin = (credentials: Session) =>
   requests.post("/session", credentials);
 
+export const doSignOut = () => requests.delete("/session");
+
 export const doGetUser = (userID: string) => requests.get("/users/" + userID);
 
 // Updates the provided 2 color set for user avatars.
