@@ -61,7 +61,7 @@ const ImageScreen: React.FC<ImageScreenProps> = ({ route, navigation }) => {
                 {common}
               </Text>
               <Text
-                h2
+                h3
                 style={{ marginTop: -5, fontStyle: "italic" }}
                 color={colors.secondary100}
               >
@@ -69,14 +69,14 @@ const ImageScreen: React.FC<ImageScreenProps> = ({ route, navigation }) => {
               </Text>
             </View>
 
-            <View style={{ paddingTop: 1 }}>
+            <View style={{ paddingTop: 16 }}>
               <Text h3 color={colors.secondary100}>
                 {username}
               </Text>
-              <Text h3 color={colors.secondary100}>
+              <Text h4 color={colors.secondary100}>
                 {location}
               </Text>
-              <Text h3 color={colors.secondary100}>
+              <Text h4 color={colors.secondary100}>
                 {convertDateTime(dateFound)}
               </Text>
             </View>

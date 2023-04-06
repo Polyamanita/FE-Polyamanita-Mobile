@@ -31,30 +31,25 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   const { loading, captures } = useGetCaptures();
   const allShroomIDs = Object.keys(MUSHROOM_IDS);
 
-  const entries =
-    !loading &&
-    captures &&
-    allShroomIDs.map((shroomID, i) => {
-      const { common: shroomName } = MUSHROOM_IDS[shroomID];
+  const entries = allShroomIDs.map((shroomID, i) => {
+    const { common: shroomName } = MUSHROOM_IDS[shroomID];
 
-      let onPress = () =>
-        navigation.navigate(SCREENS.NOTFOUND, { commonName: shroomName });
-      let label = shroomName;
-      let grayedOut = true;
+    let onPress = () =>
+      navigation.navigate(SCREENS.NOTFOUND, { commonName: shroomName });
+    let grayedOut = true;
 
-      if (shroomID in captures) {
-        const capture = captures[shroomID];
-        onPress = () => navigation.navigate(SCREENS.MUSHROOM, { capture });
-        label = shroomName;
-        grayedOut = false;
-      }
+    if (shroomID in captures) {
+      const capture = captures[shroomID];
+      onPress = () => navigation.navigate(SCREENS.MUSHROOM, { capture });
+      grayedOut = false;
+    }
 
-      return (
-        <RNBounceable key={i} onPress={onPress}>
-          <ListItem label={label} grayedOut={grayedOut} />
-        </RNBounceable>
-      );
-    });
+    return (
+      <RNBounceable key={i} onPress={onPress}>
+        <ListItem label={shroomName} grayedOut={grayedOut} />
+      </RNBounceable>
+    );
+  });
 
   return (
     <ScreenContainer>
@@ -80,7 +75,7 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
           height: "100%",
         }}
       >
-        {entries}
+        {!loading && entries}
       </ScrollView>
     </ScreenContainer>
   );

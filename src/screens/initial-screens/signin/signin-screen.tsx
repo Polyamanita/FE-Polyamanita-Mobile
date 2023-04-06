@@ -13,7 +13,7 @@ import CancelButton from "../components/cancel-button";
 import IntialAppWrapper from "../wrappers/initial-app-wrapper";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import {
-  allInputsFulfilled,
+  // allInputsFulfilled,
   handleSignin,
   inputCheck,
   setupUser,
@@ -21,7 +21,7 @@ import {
 import { Session } from "api/auth";
 import { useDispatch } from "react-redux";
 
-const ALLOW_DEV_SIGNIN = true;
+const ALLOW_DEV_SIGNIN = false;
 
 interface SigninScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -101,20 +101,20 @@ const SigninScreen: React.FC<SigninScreenProps> = ({ navigation }) => {
               password: password,
             };
 
-            if (allInputsFulfilled([emailHandler.status])) {
-              handleSignin(credentials).then((result) => {
-                if (result.status === 200) {
-                  setupUser(dispatch, result, navigation);
-                } else {
-                  emailHandler.setStatus("warn");
-                  emailHandler.setFeedback("");
-                  passwordHandler.setStatus("warn");
-                  passwordHandler.setFeedback(
-                    localString.initialStackHeaderMessages.incorrectUserPass,
-                  );
-                }
-              });
-            }
+            // if (allInputsFulfilled([emailHandler.status])) {
+            handleSignin(credentials).then((result) => {
+              if (result.status === 200) {
+                setupUser(dispatch, result, navigation);
+              } else {
+                emailHandler.setStatus("warn");
+                emailHandler.setFeedback("");
+                passwordHandler.setStatus("warn");
+                passwordHandler.setFeedback(
+                  localString.initialStackHeaderMessages.incorrectUserPass,
+                );
+              }
+            });
+            // }
           }}
         />
         <CancelButton navigation={navigation} />

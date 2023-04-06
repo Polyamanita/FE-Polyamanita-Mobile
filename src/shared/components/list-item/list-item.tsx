@@ -5,6 +5,7 @@ import { useTheme } from "@react-navigation/native";
  */
 import createStyles from "./list-item.style";
 import { Image, Text, View } from "react-native";
+import Icon from "react-native-dynamic-vector-icons";
 
 interface ListItemProps {
   label: string;
@@ -18,7 +19,18 @@ const ListItem: React.FC<ListItemProps> = ({ label, grayedOut = false }) => {
 
   return (
     <View style={[styles.wrapper, grayedOut && styles.wrapperGrayed]}>
-      <Image source={require("@assets/logo.jpg")} style={styles.icon} />
+      {grayedOut ? (
+        <View style={styles.icon}>
+          <Icon
+            name={"help-circle"}
+            type="MaterialCommunityIcons"
+            size={60}
+            style={{ marginEnd: -5, start: -5, marginBottom: -5, top: -5 }}
+          />
+        </View>
+      ) : (
+        <Image source={require("@assets/logo.jpg")} style={styles.icon} />
+      )}
       <Text numberOfLines={1} style={styles.text}>
         {label}
       </Text>

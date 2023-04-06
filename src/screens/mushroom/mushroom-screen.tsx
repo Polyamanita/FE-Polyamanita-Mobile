@@ -146,8 +146,9 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
   // const { captureID } = captureStub;
   // const { capture, loading } = useGetCaptureData(captureID);
 
-  const { capture } = route.params;
-  const { captureID, notes, timesFound } = capture;
+  const {
+    capture: { captureID, notes, timesFound },
+  } = route.params;
 
   // Need to fetch from API again to get instances' image links :/
   const { loading, instances } = useGetInstances(captureID);
@@ -172,9 +173,10 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           <Text style={[styles.text, styles.sciNameText]}>{scientific}</Text>
         </View>
         <View style={styles.countBoxContainer}>
-          <CountBox count={timesFound} text="Personal" />
+          {/* <CountBox count={timesFound} text="Personal" />
           <CountBox count={0} text="Total" isLarge={true} />
-          <CountBox count={0} text="Region" />
+          <CountBox count={0} text="Region" /> */}
+          <CountBox isLarge count={timesFound} text="Personal" />
         </View>
         {!loading && (
           <Gallery
