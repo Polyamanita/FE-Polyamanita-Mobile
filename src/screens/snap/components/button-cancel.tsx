@@ -5,10 +5,12 @@ import AuxButton from "@shared-components/button-aux/button-aux";
 
 interface CancelButtonProps {
   navigation: StackNavigationProp<ParamListBase, string>;
+  pressable: boolean;
 }
 
-const CancelButton = ({ navigation }: CancelButtonProps) => (
+const CancelButton = ({ navigation, pressable = true }: CancelButtonProps) => (
   <AuxButton
+    pressable={pressable}
     onPress={() => {
       navigation.pop();
     }}

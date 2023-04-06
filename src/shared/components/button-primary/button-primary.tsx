@@ -18,6 +18,7 @@ interface PolyButtonProps extends PressableProps {
   onPress: () => unknown;
   varient?: "default" | "primary" | "primary-outline" | "glass";
   size?: "large" | "small" | "full";
+  pressable?: boolean;
 }
 
 const ButtonWrapper: React.FC<PolyButtonProps> = ({
@@ -25,6 +26,7 @@ const ButtonWrapper: React.FC<PolyButtonProps> = ({
   onPress,
   varient = "default",
   size = "large",
+  pressable = true,
 }) => {
   const theme = useTheme();
   const { colors } = theme;
@@ -68,8 +70,15 @@ const ButtonWrapper: React.FC<PolyButtonProps> = ({
 
   // Precaution incase the string provided is not capitalized.
   const capitalizedTitle = capitalizeWords(title);
+  const bounceyness = 0.8;
   return (
-    <RNBounceable style={[{ backfaceVisibility: "hidden" }]} onPress={onPress}>
+    <RNBounceable
+      style={[{ backfaceVisibility: "hidden" }]}
+      onPress={() => {
+        if (pressable) onPress();
+      }}
+      bounceEffectIn={bounceyness}
+    >
       <LinearGradient colors={gradient} style={styling}>
         <Text bold style={styles.text[varient]}>
           {capitalizedTitle}
