@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { Image, StyleSheet, View } from "react-native";
+import { Alert, Image, StyleSheet, View } from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
 import { modelResults, shroomalyze } from "./utils/shroomalyze";
 import {
@@ -27,6 +27,8 @@ import { S3LinkResponse } from "api/constants/image";
 import { Dispatch } from "redux";
 import { localString } from "shared/localization";
 import { saveImage } from "storage/imageSave";
+import { SCREENS } from "shared/constants/navigation-routes";
+import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
 
 interface CaptureScreenProps {
   route: any;
@@ -42,46 +44,58 @@ const handleUpload = async (
   captureTime: string,
   modelData: modelResults,
   dispatch: Dispatch,
-) => {
-  const position = getPosition() as Promise<Location>;
-  const s3Response = getS3Response(userID) as Promise<S3LinkResponse>;
+): Promise<{ captureID: string; instance: Instance; photoPath: string }> => {
+  return new Promise((resolve, reject) => {
+    const position = getPosition() as Promise<Location>;
+    const s3Response = getS3Response(userID) as Promise<S3LinkResponse>;
 
-  Promise.all([position, s3Response]).then(
-    (uploadResolve: [resPos: Location, resS3: S3LinkResponse]) => {
-      const [resolvedPosition, resolvedS3Response] = uploadResolve;
-      console.log("Position: ", resolvedPosition);
-      console.log("Key: ", resolvedS3Response);
+    Promise.all([position, s3Response])
+      .then((uploadResolve: [resPos: Location, resS3: S3LinkResponse]) => {
+        const [resolvedPosition, resolvedS3Response] = uploadResolve;
+        console.log("Position: ", resolvedPosition);
+        console.log("Key: ", resolvedS3Response);
 
-      const [{ s3Key, uploadLink }] = resolvedS3Response.links;
+        const [{ s3Key, uploadLink }] = resolvedS3Response.links;
 
-      const instance = {
-        dateFound: captureTime,
-        latitude: resolvedPosition.latitude,
-        longitude: resolvedPosition.longitude,
-        location: resolvedPosition.location,
-        s3Key: s3Key,
-        imageLink: stripParamsFromLink(uploadLink),
-      } as Instance;
+        const instance = {
+          dateFound: captureTime,
+          latitude: resolvedPosition.latitude,
+          longitude: resolvedPosition.longitude,
+          location: resolvedPosition.location,
+          s3Key: s3Key,
+          imageLink: stripParamsFromLink(uploadLink),
+        } as Instance;
 
-      const captureID = buildCaptureIDFromShroomalysis(modelData);
-      const captureInstance = {
-        captureID: captureID,
-        instances: [instance],
-        // none of these should overwrite, right?
-        notes: "",
-        timesFound: 0,
-        userID: userID,
-      } as CaptureInstance;
+        console.log(instance.dateFound);
 
-      handlePostCapture(
-        userID,
-        photo.path,
-        captureInstance,
-        uploadLink,
-        dispatch,
-      );
-    },
-  );
+        const captureID = buildCaptureIDFromShroomalysis(modelData);
+        const captureInstance = {
+          captureID: captureID,
+          instances: [instance],
+          // none of these should overwrite, right?
+          notes: "",
+          timesFound: 0,
+          userID: userID,
+        } as CaptureInstance;
+
+        handlePostCapture(
+          userID,
+          photo.path,
+          captureInstance,
+          uploadLink,
+          dispatch,
+        );
+
+        resolve({
+          captureID: captureID,
+          instance: instance,
+          photoPath: photo.path,
+        });
+      })
+      .catch((uploadError) => {
+        reject(uploadError);
+      });
+  });
 };
 
 const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
@@ -118,11 +132,22 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
           onPress={() => {
             const time = new Date().toISOString();
             handleModel(photo)
-              .then((modelResolve) => {
-                handleUpload(userID, photo, time, modelResolve, dispatch);
+              .then((modelResolve: modelResults) => {
+                handleUpload(userID, photo, time, modelResolve, dispatch).then(
+                  (resolve) => {
+                    navigation.navigate(SCREENS.POSTCAPTURE, resolve);
+                    Alert.alert(
+                      "Congrendulations",
+                      `You got a ${MUSHROOM_IDS[resolve.captureID].common}`,
+                    );
+                  },
+                );
               })
-              .catch((modelRejection) => {
-                console.log(modelRejection);
+              .catch(() => {
+                Alert.alert(
+                  "Sorry,",
+                  "The Shroomalyzer couldn't identify anything :(",
+                );
               });
           }}
           varient={"primary"}

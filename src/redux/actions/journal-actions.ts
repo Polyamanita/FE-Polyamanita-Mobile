@@ -1,7 +1,7 @@
-import { Captures } from "api/constants/journal";
+import { CaptureMap } from "@screens/journal/utils";
 import { channelNames } from "redux/constants";
 
-export const storeCaptures = (captures: Captures) => {
+export const storeCaptures = (captures: CaptureMap) => {
   return {
     type: channelNames.cacheCaptures,
     captures,

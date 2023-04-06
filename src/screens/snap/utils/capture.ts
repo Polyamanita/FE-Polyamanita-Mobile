@@ -9,6 +9,7 @@ import {
 } from "api/requests";
 import { AxiosResponse } from "axios";
 import { Dispatch } from "redux";
+import { incrementUserTotalCaptures } from "redux/actions/account-actions";
 import { queueRefetch } from "redux/actions/journal-actions";
 import { getCurrentPosition } from "utils";
 import { modelResults } from "./shroomalyze";
@@ -54,7 +55,10 @@ export const handlePostCapture = (
     // console.log("s3 response status", s3Response.status);
     if (s3Response.status === 200) {
       // Post new capture to API, force refetch on journal
-      doPostCaptures(userID, [capture]).then(() => dispatch(queueRefetch()));
+      doPostCaptures(userID, [capture]).then(() => {
+        dispatch(queueRefetch());
+        dispatch(incrementUserTotalCaptures());
+      });
     }
   });
 };

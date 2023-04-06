@@ -13,10 +13,10 @@ export interface MushroomNames {
 
 // MUSHROOM CLASSES FROM SHROOMALYZER
 const IDS = {
-  "some-capture-id": { scientific: "scientific", common: "common" },
-  "some-capture-id-1": { scientific: "scientific1", common: "common1" },
-  "some-capture-id-2": { scientific: "scientific2", common: "common2" },
-  "some-other-id": { scientific: "scientificother", common: "commonother" },
+  // "some-capture-id": { scientific: "scientific", common: "common" },
+  // "some-capture-id-1": { scientific: "scientific1", common: "common1" },
+  // "some-capture-id-2": { scientific: "scientific2", common: "common2" },
+  // "some-other-id": { scientific: "scientificother", common: "commonother" },
   "11082_Xerocomellus_chrysenteron": {
     scientific: "Xerocomellus chrysenteron",
     common: "Red-cracking Bolete",

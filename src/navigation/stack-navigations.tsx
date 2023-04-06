@@ -22,6 +22,7 @@ import { localString } from "shared/localization";
 import { Permission } from "react-native";
 import { permissionsToPass } from "./constants";
 import NotFoundScreen from "@screens/journal/notfound-screen";
+import PostCaptureScreen from "@screens/post-capture/post-capture";
 
 const Stack = createStackNavigator();
 // Function creates a Stack Navigator, that will later be nested inside a
@@ -131,6 +132,11 @@ export const SnapStack = () =>
           // animationEnabled: false,
         }
       }
+    />,
+    <Stack.Screen
+      name={SCREENS.POSTCAPTURE}
+      component={PostCaptureScreen}
+      key={SCREENS.POSTCAPTURE}
     />,
   ]);
 

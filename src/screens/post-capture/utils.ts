@@ -1,23 +1,3 @@
-import { doGetUser } from "api/requests";
-import { useEffect, useState } from "react";
-
-export const useGetUsername = (userID: string) => {
-  const [username, setUsername] = useState("");
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    setLoading(true);
-    doGetUser(userID).then((result) => {
-      if (result.status === 200) {
-        setUsername(result.data.user?.username);
-        setLoading(false);
-      }
-    });
-  }, [userID]);
-
-  return { loading, username };
-};
-
 export const convertDateTime = (timestamp: string) => {
   const monthsMap = new Map([
     [0, "Jan"],
