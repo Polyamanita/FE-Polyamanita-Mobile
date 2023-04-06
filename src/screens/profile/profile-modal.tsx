@@ -11,8 +11,8 @@ import { localString } from "shared/localization";
 import ButtonWrapper from "@shared-components/button-primary/button-primary";
 import { ReduxStore } from "redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { queueRefetch } from "redux/actions/journal-actions";
 import { UserData } from "api/constants/user";
+import { handleSignout } from "./utils";
 
 interface ProfileModalProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -65,10 +65,7 @@ const AccountSection = ({ navigation }: AccountSectionProps) => {
         <ButtonWrapper
           title={localString.logout}
           size={"small"}
-          onPress={() => {
-            dispatch(queueRefetch());
-            navigation.popToTop();
-          }}
+          onPress={() => handleSignout(navigation, dispatch)}
         />
       </View>
     </SectionContainer>
