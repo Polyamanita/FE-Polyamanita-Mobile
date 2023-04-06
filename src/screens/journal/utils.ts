@@ -13,7 +13,7 @@ export type CaptureMap = {
 };
 
 export const useGetCaptures = () => {
-  const [captures, setCaptures] = useState<CaptureMap>();
+  const [captures, setCaptures] = useState<CaptureMap>({});
   const [loading, setLoading] = useState<boolean>(false);
 
   const {
@@ -49,8 +49,8 @@ export const useGetCaptures = () => {
         dispatch(storeCaptures(newCaptures));
 
         setCaptures(newCaptures);
-        setLoading(false);
       }
+      setLoading(false);
     });
   }, [cachedCaptures, refetch, userID, dispatch]);
 

@@ -146,8 +146,9 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
   // const { captureID } = captureStub;
   // const { capture, loading } = useGetCaptureData(captureID);
 
-  const { capture } = route.params;
-  const { captureID, notes, timesFound } = capture;
+  const {
+    capture: { captureID, notes, timesFound },
+  } = route.params;
 
   // Need to fetch from API again to get instances' image links :/
   const { loading, instances } = useGetInstances(captureID);
