@@ -18,17 +18,18 @@
 - `/docs` - as the name suggests - any docs.
 - `/node_modules` - React Native packages added with yarn package manager.
 - `/src` - contains rendered JS and style code.
-  - `/screens` - contains all screens/pages
-  - `/services` - app-wide services
-    - `/api` - generic network handling with API constants
-    - `/event-emitter` - singleton event bus to use it everywhere in the project
-    - `/models` - generic models should lay here
-    - `/navigation` - navigation system lay here
+  - `/api` - generic network handling with API constants
+  - `/assets/` - non-code files, like icons, images, fonts, etc.
+  - `/navigation` - react navigation handeling, components and constants.
+  - `/redux` - redux store, reducerrs and constants.
+  - `/screens` - contains all screens/pages of the application. (detailed section in next section)
   - `/shared` - whole app-wide shared
     - `/components` - app-wide shared components
     - `/constants` - app-wide shared constant variables
     - `/localization` - app-wide localization
     - `/theme` - app-wide theme which contains `color palette` and `fonts`
+    - `/wrappers` - app-wide component wrappers
+  - `/storage` - anything dealing with file inout/output, searching files, etc.
   - `/utils` - generic util functions
   - `index.js` - the starting place for our app
   - `App.tsx` - the main place for our app
@@ -39,5 +40,16 @@
 - `babel.config.js` - instantiates context from native module plugins to use on front end (like the Shroomalyzer).
 - `package.json` - Node modules and versioning.
 - `README.md` - Remote repository text document.
-- `tsconfig.json - TS rules and babel filepath context for TS
-- 
+- `tsconfig.json` - TS rules and babel filepath context for TS
+
+
+## src/screens structure
+
+For each screen on the application, the current structure has it so where each unique screen gets its own directory. The only case of not following that convention is if there is a complete similarity to screens to prevent clouding up ./screens with similar screen.
+
+Each screen can have the following subd-rectories.
+- `screen.tsx` - screen component
+- `screen.style.ts - styling for screens sub-components
+- `utils.ts | /utils` - module functions that are ran on the screen.
+- `/components` - organizational sub directory to put uniquely created components.
+- `/wrappers` - organizational sub directory to put uniquely created component wrappers.
