@@ -49,7 +49,7 @@ For each screen on the application, the current structure has it so where each u
 
 Each screen can have the following subd-rectories.
 - `screen.tsx` - screen component
-- `screen.style.ts - styling for screens sub-components
+- `screen.style.ts` - styling for screens sub-components
 - `utils.ts | /utils` - module functions that are ran on the screen.
 - `/components` - organizational sub directory to put uniquely created components.
 - `/wrappers` - organizational sub directory to put uniquely created component wrappers.
