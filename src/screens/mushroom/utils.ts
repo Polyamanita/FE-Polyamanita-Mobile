@@ -1,8 +1,8 @@
-import { doGetCapture } from "api/requests";
+import { doGetCapture, doPostCaptures } from "api/requests";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ReduxStore } from "redux/store";
-import { CaptureInstance, Instance } from "api/constants/journal";
+import { CaptureInstance, Captures, Instance } from "api/constants/journal";
 import { UnreadTable } from "redux/constants";
 import { unmarkShroomUnread } from "redux/actions/journal-actions";
 
@@ -54,4 +54,41 @@ export const useUnmarkUnread = (shroomID: string) => {
       dispatch(unmarkShroomUnread(shroomID));
     }
   }, [dispatch, shroomID, unreadTable]);
+};
+
+export const handleUpdateNotes = (
+  capture: CaptureInstance,
+  newNotes: string,
+) => {
+  if (capture.notes === newNotes) {
+    return;
+  }
+
+  const captures: Captures = [
+    {
+      captureID: capture.captureID,
+      instances: [],
+      notes: newNotes,
+      timesFound: capture.timesFound,
+      userID: capture.userID,
+    },
+  ];
+
+  doPostCaptures(capture.userID, captures)
+    .then((resp) => {
+      if (resp.status === 200) {
+        console.log("notes updated!");
+      } else {
+        console.log("notes didn't update :(");
+      }
+    })
+    .catch((err) => {
+      if (err.response) {
+        return err.response;
+      } else if (err.request) {
+        return err.request;
+      } else {
+        return err.message;
+      }
+    });
 };

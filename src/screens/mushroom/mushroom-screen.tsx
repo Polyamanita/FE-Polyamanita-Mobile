@@ -1,7 +1,7 @@
 import { ParamListBase, RouteProp, useTheme } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { CaptureInstance, Instance } from "api/constants/journal";
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import {
   Alert,
   Image,
@@ -20,7 +20,7 @@ import { SCREENS } from "shared/constants/navigation-routes";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { extractShroomID } from "utils";
 import createStyles from "./mushroom-screen.style";
-import { useGetInstances, useUnmarkUnread } from "./utils";
+import { handleUpdateNotes, useGetInstances, useUnmarkUnread } from "./utils";
 import RNBounceable from "@freakycoder/react-native-bounceable";
 
 interface CountBoxProps {
@@ -244,13 +244,18 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
   // const { captureID } = captureStub;
   // const { capture, loading } = useGetCaptureData(captureID);
 
-  const {
-    capture: { captureID, notes, timesFound },
-  } = route.params;
+  const { capture } = route.params;
+  const { captureID, timesFound, notes } = capture;
+
+  // console.log(capture);
 
   // Need to fetch from API again to get instances' image links :/
   const { loading, instances } = useGetInstances(captureID);
+
+  // console.log(notes);
+
   const galleryInstances = instances ?? mockInstances;
+  const [notesInput, setNotesInput] = useState(notes);
 
   useUnmarkUnread(captureID);
 
@@ -291,7 +296,7 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           </View>
           <View style={styles.notesBox}>
             <TextInput
-              defaultValue={notes}
+              defaultValue={notesInput}
               multiline={true}
               style={[
                 styles.text,
@@ -303,6 +308,12 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
                   marginTop: 12,
                 },
               ]}
+              onEndEditing={(newText) => {
+                const newNotes = newText.nativeEvent.text;
+                setNotesInput(newNotes);
+                handleUpdateNotes(capture, newNotes);
+              }}
+              placeholder="Type any notes you want saved here!"
             />
           </View>
         </View>
