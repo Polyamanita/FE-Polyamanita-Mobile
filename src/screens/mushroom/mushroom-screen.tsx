@@ -20,7 +20,7 @@ import { SCREENS } from "shared/constants/navigation-routes";
 import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { extractShroomID } from "utils";
 import createStyles from "./mushroom-screen.style";
-import { useGetInstances } from "./utils";
+import { useGetInstances, useUnmarkUnread } from "./utils";
 import RNBounceable from "@freakycoder/react-native-bounceable";
 
 interface CountBoxProps {
@@ -251,6 +251,8 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
   // Need to fetch from API again to get instances' image links :/
   const { loading, instances } = useGetInstances(captureID);
   const galleryInstances = instances ?? mockInstances;
+
+  useUnmarkUnread(captureID);
 
   // Mushroom names
   const shroomID = extractShroomID(captureID);

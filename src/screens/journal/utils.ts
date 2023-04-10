@@ -9,7 +9,7 @@ import { ReduxStore } from "redux/store";
 import { extractShroomID } from "utils";
 
 export type CaptureMap = {
-  [shroomID: string]: CaptureInstance;
+  [shroomID: string]: { isUnread: boolean; capture: CaptureInstance };
 };
 
 export const useGetCaptures = () => {
@@ -18,7 +18,7 @@ export const useGetCaptures = () => {
 
   const {
     userData: { userID },
-    journalData: { captures: cachedCaptures, refetch },
+    journalData: { captures: cachedCaptures, refetch, unreadTable },
   }: { userData: UserData; journalData: JournalCache } = useSelector(
     (store: ReduxStore) => store,
   );
@@ -42,7 +42,8 @@ export const useGetCaptures = () => {
         const newCaptures: CaptureMap = {};
         result.data.captures.forEach((capture: CaptureInstance) => {
           const shroomID = extractShroomID(capture.captureID);
-          newCaptures[shroomID] = capture;
+          const isUnread = shroomID in unreadTable;
+          newCaptures[shroomID] = { isUnread, capture };
         });
 
         // Cache results
@@ -52,7 +53,7 @@ export const useGetCaptures = () => {
       }
       setLoading(false);
     });
-  }, [cachedCaptures, refetch, userID, dispatch]);
+  }, [unreadTable, cachedCaptures, refetch, userID, dispatch]);
 
   return { loading, captures };
 };

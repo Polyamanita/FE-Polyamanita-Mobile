@@ -10,7 +10,7 @@ import {
 import { AxiosResponse } from "axios";
 import { Dispatch } from "redux";
 import { incrementUserTotalCaptures } from "redux/actions/account-actions";
-import { queueRefetch } from "redux/actions/journal-actions";
+import { markShroomUnread, queueRefetch } from "redux/actions/journal-actions";
 import { getCurrentPosition } from "utils";
 import { modelResults } from "./shroomalyze";
 
@@ -72,3 +72,7 @@ export const getS3Response = (userID: string) =>
       else reject(response.data);
     });
   });
+
+export const markUnread = (shroomID: string, dispatch: Dispatch) => {
+  dispatch(markShroomUnread(shroomID));
+};

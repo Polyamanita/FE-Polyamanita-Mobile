@@ -37,16 +37,22 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
     let onPress = () =>
       navigation.navigate(SCREENS.NOTFOUND, { commonName: shroomName });
     let grayedOut = true;
+    let hasUnread = false;
 
     if (shroomID in captures) {
-      const capture = captures[shroomID];
+      const { isUnread, capture } = captures[shroomID];
+      hasUnread = isUnread;
       onPress = () => navigation.navigate(SCREENS.MUSHROOM, { capture });
       grayedOut = false;
     }
 
     return (
       <RNBounceable key={i} onPress={onPress}>
-        <ListItem label={shroomName} grayedOut={grayedOut} />
+        <ListItem
+          hasUnread={hasUnread}
+          label={shroomName}
+          grayedOut={grayedOut}
+        />
       </RNBounceable>
     );
   });

@@ -1,8 +1,10 @@
 import { doGetCapture } from "api/requests";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { ReduxStore } from "redux/store";
 import { CaptureInstance, Instance } from "api/constants/journal";
+import { UnreadTable } from "redux/constants";
+import { unmarkShroomUnread } from "redux/actions/journal-actions";
 
 // Currently unused
 export const useGetCaptureData = (captureID: string) => {
@@ -39,4 +41,17 @@ export const useGetInstances = (captureID: string) => {
   }, [userID, captureID]);
 
   return { loading, instances };
+};
+
+export const useUnmarkUnread = (shroomID: string) => {
+  const unreadTable: UnreadTable = useSelector(
+    (store: ReduxStore) => store.journalData.unreadTable,
+  );
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (shroomID in unreadTable) {
+      dispatch(unmarkShroomUnread(shroomID));
+    }
+  }, [dispatch, shroomID, unreadTable]);
 };

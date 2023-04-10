@@ -14,6 +14,7 @@ import {
   buildCaptureIDFromShroomalysis,
   stripParamsFromLink,
   handlePostCapture,
+  markUnread,
 } from "./utils/capture";
 import { CaptureInstance, Instance } from "api/constants/journal";
 /**
@@ -94,6 +95,9 @@ const handleUpload = async (
           uploadLink,
           dispatch,
         );
+
+        // Add unread badge to journal
+        markUnread(captureID, dispatch);
 
         resolve({
           captureID: captureID,
