@@ -12,9 +12,16 @@ export const channelNames = {
 
   cacheCaptures: "CACHE_USERCAPTURES",
   queueRefetch: "QUEUE_REFETCH",
+  markShroomUnread: "MARK_SHROOM_UNREAD",
+  unmarkShroomUnread: "UNMARK_SHROOM_UNREAD",
+};
+
+export type UnreadTable = {
+  [shroomID: string]: boolean;
 };
 
 export interface JournalCache {
   captures: CaptureMap | undefined;
   refetch: boolean;
+  unreadTable: UnreadTable;
 }
