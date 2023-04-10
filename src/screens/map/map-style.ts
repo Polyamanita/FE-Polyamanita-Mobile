@@ -26,6 +26,15 @@ export const customMapStyle = [
     ],
   },
   {
+    featureType: "administrative.land_parcel",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
     featureType: "administrative.locality",
     elementType: "labels.text.fill",
     stylers: [
@@ -36,10 +45,27 @@ export const customMapStyle = [
   },
   {
     featureType: "poi",
+    elementType: "labels.text",
+    stylers: [
+      {
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "poi",
     elementType: "labels.text.fill",
     stylers: [
       {
         color: "#d59563",
+      },
+    ],
+  },
+  {
+    featureType: "poi.business",
+    stylers: [
+      {
+        visibility: "off",
       },
     ],
   },
@@ -108,10 +134,19 @@ export const customMapStyle = [
   },
   {
     featureType: "road.highway",
-    elementType: "labels.text.fill",
+    elementType: "labels.text",
     stylers: [
       {
-        color: "#f3d19c",
+        visibility: "off",
+      },
+    ],
+  },
+  {
+    featureType: "road.local",
+    elementType: "labels",
+    stylers: [
+      {
+        visibility: "off",
       },
     ],
   },

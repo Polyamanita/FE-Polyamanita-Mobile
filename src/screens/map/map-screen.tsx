@@ -92,8 +92,8 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
                 longitude: capturePoint.instance.longitude,
               } as LatLng
             }
-            title={capturePoint.captureID}
-            description={capturePoint.userID}
+            // title={capturePoint.captureID}
+            // description={capturePoint.userID}
             onPress={() => {
               // Fake search API for now.
               navigation.push(SCREENS.IMAGE, capturePoint);

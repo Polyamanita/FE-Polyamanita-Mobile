@@ -16,23 +16,13 @@ import CTAButton from "../components/button-cta";
 import { APPSECTIONS } from "shared/constants/navigation-routes";
 import RNBounceable from "@freakycoder/react-native-bounceable";
 
-interface PermissionCycle {
-  cycle: string[];
-  position: number;
-  setPosition: React.Dispatch<React.SetStateAction<number>>;
-}
-
 interface PermissionModalProps {
-  permissionCycle: PermissionCycle;
   permissionFinalizer?: Permission[]; // Last element in the stack will receive the finalizer.
-  permissionHeader: string;
   navigation: unknown;
 }
 
 const PermissionModal: React.FC<PermissionModalProps> = ({
   permissionFinalizer,
-  permissionCycle,
-  permissionHeader,
 }: PermissionModalProps) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -41,38 +31,36 @@ const PermissionModal: React.FC<PermissionModalProps> = ({
     <ScreenWrapper>
       <InitialAppWrapper>
         <View style={styles.permissionTextWrapper}>
-          <Text h2 bold style={{ ...styles.text, paddingBottom: 5 }}>
-            {permissionHeader}
-          </Text>
-          <Text h3 style={styles.text}>
+          <Text h3 style={{ ...styles.text, paddingBottom: 15 }}>
             {localString.initialStackHeaderMessages.permissions}
+          </Text>
+          <Text h3 bold style={styles.text}>
+            {localString.permissions.camera}
+          </Text>
+          <Text h3 bold style={styles.text}>
+            {localString.permissions.location}
+          </Text>
+          <Text h3 bold style={styles.text}>
+            {localString.permissions.files}
           </Text>
         </View>
         <View style={{ margin: 35 }}>
           <CTAButton
             title={localString.accept}
             onPress={() => {
-              // WHen all permissions are fulfilled.
-              if (permissionCycle.position === permissionCycle.cycle.length) {
-                // When the user is done accepting, set the following permissions.
-                PermissionsAndroid.requestMultiple(
-                  permissionFinalizer as Permission[],
-                )
-                  .then((_) => {
-                    navigation.navigate(APPSECTIONS.INITIAL as never); // typescript unhappy w/o as never.
-                  })
-                  .catch((rejectOnGivingPermissions) => {
-                    console.error(
-                      "Something really went wrong giving permissions.",
-                      rejectOnGivingPermissions,
-                    );
-                  });
-              } else {
-                permissionCycle.setPosition(permissionCycle.position + 1);
-                navigation.navigate(
-                  permissionCycle.cycle[permissionCycle.position] as never,
-                );
-              }
+              PermissionsAndroid.requestMultiple(
+                permissionFinalizer as Permission[],
+              )
+                .then((_) => {
+                  // Check if all were set to true.
+                  navigation.navigate(APPSECTIONS.INITIAL as never); // typescript unhappy w/o as never.
+                })
+                .catch((rejectOnGivingPermissions) => {
+                  console.error(
+                    "Something really went wrong giving permissions.",
+                    rejectOnGivingPermissions,
+                  );
+                });
             }}
           />
           <RNBounceable
