@@ -20,8 +20,7 @@ import {
 } from "../utils";
 import { Session } from "api/auth";
 import { useDispatch } from "react-redux";
-
-const ALLOW_DEV_SIGNIN = false;
+import { ALLOW_DEV_SIGNIN } from "api/constants/secrets";
 
 interface SigninScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;

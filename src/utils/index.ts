@@ -27,7 +27,7 @@ export const extractShroomID = (captureID: string): string => {
 // Get the current position of the user.
 // First by getting coords of user from Geolocator library,
 // Then do a reverse lookup of the coords to get name of town user is near.
-export const getCurrentPosition = (justTheCoords = false) =>
+export const getCurrentPosition = (justTheCoords = false, saveLatLong = true) =>
   new Promise((resolve, reject) => {
     const positionOptions = {
       enableHighAccuracy: true,
@@ -37,7 +37,7 @@ export const getCurrentPosition = (justTheCoords = false) =>
 
     Geolocation.getCurrentPosition(
       (pos) => {
-        const latlng = {
+        let latlng = {
           latitude: pos.coords.latitude,
           longitude: pos.coords.longitude,
         } as Location;
@@ -55,6 +55,9 @@ export const getCurrentPosition = (justTheCoords = false) =>
               locationCode.indexOf(" ") + 1,
             ); // Funky Town, FL, USA
             // const locationName = response.data.results[0].formatted_address;
+            if (!saveLatLong) {
+              latlng = { latitude: -1, longitude: -1 } as Location;
+            }
             resolve({ ...latlng, location: locationName } as Location);
           } else {
             reject(response.data);
