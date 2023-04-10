@@ -10,17 +10,18 @@ import {
 import { AxiosResponse } from "axios";
 import { Dispatch } from "redux";
 import { incrementUserTotalCaptures } from "redux/actions/account-actions";
-import { queueRefetch } from "redux/actions/journal-actions";
+import { markShroomUnread, queueRefetch } from "redux/actions/journal-actions";
 import { getCurrentPosition } from "utils";
 import { modelResults } from "./shroomalyze";
 
-export const getPosition = () => getCurrentPosition();
+export const getPosition = (saveLatLong: boolean) =>
+  getCurrentPosition(false, saveLatLong);
 
 // Use Redux's user ID and modelData's shroom ID to make a capture ID
 export const buildCaptureIDFromShroomalysis = (modelData: modelResults) => {
   const [shroomID] = Object.keys(modelData);
   // Just use shroomID as captureID
-  return shroomID;
+  return shroomID.trim();
 };
 
 export const getCaptureData = (
@@ -71,3 +72,7 @@ export const getS3Response = (userID: string) =>
       else reject(response.data);
     });
   });
+
+export const markUnread = (shroomID: string, dispatch: Dispatch) => {
+  dispatch(markShroomUnread(shroomID));
+};

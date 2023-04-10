@@ -1,5 +1,11 @@
-import React, { useMemo } from "react";
-import { Alert, Image, StyleSheet, View } from "react-native";
+import React, { useMemo, useState } from "react";
+import {
+  ActivityIndicator,
+  Alert,
+  Image,
+  StyleSheet,
+  View,
+} from "react-native";
 import { ParamListBase, useTheme } from "@react-navigation/native";
 import { modelResults, shroomalyze } from "./utils/shroomalyze";
 import {
@@ -8,6 +14,7 @@ import {
   buildCaptureIDFromShroomalysis,
   stripParamsFromLink,
   handlePostCapture,
+  markUnread,
 } from "./utils/capture";
 import { CaptureInstance, Instance } from "api/constants/journal";
 /**
@@ -29,6 +36,8 @@ import { localString } from "shared/localization";
 import { saveImage } from "storage/imageSave";
 import { SCREENS } from "shared/constants/navigation-routes";
 import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
+import Text from "@shared-components/text-wrapper/TextWrapper";
+import LocationButton from "./components/button-capture-location-share";
 
 interface CaptureScreenProps {
   route: any;
@@ -43,20 +52,21 @@ const handleUpload = async (
   photo: PhotoFile,
   captureTime: string,
   modelData: modelResults,
+  saveLatLong: boolean,
   dispatch: Dispatch,
 ): Promise<{ captureID: string; instance: Instance; photoPath: string }> => {
   return new Promise((resolve, reject) => {
-    const position = getPosition() as Promise<Location>;
+    const position: Promise<Location> = getPosition(
+      saveLatLong,
+    ) as Promise<Location>;
     const s3Response = getS3Response(userID) as Promise<S3LinkResponse>;
 
     Promise.all([position, s3Response])
       .then((uploadResolve: [resPos: Location, resS3: S3LinkResponse]) => {
+        // console.log("Key: ", resolvedS3Response);
+        // console.log("Position: ", resolvedPosition);
         const [resolvedPosition, resolvedS3Response] = uploadResolve;
-        console.log("Position: ", resolvedPosition);
-        console.log("Key: ", resolvedS3Response);
-
         const [{ s3Key, uploadLink }] = resolvedS3Response.links;
-
         const instance = {
           dateFound: captureTime,
           latitude: resolvedPosition.latitude,
@@ -86,6 +96,9 @@ const handleUpload = async (
           dispatch,
         );
 
+        // Add unread badge to journal
+        markUnread(captureID, dispatch);
+
         resolve({
           captureID: captureID,
           instance: instance,
@@ -100,7 +113,7 @@ const handleUpload = async (
 
 const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
   const theme = useTheme();
-  //  const { colors } = theme;
+  const { colors } = theme;
   const styles = useMemo(() => createStyles(theme), [theme]);
   // Passed from SnapScreen, contains image info.
   const { photo, path } = route.params;
@@ -110,52 +123,98 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
 
   const dispatch = useDispatch();
 
+  // #region locationsharing on/off
+  const [location, setLocation] = useState<boolean>(true);
+  // #endregion
+
+  // #region analyze button hit handeling.
+  const [loading, setLoading] = useState<"flex" | "none">("none");
+  const [pressable, setPressable] = useState(true);
+  const [loadOpacity, setLoadingOpacity] = useState<0.3 | 1>(1);
+  const onAnalyze = () => {
+    setPressable(false);
+    setLoading("flex");
+    setLoadingOpacity(0.3);
+  };
+  // #endregion
   return (
-    <View style={styles.container}>
-      <SnapHeader
-        leftContnet={undefined}
-        rightContent={<CancelButton navigation={navigation} />}
-      />
-      <Image
-        style={StyleSheet.absoluteFill}
-        source={{ uri: `file://${path}` }}
-      />
-      <View
-        style={{
-          flexDirection: "row-reverse",
-          paddingBottom: 10,
-          paddingLeft: 5,
-        }}
-      >
-        <Button
-          title={localString.snapScreen.analyze}
-          onPress={() => {
-            const time = new Date().toISOString();
-            handleModel(photo)
-              .then((modelResolve: modelResults) => {
-                handleUpload(userID, photo, time, modelResolve, dispatch).then(
-                  (resolve) => {
+    <>
+      <View style={{ ...styles.loading, display: loading }}>
+        <ActivityIndicator color={colors.primaryA} size={"large"} />
+        <Text h3 style={{ textAlign: "center", color: colors.secondary100 }}>
+          Shroomalyzing...
+        </Text>
+      </View>
+      <View style={{ ...styles.container, opacity: loadOpacity }}>
+        <SnapHeader
+          leftContnet={undefined}
+          rightContent={
+            <CancelButton pressable={pressable} navigation={navigation} />
+          }
+        />
+        <Image
+          style={StyleSheet.absoluteFill}
+          source={{ uri: `file://${path}` }}
+        />
+        <View
+          style={{
+            flexDirection: "row-reverse",
+            paddingBottom: 10,
+            paddingLeft: 5,
+          }}
+        >
+          <Button
+            title={localString.snapScreen.analyze}
+            onPress={() => {
+              // Handel UI changes when button is pressed.
+              onAnalyze();
+
+              // Perform shroomalzyer tasks.
+              const time = new Date().toISOString();
+              handleModel(photo)
+                .then((modelResolve: modelResults) => {
+                  handleUpload(
+                    userID,
+                    photo,
+                    time,
+                    modelResolve,
+                    location,
+                    dispatch,
+                  ).then((resolve) => {
+                    console.log(
+                      "Mushroom ID",
+                      MUSHROOM_IDS[resolve.captureID].common,
+                    );
                     navigation.navigate(SCREENS.POSTCAPTURE, resolve);
                     Alert.alert(
                       "Congrendulations",
                       `You got a ${MUSHROOM_IDS[resolve.captureID].common}`,
                     );
-                  },
-                );
-              })
-              .catch(() => {
-                Alert.alert(
-                  "Sorry,",
-                  "The Shroomalyzer couldn't identify anything :(",
-                );
-              });
-          }}
-          varient={"primary"}
-          size={"large"}
-        />
-        <AuxButton onPress={() => saveImage(path)} iconName={"content-save"} />
+                  });
+                })
+                .catch(() => {
+                  Alert.alert(
+                    "Sorry,",
+                    "The Shroomalyzer couldn't identify anything :(",
+                  );
+                  setPressable(true);
+                  setLoading("none");
+                  setLoadingOpacity(1);
+                });
+            }}
+            pressable={pressable}
+            varient={"primary"}
+            size={"large"}
+          />
+          <AuxButton
+            pressable={pressable}
+            onPress={() => saveImage(path)}
+            iconName={"content-save"}
+          />
+          <LocationButton location={location} setLocation={setLocation} />
+        </View>
       </View>
-    </View>
+    </>
   );
 };
 

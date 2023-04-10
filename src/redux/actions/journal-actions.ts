@@ -13,3 +13,17 @@ export const queueRefetch = () => {
     type: channelNames.queueRefetch,
   };
 };
+
+export const markShroomUnread = (shroomID: string) => {
+  return {
+    type: channelNames.markShroomUnread,
+    shroomID,
+  };
+};
+
+export const unmarkShroomUnread = (shroomID: string) => {
+  return {
+    type: channelNames.unmarkShroomUnread,
+    shroomID,
+  };
+};

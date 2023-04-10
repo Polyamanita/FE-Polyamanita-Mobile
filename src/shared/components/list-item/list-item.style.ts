@@ -4,8 +4,12 @@ import { ImageStyle, StyleSheet, TextStyle, ViewStyle } from "react-native";
 interface Style {
   wrapper: ViewStyle;
   wrapperGrayed: ViewStyle;
+  wrapperUnread: ViewStyle;
+  outerWrapper: ViewStyle;
   text: TextStyle;
+  newText: TextStyle;
   icon: ImageStyle;
+  iconUnread: ImageStyle;
 }
 
 export default (theme: ExtendedTheme) => {
@@ -13,8 +17,7 @@ export default (theme: ExtendedTheme) => {
 
   return StyleSheet.create<Style>({
     wrapper: {
-      minWidth: "100%",
-      maxWidth: "100%",
+      width: "100%",
       flexDirection: "row",
       borderWidth: 1,
       borderRadius: 50,
@@ -27,6 +30,15 @@ export default (theme: ExtendedTheme) => {
       backgroundColor: colors.grayedOut,
     },
 
+    wrapperUnread: {
+      borderColor: "gold",
+    },
+
+    outerWrapper: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+
     text: {
       color: colors.secondary100,
       paddingHorizontal: 10,
@@ -35,6 +47,7 @@ export default (theme: ExtendedTheme) => {
       height: "100%",
       textAlignVertical: "center",
     },
+    newText: { color: "gold" },
     icon: {
       height: 55,
       width: 55,
@@ -42,6 +55,9 @@ export default (theme: ExtendedTheme) => {
       borderColor: "black",
       borderRadius: 50,
       alignSelf: "center",
+    },
+    iconUnread: {
+      borderColor: "gold",
     },
   });
 };

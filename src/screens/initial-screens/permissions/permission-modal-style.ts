@@ -18,6 +18,8 @@ export default (theme: ExtendedTheme) => {
     text: {
       color: colors.secondary100,
       textAlign: "center",
+      alignSelf: "center",
+      alignContent: "center",
     },
     rejectText: {
       padding: 7,

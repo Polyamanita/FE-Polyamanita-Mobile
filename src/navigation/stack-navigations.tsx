@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { createStackNavigator } from "@react-navigation/stack";
 /**
  * ? Local & Shared Imports
@@ -18,7 +18,6 @@ import ProfileScreen from "@screens/profile/profile-modal";
 import MushroomScreen from "@screens/mushroom/mushroom-screen";
 import ImageScreen from "@screens/image/image-screen";
 import PermissionModal from "@screens/initial-screens/permissions/permission-modal";
-import { localString } from "shared/localization";
 import { Permission } from "react-native";
 import { permissionsToPass } from "./constants";
 import NotFoundScreen from "@screens/journal/notfound-screen";
@@ -43,47 +42,12 @@ const createTabStackNavigator = (
 ////////////////////////////////////////////////////////////////////////////
 
 export const PermissionStack = (navigationRef: unknown) => {
-  // an array of screen names for user to cycle through before getting into intial app.
-  const cycle = [
-    `${SCREENS.PERMISSION}_CAMERA`,
-    `${SCREENS.PERMISSION}_LOCATION`,
-    `${SCREENS.PERMISSION}_FILES`,
-  ];
-
-  const [cyclePosition, setCyclePosition] = useState(1);
-
-  const permissionCycle = {
-    cycle: cycle,
-    position: cyclePosition,
-    setPosition: setCyclePosition,
-  };
-
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>
-      <Stack.Screen name={permissionCycle.cycle[0]}>
-        {() => (
-          <PermissionModal
-            permissionHeader={localString.permissions.camera}
-            permissionCycle={permissionCycle}
-            navigation={navigationRef}
-          />
-        )}
-      </Stack.Screen>
-      <Stack.Screen name={permissionCycle.cycle[1]}>
-        {() => (
-          <PermissionModal
-            permissionHeader={localString.permissions.location}
-            permissionCycle={permissionCycle}
-            navigation={navigationRef}
-          />
-        )}
-      </Stack.Screen>
-      <Stack.Screen name={permissionCycle.cycle[2]}>
+      <Stack.Screen name={"PERMISSIONS"}>
         {() => (
           <PermissionModal
             permissionFinalizer={permissionsToPass as Permission[]}
-            permissionHeader={localString.permissions.files}
-            permissionCycle={permissionCycle}
             navigation={navigationRef}
           />
         )}

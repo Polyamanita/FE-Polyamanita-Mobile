@@ -16,12 +16,14 @@ interface PolyButtonProps extends PressableProps {
   onPress: () => unknown;
   iconName: string;
   varient?: "default" | "glass" | "avatar";
+  pressable?: boolean;
 }
 
 const AuxButton: React.FC<PolyButtonProps> = ({
   onPress,
   iconName,
   varient = "default",
+  pressable = true,
 }) => {
   const theme = useTheme();
   const { colors } = theme;
@@ -44,7 +46,12 @@ const AuxButton: React.FC<PolyButtonProps> = ({
   const iconSize = 40;
 
   return varient !== "avatar" ? (
-    <RNBounceable style={styling} onPress={onPress}>
+    <RNBounceable
+      style={styling}
+      onPress={() => {
+        if (pressable) onPress();
+      }}
+    >
       <Icon
         name={iconName}
         type="MaterialCommunityIcons"
@@ -53,7 +60,12 @@ const AuxButton: React.FC<PolyButtonProps> = ({
       />
     </RNBounceable>
   ) : (
-    <RNBounceable style={styling} onPress={onPress}>
+    <RNBounceable
+      style={styling}
+      onPress={() => {
+        if (pressable) onPress();
+      }}
+    >
       <Avatar wrapperSize={styling.height as number} />
     </RNBounceable>
   );
