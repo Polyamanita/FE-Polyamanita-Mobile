@@ -3,7 +3,7 @@ import { REJECT_CODE } from "../constants";
 // Function written from Native Java.
 const ShroomalyzePlugin = NativeModules.Shroomalyze;
 
-const MODEL_ACC_THRESHOLD = 0.6;
+const MODEL_ACC_THRESHOLD = 0.45;
 
 export type modelResults = {
   [shroomID: string]: number;

@@ -3,6 +3,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { doSignOut } from "api/requests";
 import { Dispatch } from "redux";
 import { queueRefetch, storeCaptures } from "redux/actions/journal-actions";
+import { APPSECTIONS } from "shared/constants/navigation-routes";
 
 export const handleSignout = (
   navigation: StackNavigationProp<ParamListBase, string>,
@@ -11,6 +12,6 @@ export const handleSignout = (
   doSignOut().then(() => {
     dispatch(queueRefetch());
     dispatch(storeCaptures({}));
-    navigation.popToTop();
+    navigation.navigate(APPSECTIONS.INITIAL);
   });
 };
