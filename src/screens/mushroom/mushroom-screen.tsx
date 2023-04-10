@@ -1,8 +1,16 @@
 import { ParamListBase, RouteProp, useTheme } from "@react-navigation/native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { CaptureInstance, Instance } from "api/constants/journal";
-import React, { useMemo } from "react";
-import { Image, ScrollView, Text, TextInput, View } from "react-native";
+import React, { useCallback, useMemo } from "react";
+import {
+  Alert,
+  Image,
+  Linking,
+  ScrollView,
+  Text,
+  TextInput,
+  View,
+} from "react-native";
 import { TouchableHighlight } from "react-native-gesture-handler";
 import { useSelector } from "react-redux";
 import { ReduxStore } from "redux/store";
@@ -13,6 +21,7 @@ import ScreenContainer from "shared/wrappers/screen-wrapper/screen-wrapper";
 import { extractShroomID } from "utils";
 import createStyles from "./mushroom-screen.style";
 import { useGetInstances } from "./utils";
+import RNBounceable from "@freakycoder/react-native-bounceable";
 
 interface CountBoxProps {
   count: number;
@@ -24,6 +33,17 @@ interface GalleryProps {
   navigation: StackNavigationProp<ParamListBase, string>;
   captureID: string;
   instances: Instance[];
+}
+
+interface InformationLinkProps {
+  website: string;
+  logo: JSX.Element;
+  websiteRedirect: string;
+  scientific: string;
+}
+
+interface InformationProps {
+  scientific: string;
 }
 
 type MushroomScreenParams = {
@@ -135,6 +155,73 @@ const Gallery: React.FC<GalleryProps> = ({
   );
 };
 
+const InformationLink: React.FC<InformationLinkProps> = ({
+  website,
+  logo,
+  websiteRedirect,
+  scientific,
+}: InformationLinkProps) => {
+  const theme = useTheme();
+  const styles = useMemo(() => createStyles(theme), [theme]);
+  const link = `${websiteRedirect}${scientific}`.toString();
+
+  const handlePress = useCallback(async () => {
+    const supported = await Linking.canOpenURL(link);
+
+    if (supported) {
+      await Linking.openURL(link);
+    } else {
+      Alert.alert(`URL not working lmao: ${link}`);
+    }
+  }, [link]);
+
+  return (
+    <RNBounceable style={styles.informationLinkContainer} onPress={handlePress}>
+      <View style={styles.informationLinkIcon}> 
+        {logo}
+      </View>
+      <Text style={[styles.text, styles.informationListText]}>
+        {website}
+      </Text>
+    </RNBounceable>
+  );
+};
+
+const Information: React.FC<InformationProps> = ({
+  scientific,
+}: InformationProps) => {
+  const theme = useTheme();
+  const styles = useMemo(() => createStyles(theme), [theme]);
+
+  return (
+    <View style={styles.informationContainer}>
+      <View style={styles.informationHeader}>
+        <Text style={[styles.text, styles.informationText]}>
+          More Information
+        </Text>
+      </View>
+      <InformationLink
+        website={"Wikipedia"}
+        logo={<Image source={require("@assets/external-web-logos/wikipedia.png")} style={styles.informationLinkIcon}/>}
+        websiteRedirect={"https://en.wikipedia.org/wiki/"}
+        scientific={scientific}
+      />
+      <InformationLink
+        website={"GBIF"}
+        logo={<Image source={require("@assets/external-web-logos/gbif.jpg")} style={styles.informationLinkIcon}/>}
+        websiteRedirect={"https://www.gbif.org/search?q="}
+        scientific={scientific}
+      />
+      <InformationLink
+        website={"iNaturalist"}
+        logo={<Image source={require("@assets/external-web-logos/inaturalist.png")}  style={styles.informationLinkIcon}/>}
+        websiteRedirect={"https://www.inaturalist.org/search?q="}
+        scientific={scientific}
+      />
+    </View>
+  );
+};
+
 const MushroomScreen: React.FC<MushroomScreenProps> = ({
   navigation,
   route,
@@ -185,6 +272,7 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
             instances={galleryInstances}
           />
         )}
+        <Information scientific={scientific} />
         <View style={styles.notesContainer}>
           <View style={styles.notesHeader}>
             <Text style={[styles.text, styles.galleryText]}>Notes</Text>

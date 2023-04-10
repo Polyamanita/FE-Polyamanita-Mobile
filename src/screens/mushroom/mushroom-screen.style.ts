@@ -16,6 +16,12 @@ interface Style {
   galleryText: TextStyle;
   galleryViewBox: ViewStyle;
   galleryViewText: TextStyle;
+  informationContainer: ViewStyle;
+  informationHeader: ViewStyle;
+  informationText: Text;
+  informationListText: Text;
+  informationLinkContainer: ViewStyle;
+  informationLinkIcon: ImageStyle;
   logo: ImageStyle;
   nameText: TextStyle;
   notesBox: ViewStyle;
@@ -113,6 +119,35 @@ export default (theme: ExtendedTheme) => {
       fontWeight: "300",
       lineHeight: 20,
       textAlign: "center",
+    },
+    informationContainer: {
+      marginTop: 12,
+      marginBottom: 24,
+    },
+    informationHeader: {
+      alignItems: "center",
+      flexDirection: "row",
+      justifyContent: "space-between",
+      marginBottom: 10,
+      width: "100%",
+    },
+    informationText: {
+      fontSize: 24,
+    },
+    informationListText: {
+      fontSize: 20,
+    },
+    informationLinkContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      paddingVertical: 5,
+    },
+    informationLinkIcon: {
+      height: 35,
+      width: 35,
+      marginRight: 15,
+      borderRadius: 100,
+      backgroundColor: 'red'
     },
     logo: {
       alignSelf: "center",
