@@ -29,8 +29,8 @@ public class ShroomalyzerPlugin extends ReactContextBaseJavaModule {
   private ReactApplicationContext context;
   private static final String MODEL = "mushroom.tflite"; // location of tflite model
   final String LABELS = "labels.txt";
-  private static final int INPUT_TENSOR_WIDTH = 256;
-  private static final int OUTPUT_TENSOR_WIDTH = 10;
+  private static final int INPUT_TENSOR_WIDTH = 512;
+  private static final int OUTPUT_TENSOR_WIDTH = 20;
 
   public ShroomalyzerPlugin(ReactApplicationContext reactContext) {
     super(reactContext); // required by React Native.
