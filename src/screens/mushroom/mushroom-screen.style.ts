@@ -138,8 +138,8 @@ export default (theme: ExtendedTheme) => {
       fontSize: 20,
     },
     informationLinkContainer: {
-      flexDirection: 'row',
-      alignItems: 'center',
+      flexDirection: "row",
+      alignItems: "center",
       paddingVertical: 5,
     },
     informationLinkIcon: {
@@ -147,7 +147,7 @@ export default (theme: ExtendedTheme) => {
       width: 35,
       marginRight: 15,
       borderRadius: 100,
-      backgroundColor: 'red'
+      backgroundColor: "red",
     },
     logo: {
       alignSelf: "center",

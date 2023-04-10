@@ -177,12 +177,8 @@ const InformationLink: React.FC<InformationLinkProps> = ({
 
   return (
     <RNBounceable style={styles.informationLinkContainer} onPress={handlePress}>
-      <View style={styles.informationLinkIcon}> 
-        {logo}
-      </View>
-      <Text style={[styles.text, styles.informationListText]}>
-        {website}
-      </Text>
+      <View style={styles.informationLinkIcon}>{logo}</View>
+      <Text style={[styles.text, styles.informationListText]}>{website}</Text>
     </RNBounceable>
   );
 };
@@ -202,19 +198,34 @@ const Information: React.FC<InformationProps> = ({
       </View>
       <InformationLink
         website={"Wikipedia"}
-        logo={<Image source={require("@assets/external-web-logos/wikipedia.png")} style={styles.informationLinkIcon}/>}
+        logo={
+          <Image
+            source={require("@assets/external-web-logos/wikipedia.png")}
+            style={styles.informationLinkIcon}
+          />
+        }
         websiteRedirect={"https://en.wikipedia.org/wiki/"}
         scientific={scientific}
       />
       <InformationLink
         website={"GBIF"}
-        logo={<Image source={require("@assets/external-web-logos/gbif.jpg")} style={styles.informationLinkIcon}/>}
+        logo={
+          <Image
+            source={require("@assets/external-web-logos/gbif.jpg")}
+            style={styles.informationLinkIcon}
+          />
+        }
         websiteRedirect={"https://www.gbif.org/search?q="}
         scientific={scientific}
       />
       <InformationLink
         website={"iNaturalist"}
-        logo={<Image source={require("@assets/external-web-logos/inaturalist.png")}  style={styles.informationLinkIcon}/>}
+        logo={
+          <Image
+            source={require("@assets/external-web-logos/inaturalist.png")}
+            style={styles.informationLinkIcon}
+          />
+        }
         websiteRedirect={"https://www.inaturalist.org/search?q="}
         scientific={scientific}
       />
@@ -272,7 +283,6 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
             instances={galleryInstances}
           />
         )}
-        <Information scientific={scientific} />
         <View style={styles.notesContainer}>
           <View style={styles.notesHeader}>
             <Text style={[styles.text, styles.galleryText]}>Notes</Text>
@@ -294,6 +304,7 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
             />
           </View>
         </View>
+        <Information scientific={scientific} />
       </ScrollView>
     </ScreenContainer>
   );
