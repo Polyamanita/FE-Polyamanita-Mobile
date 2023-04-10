@@ -177,6 +177,7 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
                     location,
                     dispatch,
                   ).then((resolve) => {
+                    console.log("Mushroom ID", MUSHROOM_IDS[resolve.captureID].common);
                     navigation.navigate(SCREENS.POSTCAPTURE, resolve);
                     Alert.alert(
                       "Congrendulations",
@@ -189,6 +190,9 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
                     "Sorry,",
                     "The Shroomalyzer couldn't identify anything :(",
                   );
+                  setPressable(true);
+                  setLoading("none");
+                  setLoadingOpacity(1);
                 });
             }}
             pressable={pressable}

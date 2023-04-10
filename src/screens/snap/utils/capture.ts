@@ -21,7 +21,7 @@ export const getPosition = (saveLatLong: boolean) =>
 export const buildCaptureIDFromShroomalysis = (modelData: modelResults) => {
   const [shroomID] = Object.keys(modelData);
   // Just use shroomID as captureID
-  return shroomID;
+  return shroomID.trim();
 };
 
 export const getCaptureData = (
