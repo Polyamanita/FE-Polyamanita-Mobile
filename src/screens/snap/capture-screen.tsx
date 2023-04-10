@@ -177,7 +177,10 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
                     location,
                     dispatch,
                   ).then((resolve) => {
-                    console.log("Mushroom ID", MUSHROOM_IDS[resolve.captureID].common);
+                    console.log(
+                      "Mushroom ID",
+                      MUSHROOM_IDS[resolve.captureID].common,
+                    );
                     navigation.navigate(SCREENS.POSTCAPTURE, resolve);
                     Alert.alert(
                       "Congrendulations",
