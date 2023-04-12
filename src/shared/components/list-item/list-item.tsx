@@ -12,12 +12,14 @@ interface ListItemProps {
   label: string;
   grayedOut: boolean;
   hasUnread: boolean;
+  imageLink: string;
 }
 
 const ListItem: React.FC<ListItemProps> = ({
   label,
   grayedOut = false,
   hasUnread = false,
+  imageLink = "",
 }) => {
   const theme = useTheme();
   // const { colors } = theme;
@@ -42,7 +44,7 @@ const ListItem: React.FC<ListItemProps> = ({
         </View>
       ) : (
         <Image
-          source={require("@assets/logo.jpg")}
+          source={imageLink ? { uri: imageLink } : require("@assets/logo.jpg")}
           style={[styles.icon, hasUnread && styles.iconUnread]}
         />
       )}

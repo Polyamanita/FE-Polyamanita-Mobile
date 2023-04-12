@@ -1,5 +1,5 @@
 import React from "react";
-import { ScrollView } from "react-native";
+import { ScrollView, View } from "react-native";
 // import { useTheme } from "@react-navigation/native";
 
 /**
@@ -38,22 +38,27 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
       navigation.navigate(SCREENS.NOTFOUND, { commonName: shroomName });
     let grayedOut = true;
     let hasUnread = false;
+    let imageLink = "";
 
     if (shroomID in captures) {
       const { isUnread, capture } = captures[shroomID];
       hasUnread = isUnread;
       onPress = () => navigation.navigate(SCREENS.MUSHROOM, { capture });
       grayedOut = false;
+      [{ imageLink }] = capture.instances.slice(-1);
     }
 
     return (
-      <RNBounceable key={i} onPress={onPress}>
-        <ListItem
-          hasUnread={hasUnread}
-          label={shroomName}
-          grayedOut={grayedOut}
-        />
-      </RNBounceable>
+      <View style={{ paddingBottom: 2 }} key={i}>
+        <RNBounceable onPress={onPress}>
+          <ListItem
+            imageLink={imageLink}
+            hasUnread={hasUnread}
+            label={shroomName}
+            grayedOut={grayedOut}
+          />
+        </RNBounceable>
+      </View>
     );
   });
 
@@ -65,13 +70,8 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
         rightContent={[
           <AuxButton
             onPress={() => console.log("left")}
-            iconName={"help"}
+            iconName={"order-alphabetical-ascending"}
             key={"huh1"}
-          />,
-          <AuxButton
-            onPress={() => console.log("right")}
-            iconName={"help"}
-            key={"huh2"}
           />,
         ]}
       />
