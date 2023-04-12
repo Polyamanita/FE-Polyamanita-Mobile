@@ -45,6 +45,7 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
       hasUnread = isUnread;
       onPress = () => navigation.navigate(SCREENS.MUSHROOM, { capture });
       grayedOut = false;
+      // Get image link from last (most recent) instance
       [{ imageLink }] = capture.instances.slice(-1);
     }
 
