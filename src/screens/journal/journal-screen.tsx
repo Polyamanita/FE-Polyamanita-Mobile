@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ScrollView, View } from "react-native";
 // import { useTheme } from "@react-navigation/native";
 
@@ -23,13 +23,63 @@ interface JournalScreenProps {
   route: any;
 }
 
+enum sortSchemes {
+  unsorted = 0,
+  alph,
+  found,
+}
+
 const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
   // const theme = useTheme();
   // const { colors } = theme;
   // const styles = useMemo(() => createStyles(theme), [theme]);
 
+  const [allShroomIDs, setAllShroomIDs] = useState(Object.keys(MUSHROOM_IDS));
+  const [sortScheme, setSortScheme] = useState<sortSchemes>(
+    sortSchemes.unsorted,
+  );
+
   const { loading, captures } = useGetCaptures();
-  const allShroomIDs = Object.keys(MUSHROOM_IDS);
+
+  const sortShroomIDs = () => {
+    switch (sortScheme) {
+      case sortSchemes.unsorted: {
+        allShroomIDs.sort((a, b) => {
+          const { common: commonA } = MUSHROOM_IDS[a];
+          const { common: commonB } = MUSHROOM_IDS[b];
+
+          return commonA.localeCompare(commonB);
+        });
+        setSortScheme(sortSchemes.alph);
+        break;
+      }
+      case sortSchemes.alph: {
+        allShroomIDs.sort((a, b) => {
+          const foundA = a in captures;
+          const foundB = b in captures;
+
+          if (foundA && !foundB) {
+            return -1;
+          } else if (!foundA && foundB) {
+            return 1;
+          } else {
+            return 0;
+          }
+        });
+        setSortScheme(sortSchemes.found);
+        break;
+      }
+      case sortSchemes.found: {
+        setAllShroomIDs(Object.keys(MUSHROOM_IDS));
+        setSortScheme(sortSchemes.unsorted);
+        break;
+      }
+      default: {
+        console.log("wtf");
+        setSortScheme(sortSchemes.unsorted);
+      }
+    }
+  };
 
   const entries = allShroomIDs.map((shroomID, i) => {
     const { common: shroomName } = MUSHROOM_IDS[shroomID];
@@ -70,7 +120,7 @@ const JournalScreen: React.FC<JournalScreenProps> = ({ navigation }) => {
         title={"Journal"}
         rightContent={[
           <AuxButton
-            onPress={() => console.log("left")}
+            onPress={sortShroomIDs}
             iconName={"order-alphabetical-ascending"}
             key={"huh1"}
           />,
