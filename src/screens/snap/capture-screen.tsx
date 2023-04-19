@@ -187,8 +187,12 @@ const CaptureScreen: React.FC<CaptureScreenProps> = ({ route, navigation }) => {
                     );
                     navigation.navigate(SCREENS.POSTCAPTURE, resolve);
                     Alert.alert(
-                      "Congrendulations",
-                      `You got a ${MUSHROOM_IDS[resolve.captureID].common}`,
+                      "Congratulations!",
+                      `You captured a ${
+                        MUSHROOM_IDS[resolve.captureID].common
+                      }!` +
+                        "\n" +
+                        "Head to the Journal screen to view your new capture.",
                     );
                   });
                 })

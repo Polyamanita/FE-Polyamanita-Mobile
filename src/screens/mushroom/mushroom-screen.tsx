@@ -33,6 +33,7 @@ interface GalleryProps {
   navigation: StackNavigationProp<ParamListBase, string>;
   captureID: string;
   instances: Instance[];
+  loading: boolean;
 }
 
 interface InformationLinkProps {
@@ -114,6 +115,7 @@ const Gallery: React.FC<GalleryProps> = ({
   navigation,
   captureID,
   instances,
+  loading = false,
 }) => {
   const theme = useTheme();
   const styles = useMemo(() => createStyles(theme), [theme]);
@@ -131,24 +133,27 @@ const Gallery: React.FC<GalleryProps> = ({
       </View>
       <View style={styles.galleryImages}>
         <ScrollView horizontal={true}>
-          {instances.map((instance, i) => {
-            const imageParams = {
-              captureID,
-              userID,
-              instance,
-            };
-            return (
-              <TouchableHighlight
-                key={"galleryPic" + i}
-                onPress={() => navigation.navigate(SCREENS.IMAGE, imageParams)}
-              >
-                <Image
-                  source={{ uri: instance.imageLink }}
-                  style={styles.galleryImage}
-                />
-              </TouchableHighlight>
-            );
-          })}
+          {!loading &&
+            instances.map((instance, i) => {
+              const imageParams = {
+                captureID,
+                userID,
+                instance,
+              };
+              return (
+                <TouchableHighlight
+                  key={"galleryPic" + i}
+                  onPress={() =>
+                    navigation.navigate(SCREENS.IMAGE, imageParams)
+                  }
+                >
+                  <Image
+                    source={{ uri: instance.imageLink }}
+                    style={styles.galleryImage}
+                  />
+                </TouchableHighlight>
+              );
+            })}
         </ScrollView>
       </View>
     </View>
@@ -283,13 +288,12 @@ const MushroomScreen: React.FC<MushroomScreenProps> = ({
           <CountBox count={0} text="Region" /> */}
           <CountBox isLarge count={timesFound} text="Personal" />
         </View>
-        {!loading && (
-          <Gallery
-            navigation={navigation}
-            captureID={captureID}
-            instances={galleryInstances}
-          />
-        )}
+        <Gallery
+          navigation={navigation}
+          captureID={captureID}
+          instances={galleryInstances}
+          loading={loading}
+        />
         <View style={styles.notesContainer}>
           <View style={styles.notesHeader}>
             <Text style={[styles.text, styles.galleryText]}>Notes</Text>

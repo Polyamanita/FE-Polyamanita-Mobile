@@ -84,7 +84,7 @@ const PostCaptureScreen: React.FC<PostCaptureScreenProps> = ({
       <Image style={StyleSheet.absoluteFill} source={{ uri: photoURI }} />
       <LinearGradient
         colors={["#00000000", colors.primary100]}
-        locations={[0.66, 0.99, 1]}
+        locations={[0.66, 1]}
         style={StyleSheet.absoluteFill}
       />
 

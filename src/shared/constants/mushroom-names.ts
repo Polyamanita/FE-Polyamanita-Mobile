@@ -12,7 +12,7 @@ export interface MushroomNames {
 }
 
 // MUSHROOM CLASSES FROM SHROOMALYZER
-const IDS = {
+const IDS: { [shroomID: string]: MushroomNames } = {
   // "some-capture-id": { scientific: "scientific", common: "common" },
   // "some-capture-id-1": { scientific: "scientific1", common: "common1" },
   // "some-capture-id-2": { scientific: "scientific2", common: "common2" },
@@ -81,7 +81,7 @@ const IDS = {
   },
   Leucocoprinus_fragilissimus: {
     scientific: "Leucocoprinus fragilissimus",
-    common: "Fragile Dapperlink",
+    common: "Fragile Dapperling",
   },
   Phallus_rugulosus: {
     scientific: "Phallus rugulosus",
@@ -134,6 +134,10 @@ const IDS = {
   Tricholoma_scalpturatum: {
     scientific: "Tricholomas calpturatum",
     common: "Yellowing Knight",
+  },
+  Pleurotus_ostreatus: {
+    scientific: "Pleurotus ostreatus",
+    common: "Pearl Oyster",
   },
   /* eslint-enable camelcase */
 };
