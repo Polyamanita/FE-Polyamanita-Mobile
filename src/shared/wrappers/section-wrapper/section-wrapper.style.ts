@@ -25,6 +25,8 @@ export default (theme: ExtendedTheme) => {
       alignItems: "center",
     },
     headerTitle: {
+      marginStart: 8,
+      marginTop: 4,
       color: colors.secondary100,
     },
     sectionContent: {

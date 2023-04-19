@@ -41,12 +41,12 @@ const AvatarPivot = ({ styles, username }: AvatarPivotProps) => {
   );
 };
 
-const ContentSection = () => (
-  <SectionContainer
-    label={localString.sectionHeaders.content}
-    sectionAction={() => console.log("yes")}
-  ></SectionContainer>
-);
+// const ContentSection = () => (
+//   <SectionContainer
+//     label={localString.sectionHeaders.content}
+//     sectionAction={() => console.log("yes")}
+//   ></SectionContainer>
+// );
 
 // const PreferencesSection = () => (
 //   <SectionContainer
@@ -89,7 +89,7 @@ const ProfileModal: React.FC<ProfileModalProps> = ({
         h2
         style={styles.userstats}
       >{`Total Captures: ${userData?.TotalCaptures}`}</Text>
-      <ContentSection />
+      {/* <ContentSection /> */}
       {/* <PreferencesSection /> */}
       {/* <AboutSection /> */}
       <AccountSection navigation={navigation} />
