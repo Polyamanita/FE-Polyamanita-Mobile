@@ -16,6 +16,7 @@ import SnapHeader from "@screens/snap/wrappers/header-snap-stack-wrapper";
 import AvatarButton from "@shared-components/button-aux/button-aux-avatar";
 import { getCurrentPosition } from "utils";
 import { Location } from "api/constants/location";
+import { MUSHROOM_IDS } from "shared/constants/mushroom-names";
 
 interface MapScreenProps {
   navigation: StackNavigationProp<ParamListBase, string>;
@@ -62,7 +63,9 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
     }),
   );
 
-  const mapCaptures = [...capturePoints];
+  const mapCaptures = capturePoints.filter(
+    (capturePoint) => capturePoint.captureID in MUSHROOM_IDS,
+  );
   // console.log(capturePoints); // good for logging if the map is constantly pinging for markers.
   return (
     <View style={styles.container}>
